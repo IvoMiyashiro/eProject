@@ -1,10 +1,13 @@
-import { MouseEvent, ReactChild, useRef } from 'react';
+import { MouseEvent, useRef } from 'react';
+
 import styled from 'styled-components';
+import { bp } from 'styles';
 
 interface Props {
   align?: string;
-  children?: ReactChild;
+  children?: any;
   justify?: string;
+  isMobile?: boolean;
   handleCloseChildren: () => void;
 }
 
@@ -12,6 +15,7 @@ export const Modal = ({
   children,
   align = 'center',
   justify = 'center',
+  isMobile = false,
   handleCloseChildren
 }: Props) => {
 
@@ -43,6 +47,7 @@ export const Modal = ({
     <Div 
       align={align}
       justify={justify}
+      isMobile={isMobile}
       onClick={handleCloseModal}
       onMouseOver={handleCursor}
       ref={modalRef}
@@ -55,6 +60,7 @@ export const Modal = ({
 interface Styles {
   align: string;
   justify: string;
+  isMobile: boolean;
 }
 
 const Div = styled.div<Styles>`
@@ -67,4 +73,8 @@ const Div = styled.div<Styles>`
   position: absolute;
   top: 0;
   width: 100%;
+
+  @media (min-width: ${bp.tablet}) {
+    display: ${props => props.isMobile ? 'flex' : 'none'};
+  }
 `;

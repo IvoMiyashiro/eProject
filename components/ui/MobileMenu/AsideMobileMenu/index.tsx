@@ -1,19 +1,24 @@
+import { useContext } from 'react';
 import Link from 'next/link';
 
+import { UiContext } from 'context';
 import { Logo, Button } from 'components/ui';
 import { Searchbar } from '../Searchbar';
 
 import { BlogIcon, CartIcon, CraftIcon, DarkModeIcon, HomeIcon, InfoIcon, TagIcon } from 'components/icons';
-import { Div, Section, Ul, Li, P, Wrapper, ButtonWrapper } from './styles';
+import { Aside, Section, Ul, Li, P, Wrapper, ButtonWrapper } from './styles';
 import { lightTheme } from 'styles';
 
 interface Props {
   isMenuOpen: boolean;
 }
 
-export const Menu = ({ isMenuOpen }: Props) => {
+export const AsideMobileMenu = ({ isMenuOpen }: Props) => {
+
+  const { toggleCartMenu } = useContext(UiContext);
+
   return (
-    <Div isOpen={isMenuOpen}>
+    <Aside isOpen={isMenuOpen}>
       <Section>
         <Logo
           isLink={true}
@@ -71,7 +76,7 @@ export const Menu = ({ isMenuOpen }: Props) => {
       </Section>
       <Section>
         <Ul>
-          <Li>
+          <Li onClick={toggleCartMenu}>
             <Wrapper>
               <CartIcon width="30px" height="25px" />
               <P>Cart</P>
@@ -94,6 +99,6 @@ export const Menu = ({ isMenuOpen }: Props) => {
           Signin
         </Button>
       </ButtonWrapper>
-    </Div>
+    </Aside>
   );
 };

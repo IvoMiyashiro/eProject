@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import { UiContext } from 'context';
 import { Modal } from '../Modal';
-import { Menu } from './Menu';
+import { AsideMobileMenu } from './AsideMobileMenu';
 
 export const MobileMenu = () => {
 
@@ -16,11 +16,12 @@ export const MobileMenu = () => {
           <Modal
             justify="flex-end"
             handleCloseChildren={toggleMenu}
+            isMobile={true}
           >
           </Modal>
         )
       }
-      <Menu isMenuOpen={isMenuOpen}/>
+      <AsideMobileMenu isMenuOpen={isMenuOpen}/>
     </>
   );
 };

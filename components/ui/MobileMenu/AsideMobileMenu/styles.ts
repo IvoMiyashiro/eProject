@@ -1,11 +1,11 @@
-import { bp } from './../../../../styles/breakpoints';
+import { bp } from 'styles/breakpoints';
 import styled from 'styled-components';
 
 interface Styles {
   isOpen: boolean;
 }
 
-export const Div = styled.div<Styles>`
+export const Aside = styled.aside<Styles>`
   background-color: ${props => props.theme.color_primary_0};
   display: flex;
   flex-direction: column;

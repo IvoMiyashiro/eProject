@@ -92,8 +92,8 @@ export const AsideMobileMenu = ({ isMenuOpen }: Props) => {
       </Section>
       <ButtonWrapper>
         <Button
-          bgColor={lightTheme.color_tertiary_0}
-          textColor={lightTheme.color_primary_0}
+          bgColor={lightTheme.color_primary_1}
+          textColor={lightTheme.color_ui_text_contrast}
           bRadius="4px"
         >
           Signin

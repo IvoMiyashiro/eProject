@@ -1,7 +1,9 @@
 import { DefaultTheme } from 'styled-components';
 
 export const lightTheme: DefaultTheme = {
-  color_primary_0: '#232F3D',
+  color_primary_0: '#2F48D1',
+  color_primary_1: '#192B82',
+  color_primary_2: '#576BD8',
   color_secondary_0: '',
   color_tertiary_0: '#FFEF00',
   color_neutral_0: '#C8CCCE',
@@ -10,7 +12,7 @@ export const lightTheme: DefaultTheme = {
   color_ui_warn: '',
   color_ui_danger: '',
   color_ui_text_main: '#232F3D',
-  color_ui_text_contrast: '#DEE1E2',
+  color_ui_text_contrast: '#FFFFFF',
   color_product_background: '',
   color_product_price: '',
   color_product_fullPrice: ''
@@ -18,6 +20,8 @@ export const lightTheme: DefaultTheme = {
 
 export const darkTheme: DefaultTheme = {
   color_primary_0: '',
+  color_primary_1: '',
+  color_primary_2: '',
   color_secondary_0: '',
   color_tertiary_0: '#FFEF00',
   color_neutral_0: '',

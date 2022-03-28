@@ -6,6 +6,7 @@ interface ContextProps {
 
   //Methods
   toggleMenu: () => void;
+  toggleCartMenu: () => void;
 }
 
 export const UiContext = createContext( {} as ContextProps );

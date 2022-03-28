@@ -19,12 +19,17 @@ export const UiProvider: FC = ({ children }) => {
     dispatch({ type: '[UI] - ToggleMenu' });
   };
 
+  const toggleCartMenu = () => {
+    dispatch({ type: '[UI] - ToggleCartMenu' });
+  };
+
   return (
     <UiContext.Provider value={{
       ...state,
 
       //Methods
       toggleMenu,
+      toggleCartMenu
     }}>
       { children }
     </UiContext.Provider>

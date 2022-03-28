@@ -7,26 +7,32 @@ import styled from 'styled-components';
 interface Props {
   isLink: boolean;
   logoColor: string;
-  textColor: string;
+  textColor?: string;
+  withText?: boolean;
+  size?: string;
 }
 
-export const Logo = ({ isLink, logoColor, textColor }: Props) => {
+export const Logo = ({ size = '40px', isLink, logoColor, textColor = '#fff', withText = true }: Props) => {
   return (
     <>
       {
         isLink
           ? (
-            <Link href={'/home'} passHref>
+            <Link href={'/'} passHref>
               <Div>
-                <LogoIcon width="40px" height="40px" color={logoColor} />
-                <H2 color={textColor}>eProject</H2>
+                <LogoIcon width={size} height={size} color={logoColor} />
+                {
+                  withText && <H2 color={textColor}>eProject</H2>
+                }
               </Div>
             </Link>
           )
           : (
             <Div>
               <LogoIcon width="40px" height="40px" color={logoColor} />
-              <H2 color={textColor}>eProject</H2>
+              {
+                withText && <H2 color={textColor}>eProject</H2>
+              }
             </Div>
           )
       }

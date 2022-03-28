@@ -21,7 +21,7 @@ export const ActionButtons = ({ handleAppTheme }: Props) => {
         <DarkModeIcon width="25px" height="25px" />
       </Button>
       <Button onClick={toggleCartMenu}>
-        <CartIcon width="23px" height="23px" />
+        <CartIcon width="25px" height="25px" />
       </Button>
       <Link href="/signin" passHref>
         <Button>
@@ -29,7 +29,7 @@ export const ActionButtons = ({ handleAppTheme }: Props) => {
         </Button>
       </Link>
       <LastButton onClick={toggleMenu}>
-        <BarsIcon width="30px" height="30px" />
+        <BarsIcon width="35px" height="35px" />
       </LastButton>
     </>
   );

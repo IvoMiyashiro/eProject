@@ -52,17 +52,17 @@ export const Navbar = ({ handleAppTheme }: Props) => {
           </Li>
           <Li>
             <Link href='/' passHref>
+              <P>Products</P>
+            </Link>
+          </Li>
+          <Li>
+            <Link href='/' passHref>
               <P>PC Builder</P>
             </Link>
           </Li>
           <Li>
             <Link href='/' passHref>
               <P>About</P>
-            </Link>
-          </Li>
-          <Li>
-            <Link href='/' passHref>
-              <P>Blog</P>
             </Link>
           </Li>
         </Ul>

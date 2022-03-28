@@ -2,7 +2,11 @@ import styled from 'styled-components';
 import { bp } from 'styles';
 import { Wrapper as DropdownMenuWrapper } from './DropdownMenu/styles';
 
-export const Nav = styled.nav``;
+export const Nav = styled.nav`
+  position: sticky;
+  top: 0;
+  z-index: 10; 
+`;
 
 export const Div = styled.div`
   :first-child {

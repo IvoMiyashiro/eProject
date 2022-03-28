@@ -8,6 +8,7 @@ import { DefaultTheme, ThemeProvider } from 'styled-components';
 import { lightTheme } from 'styles';
 import GlobalStyle from 'styles/global';
 import { MobileMenu } from 'components/ui/MobileMenu';
+import { Cart } from 'components/ui/Cart';
 
 function MyApp({ Component, pageProps }: AppProps) {
 
@@ -18,6 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <UiProvider>
         <Navbar handleAppTheme={setAppTheme} />
         <MobileMenu />
+        <Cart />
         <Component {...pageProps} />
         <GlobalStyle />
       </UiProvider>

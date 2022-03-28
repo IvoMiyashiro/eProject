@@ -12,4 +12,5 @@ export * from './Tag';
 export * from './Craft';
 export * from './Info';
 export * from './Blog';
+export * from './Github';
 

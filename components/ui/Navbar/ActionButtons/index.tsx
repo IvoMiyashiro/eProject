@@ -13,14 +13,14 @@ interface Props {
 
 export const ActionButtons = ({ handleAppTheme }: Props) => {
 
-  const { toggleMenu } = useContext(UiContext);
+  const { toggleMenu, toggleCartMenu } = useContext(UiContext);
 
   return (
     <>          
       <Button>
         <DarkModeIcon width="25px" height="25px" />
       </Button>
-      <Button>
+      <Button onClick={toggleCartMenu}>
         <CartIcon width="23px" height="23px" />
       </Button>
       <Link href="/signin" passHref>

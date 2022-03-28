@@ -1,7 +1,5 @@
 import { MouseEvent, useRef } from 'react';
-
-import styled from 'styled-components';
-import { bp } from 'styles';
+import { Div } from './styles';
 
 interface Props {
   align?: string;
@@ -44,7 +42,7 @@ export const Modal = ({
   };
 
   return (
-    <Div 
+    <Div
       align={align}
       justify={justify}
       isMobile={isMobile}
@@ -57,24 +55,4 @@ export const Modal = ({
   );
 };
 
-interface Styles {
-  align: string;
-  justify: string;
-  isMobile: boolean;
-}
 
-const Div = styled.div<Styles>`
-  align-items: ${props => props.align};
-  background-color: rgba(0, 0, 0, 0.2);
-  display: flex;
-  height: 100vh;
-  justify-content: ${props => props.justify};
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  width: 100%;
-
-  @media (min-width: ${bp.tablet}) {
-    display: ${props => props.isMobile ? 'flex' : 'none'};
-  }
-`;

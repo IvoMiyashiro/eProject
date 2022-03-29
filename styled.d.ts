@@ -8,7 +8,8 @@ declare module 'styled-components' {
     color_secondary_0: string,
     color_tertiary_0: string,
     color_neutral_0: string;
-    color_neutral_1: string,
+    color_neutral_1: string;
+    color_neutral_2: string;
     color_ui_background: string,
     color_ui_ok: string,
     color_ui_warn: string,

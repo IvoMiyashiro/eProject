@@ -1,25 +1,24 @@
 import styled from 'styled-components';
 import { bp } from 'styles';
-import { Wrapper as DropdownMenuWrapper } from './DropdownMenu/styles';
 
-export const Nav = styled.nav`
+interface Styles {
+  isVisible?: boolean;
+}
+
+export const NavWrapper = styled.nav`
   position: sticky;
   top: 0;
   z-index: 10; 
 `;
 
-export const Div = styled.div`
-  :first-child {
-    background-color: ${props => props.theme.color_primary_0};
-  }
+export const Nav = styled.div`
+  position: relative;
+`;
 
-  :last-child {
-    border-bottom: 1px solid ${props => props.theme.color_neutral_0};
-
-    @media (max-width: ${bp.tablet}) {
-      display: none;
-    }
-  }
+export const Div = styled.div<Styles>`
+  background-color: ${props => props.theme.color_primary_0};
+  position: relative;
+  z-index: 10;
 `;
 
 export const Wrapper = styled.div`
@@ -55,43 +54,4 @@ export const Section = styled.section`
   :last-child {
     gap: 1.25em;
   }
-`;
-
-export const Ul = styled.ul`
-  align-items: center;
-  color: ${props => props.theme.color_ui_text_main};
-  display: flex;
-  gap: 4.5em;
-  margin: 0 auto;
-  max-width: 1240px;
-  padding: 0.75em 2em;
-
-  @media (max-width: ${bp.tablet}) {
-    gap: 0;
-    justify-content: space-between;
-  }
-`;
-
-export const Li = styled.li`
-  cursor: pointer;
-`;
-
-export const P = styled.p`
-  font-size: 0.9rem;
-  font-weight: 400;
-  white-space: nowrap;
-`;
-
-export const Dropdown = styled.div`
-  position: relative;
-
-  :hover ${DropdownMenuWrapper} {
-    display: block;
-  }
-`;
-
-export const Header = styled.section`
-  align-items: center;
-  display: flex;
-  gap: 0.25em;
 `;

@@ -71,7 +71,7 @@ const Div = styled.div`
   height: 100vh;
   margin-top: -117px;
   gap: 4em;
-  padding-top: 5em;
+  padding-top: 12em;
 `;
   
 const H1 = styled.h1`

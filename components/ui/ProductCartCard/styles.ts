@@ -59,7 +59,7 @@ export const PriceWrapper = styled.div`
 export const Span = styled.span`
   color: ${props => props.theme.color_neutral_0};
   font-family: 'Inter';
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   text-decoration: line-through;
 `;
 

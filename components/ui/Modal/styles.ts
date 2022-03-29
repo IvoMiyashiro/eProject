@@ -23,6 +23,7 @@ export const Div = styled.div<Styles>`
   position: fixed;
   top: 0;
   width: 100%;
+  z-index: 10;
 
   ${props => props.isMobile ? mobile : ''};
 `;

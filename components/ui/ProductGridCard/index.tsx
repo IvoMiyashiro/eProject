@@ -14,8 +14,6 @@ interface Props {
 
 export const ProductGridCard = ({ product }: Props) => {
 
-  // const discountPrice = (product.price * (product.discount / 100));
-
   return (
     <Div>
       <Button>
@@ -28,10 +26,12 @@ export const ProductGridCard = ({ product }: Props) => {
       <Link href={`/product/${product.id}`} passHref>
         <ImageWrapper>
           <Image 
-            src={product.imageUrl}
+            src={product.image_urls as string}
             alt={product.title}
             layout="fill"
             objectFit="contain"
+            placeholder="blur"
+            blurDataURL={product.image_urls as string}
           />
         </ImageWrapper>
       </Link>
@@ -48,7 +48,7 @@ export const ProductGridCard = ({ product }: Props) => {
           </Title>
         </Link>
         <Price>
-          <P>${product.discountPrice}</P>
+          <P>${product.discount_price}</P>
           <Span>${product.price}</Span>
         </Price>
       </InfoWrapper>

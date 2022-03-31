@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Brand, Category, Product, db, initialData } from '../../database';
+import { Brand, Category, Product, db, initialData } from 'database';
 
 type Data = { ok: boolean, message: string, resp?: any }
 

@@ -6,3 +6,4 @@ export * from './ProductCartCard';
 export * from './ProductGridCard';
 export * from './ProductListCard';
 export * from './AsideFilter';
+export * from './Spinner';

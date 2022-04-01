@@ -1,18 +1,19 @@
-import { IProduct } from 'interfaces';
+import { useContext } from 'react';
+
+import { CatalogContext } from 'context';
 import { AsideFilter, ProductGridCard, Spinner } from 'components/ui';
 import { Header } from './Header';
 
 import { Div, Wrapper, SpinnerWrapper, ProductList } from './styles';
 
-interface Props {
-  productList: IProduct[];
-  isLoading: boolean;
-}
+export const Catalog = () => {
 
-export const Catalog = ({ productList, isLoading }: Props) => {
+  const {productList, isLoading} = useContext(CatalogContext);
+
   return (
+    
     <Div>
-      <AsideFilter productList={productList} />
+      <AsideFilter />
       <Wrapper>
         <Header />
         {
@@ -34,5 +35,6 @@ export const Catalog = ({ productList, isLoading }: Props) => {
         }
       </Wrapper>
     </Div>
+
   );
 };

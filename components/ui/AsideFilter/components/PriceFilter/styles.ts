@@ -1,41 +1,5 @@
 import styled from 'styled-components';
 
-export const PriceRange = () => {
-  return (
-    <Div>
-      <H3>Price</H3>
-      <Section>
-        <Label>Min.</Label>
-        <InputRange
-          type="range"
-          min="200"
-          max="400"
-        />
-      </Section>
-      <Section>
-        <Label>Max.</Label>
-        <InputRange
-          type="range"
-          min="200"
-          max="400"
-        />
-      </Section>
-      <Wrapper>
-        <InputNumber
-          type="number"
-          placeholder="Min."
-        />
-        <Label>to</Label>
-        <InputNumber
-          type="number"
-          placeholder="Max."
-        />
-      </Wrapper>
-
-    </Div>
-  );
-};
-
 export const Div = styled.div``;
   
 export const H3 = styled.h3`
@@ -76,4 +40,13 @@ export const Wrapper = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+export const Error = styled.div`
+  margin-top: 0.75em;
+`;
+
+export const Span = styled.span`
+  font-size: 0.8rem;
+  color: ${props => props.theme.color_ui_danger};
 `;

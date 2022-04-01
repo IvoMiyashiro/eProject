@@ -1,129 +1,85 @@
-import { ChangeEvent, useContext, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useContext, useState } from 'react';
 
 import { array } from 'utils';
+import { handleCheckboxChange, handleStockInputChange, handleFormSubmit } from './_handlers';
 
-import { Button } from 'components/ui';
-import { PriceRange } from './PriceRange';
 import { CatalogContext } from 'context';
+import { Button } from 'components/ui';
+import { PriceFilter, Stock, Manufacturer, Categories } from './components';
 
-import { Aside, Div, H3, Section, Input, Label, Wrapper } from './styles';
 import { lightTheme } from 'styles';
+import { Aside, Wrapper, Form } from './styles';
 
 export const AsideFilter = () => {
 
-  const {categories, brands, applyCatalogFilter} = useContext(CatalogContext);
+  const { categories, brands, productList, isLoading, applyCatalogFilter } = useContext(CatalogContext);
+  
   const [categoriesQuery, setCategoriesQuery] = useState<string[]>([]);
   const [brandsQuery, setBrandsQuery] = useState<string[]>([]);
-  // const [categoriesQuery, setCategoriesQuery] = useState<string[]>([]);
-
-  const handleCategInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value: string = e.target.value;
-
-    if (!categoriesQuery.includes(value)) {
-      setCategoriesQuery(prev => ([
-        ...prev,
-        e.target.value
-      ]));
-    } else {
-      const newQueryArr: string[] = array.remove(categoriesQuery, value);
-      setCategoriesQuery(newQueryArr);
-    }
-  };
-
-  const handleBrandsInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value: string = e.target.value;
-
-    if (!categoriesQuery.includes(value)) {
-      setBrandsQuery(prev => ([
-        ...prev,
-        e.target.value
-      ]));
-    } else {
-      const newQueryArr: string[] = array.remove(categoriesQuery, value);
-      setBrandsQuery(newQueryArr);
-    }
-  };
-
-  const applyFilters = () => {
-    const categoryQuery = encodeURIComponent(JSON.stringify(categoriesQuery));
-    const brandQuery = encodeURIComponent(JSON.stringify(brandsQuery));
-    applyCatalogFilter(categoryQuery, brandQuery);
-  };
-
-  const resetFilters = () => {
-    
-  };
+  const [stockQuery, setStockQuery] = useState<boolean>(false);
+  
+  const minmaxPrice = array.minmaxValue(productList);
+  const [minPrice, setMinPrice] = useState<number>(minmaxPrice[0]);
+  const [maxPrice, setMaxPrice] = useState<number>(minmaxPrice[1]);
+  const [validPriceFilter, setValidPriceFilter] = useState<{ ok: boolean; message: string }>({ ok: true, message: '' });
 
   return (
     <Aside>
-      <Div>
-        <H3>Stock</H3>
-        <Section>
-          <Label>           
-            <Input 
-              type="checkbox"
-            />
-              Exclude out of stock items. 
-          </Label>
-        </Section>
-      </Div>
-      <Div>
-        <H3>Manufacturer</H3>
-        {
-          brands.map((brand, i) => {
-            return (
-              <Section key={i}>
-                <Label>
-                  <Input
-                    type="checkbox"
-                    value={brand}
-                    onChange={handleBrandsInputChange}
-                  />
-                  {brand}
-                </Label>
-              </Section>
-            );
-          })
-        }
-      </Div>
-      <Div>
-        <H3>Categories</H3>
-        {
-          categories.map((category, i) => {
-            return (
-              <Section key={i}>
-                <Label>           
-                  <Input 
-                    type="checkbox"
-                    value={category}
-                    onChange={handleCategInputChange}
-                  />
-                  {category}
-                </Label>
-              </Section>
-            );
-          })
-        }
-      </Div>
-      <PriceRange />
-      <Wrapper>
-        <Button
-          bgColor={lightTheme.color_neutral_2}
-          textColor={lightTheme.color_ui_text_contrast}
-          bRadius="4px"
-          onClick={resetFilters}
-        >
-          Reset
-        </Button>
-        <Button
-          bgColor={lightTheme.color_primary_0}
-          textColor={lightTheme.color_ui_text_contrast}
-          bRadius="4px"
-          onClick={applyFilters}
-        >
-          Apply
-        </Button>
-      </Wrapper>
+      <Form 
+        onSubmit={(e) => handleFormSubmit(
+          e,
+          minPrice,
+          maxPrice,
+          stockQuery,
+          categoriesQuery,
+          brandsQuery,
+          setValidPriceFilter,
+          applyCatalogFilter
+        )}
+      >
+        <Stock 
+          handleStockInputChange={(e) => handleStockInputChange(e, setStockQuery)}
+          isLoading={isLoading}
+        />
+        <Manufacturer 
+          handleBrandsInputChange={(e) => handleCheckboxChange(e, brandsQuery, setBrandsQuery)}
+          brands={brands}
+          isLoading={isLoading}
+        /> 
+        <Categories 
+          handleCategInputChange={(e) => handleCheckboxChange(e, categoriesQuery, setCategoriesQuery)}
+          categories={categories}
+          isLoading={isLoading}
+        />
+        <PriceFilter
+          minPrice={minPrice} 
+          maxPrice={maxPrice}
+          formError={validPriceFilter}
+          handleMinPrice={setMinPrice} 
+          handleMaxPrice={setMaxPrice} 
+          handleFormError={setValidPriceFilter}
+        />
+        <Wrapper>
+          <Button
+            bgColor={lightTheme.color_neutral_2}
+            textColor={lightTheme.color_ui_text_contrast}
+            bRadius="4px"
+            type="button"
+            onClick={useRouter().reload}
+          >
+            Reset
+          </Button>
+          <Button
+            bgColor={lightTheme.color_primary_0}
+            textColor={lightTheme.color_ui_text_contrast}
+            bRadius="4px"
+            type="submit"
+          >
+            Apply
+          </Button>
+        </Wrapper>
+      </Form>
     </Aside>
   );
 };

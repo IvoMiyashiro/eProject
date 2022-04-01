@@ -6,11 +6,14 @@ export const Aside = styled.aside`
   0px 0px 1.1px rgba(0, 0, 0, 0.044),
   0px 0px 3.8px rgba(0, 0, 0, 0.066),
   0px 0px 17px rgba(0, 0, 0, 0.11);
+  padding: 1.25em;
+  width: 100%;
+`;
+
+export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1.25em;
-  padding: 1.25em;
-  width: 100%;
 `;
 
 export const Div = styled.div``;

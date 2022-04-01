@@ -8,7 +8,7 @@ interface ContextProps {
   isLoading: boolean;
 
   //Methods
-  applyCatalogFilter: (categoryQuery: string, brandQuery: string) => Promise<void>;
+  applyCatalogFilter: (categoryQuery: string, brandQuery: string, stockQuery: boolean, pricesQuery: string) => Promise<void>;
 }
 
 export const CatalogContext = createContext({} as ContextProps);

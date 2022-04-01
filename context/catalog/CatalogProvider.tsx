@@ -6,8 +6,8 @@ import { CatalogContext, catalogReducer } from './';
 
 export interface ProductListState {
   productList: IProduct[];
-  categories: CategoryList[]
-  brands: BrandList[],
+  categories: CategoryList[];
+  brands: BrandList[];
   isLoading: boolean;
 }
 
@@ -20,7 +20,7 @@ const PRODUCT_LIST_INIT_STATE: ProductListState = {
 
 export const CatalogProvider: FC = ({ children }) => {
 
-  const [ state, dispatch ] = useReducer(catalogReducer, PRODUCT_LIST_INIT_STATE);
+  const [state, dispatch] = useReducer(catalogReducer, PRODUCT_LIST_INIT_STATE);
 
   useEffect(() => {
     fetch('/api/products')
@@ -56,9 +56,9 @@ export const CatalogProvider: FC = ({ children }) => {
     dispatch({ type: '[PRODUCT LIST] - START LOADING' });
   };
 
-  const applyCatalogFilter = async (categoryQuery: string, brandQuery: string) => {
+  const applyCatalogFilter = async (categoryQuery: string, brandQuery: string, stockQuery: boolean, priceQuery: string) => {
     startLoading();
-    const resp = await fetch(`/api/products?c=${categoryQuery}&b=${brandQuery}`);
+    const resp = await fetch(`/api/products?c=${categoryQuery}&b=${brandQuery}&s=${stockQuery}&p=${priceQuery}`);
     const { products } = await resp.json();
 
     dispatch({

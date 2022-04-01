@@ -39,6 +39,13 @@ export const catalogReducer = (state: ProductListState, action: ProductListActio
       isLoading: false
     };
 
+  case '[PRODUCT LIST] - APPLY FILTERS':
+    return {
+      ...state,
+      productList: action.payload,
+      isLoading: false
+    };
+
   default:
     return state;
   }

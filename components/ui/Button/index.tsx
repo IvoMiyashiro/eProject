@@ -12,6 +12,7 @@ interface Props {
   href?: string;
   isLink?: boolean;
   width?: string;
+  onClick?: () => void | undefined;
 }
 
 export const Button = ({ 
@@ -22,7 +23,8 @@ export const Button = ({
   bgColor,
   bRadius = '0px',
   width = '100%',
-  height = '100%' 
+  height = '100%',
+  onClick
 }: Props) => {
   return (
     <>
@@ -36,7 +38,7 @@ export const Button = ({
             </Link>
           )
           : (
-            <ButtonWrapper color={textColor} bgColor={bgColor} bRadius={bRadius} width={width} height={height}>
+            <ButtonWrapper onClick={onClick} color={textColor} bgColor={bgColor} bRadius={bRadius} width={width} height={height}>
               { children}
             </ButtonWrapper>
           )

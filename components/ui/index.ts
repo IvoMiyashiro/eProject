@@ -9,3 +9,4 @@ export * from './AsideFilter';
 export * from './Spinner';
 export * from './Cart';
 export * from './MobileMenu';
+export * from './AsideFilter';

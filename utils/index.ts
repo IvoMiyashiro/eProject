@@ -1,1 +1,1 @@
-export * from './uniqueArr';
+export * as array from './arrays';

@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
-import { useProducts } from 'hooks';
 
+import { CatalogProvider } from 'context';
 import { MainLayout } from 'components/layouts';
 import { Catalog } from 'components/sections';
 
@@ -8,20 +8,20 @@ import styled from 'styled-components';
 
 const ProductsPage: NextPage = () => {
 
-  const { products, isLoading } = useProducts('/products');
-
   return (
-    <MainLayout title="eProject | Our Products" description="">
-      <Div>
-        <Section>
-          <Wrapper>
-            <H1>Our Products</H1>
-            <Underline />
-          </Wrapper>
-        </Section>
-        <Catalog productList={products} isLoading={isLoading} />
-      </Div>
-    </MainLayout>
+    <CatalogProvider>
+      <MainLayout title="eProject | Our Products" description="">
+        <Div>
+          <Section>
+            <Wrapper>
+              <H1>Our Products</H1>
+              <Underline />
+            </Wrapper>
+          </Section>
+          <Catalog />
+        </Div>
+      </MainLayout>
+    </CatalogProvider>
   );
 };
 

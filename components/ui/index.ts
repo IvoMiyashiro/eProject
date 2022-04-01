@@ -7,3 +7,5 @@ export * from './ProductGridCard';
 export * from './ProductListCard';
 export * from './AsideFilter';
 export * from './Spinner';
+export * from './Cart';
+export * from './MobileMenu';

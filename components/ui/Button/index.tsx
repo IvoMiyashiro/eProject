@@ -12,6 +12,7 @@ interface Props {
   href?: string;
   isLink?: boolean;
   width?: string;
+  type: 'button' | 'submit' | 'reset';
   onClick?: () => void | undefined;
 }
 
@@ -24,6 +25,7 @@ export const Button = ({
   bRadius = '0px',
   width = '100%',
   height = '100%',
+  type = 'button',
   onClick
 }: Props) => {
   return (
@@ -38,7 +40,7 @@ export const Button = ({
             </Link>
           )
           : (
-            <ButtonWrapper onClick={onClick} color={textColor} bgColor={bgColor} bRadius={bRadius} width={width} height={height}>
+            <ButtonWrapper type={type} onClick={onClick} color={textColor} bgColor={bgColor} bRadius={bRadius} width={width} height={height}>
               { children}
             </ButtonWrapper>
           )

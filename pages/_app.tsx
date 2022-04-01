@@ -3,9 +3,7 @@ import { AppProps } from 'next/app';
 import { SWRConfig } from 'swr';
 
 import { UiProvider } from 'context';
-import { Navbar } from 'components/ui';
-import { Cart } from 'components/ui/Cart';
-import { MobileMenu } from 'components/ui/MobileMenu';
+import { Navbar, Cart, MobileMenu } from 'components/ui';
 
 import GlobalStyle from 'styles/global';
 import { DefaultTheme, ThemeProvider } from 'styled-components';

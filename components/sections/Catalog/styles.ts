@@ -5,6 +5,7 @@ export const Div = styled.div`
   grid-template-columns: 275px 1fr;
   gap: 3em;
   margin-top: 5em;
+  align-items: flex-start;
 `;
 
 export const Wrapper = styled.div``;

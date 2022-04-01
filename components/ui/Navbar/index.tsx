@@ -1,9 +1,7 @@
 import { useEffect, useCallback, useState } from 'react';
 
 import { Logo } from '../Logo';
-import { ActionButtons } from './ActionButtons';
-import { Searchbar } from './Searchbar';
-import { Navigation } from './Navigation';
+import { ActionButtons, Searchbar, Navigation } from './components';
 
 import { DefaultTheme } from 'styled-components';
 import { lightTheme } from 'styles';

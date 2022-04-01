@@ -16,6 +16,7 @@ export const Searchbar = () => {
         textColor={lightTheme.color_primary_0}
         width="100px"
         bRadius="2px"
+        type="submit"
       >
         Search
       </Button>

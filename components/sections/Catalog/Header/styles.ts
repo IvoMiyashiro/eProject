@@ -24,7 +24,10 @@ export const Wrapper = styled.div`
   gap: 0.5em;
 `;
 
-export const Select = styled.select``;
+export const Select = styled.select`
+  padding: 0.25em 0.4em;
+  border-radius: 4px;
+`;
   
 export const Option = styled.option``;
 

@@ -47,7 +47,7 @@ export const Dot = styled.div`
     content: "";
     display: block;
     width: 25%;
-    background-color: ${prosp => prosp.theme.color_neutral_2};
+    background-color: ${prosp => prosp.theme.color_primary_2};
     height: 25%;
     border-radius: 100%;
     animation: ${skChaseDotBefore} 2s infinite ease-in-out both;

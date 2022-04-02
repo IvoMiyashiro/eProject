@@ -14,7 +14,6 @@ export const ProductList = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, 250px);
   gap: 2.5em;
-  justify-content: space-around;
 `;
 
 export const SpinnerWrapper = styled.div`

@@ -7,6 +7,7 @@ type ProductListActionType =
   | { type: '[PRODUCT LIST] - LOAD BRANDS', payload: BrandList[] }
   | { type: '[PRODUCT LIST] - LOAD CATEGORIES', payload: CategoryList[] }
   | { type: '[PRODUCT LIST] - APPLY FILTERS', payload: IProduct[] }
+  | { type: '[PRODUCT LIST] - SORT PRODUCT LIST', payload: IProduct[]}
 
 export const catalogReducer = (state: ProductListState, action: ProductListActionType): ProductListState => {
 
@@ -40,6 +41,13 @@ export const catalogReducer = (state: ProductListState, action: ProductListActio
     };
 
   case '[PRODUCT LIST] - APPLY FILTERS':
+    return {
+      ...state,
+      productList: action.payload,
+      isLoading: false
+    };
+
+  case '[PRODUCT LIST] - SORT PRODUCT LIST':
     return {
       ...state,
       productList: action.payload,

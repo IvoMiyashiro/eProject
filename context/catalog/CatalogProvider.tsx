@@ -67,13 +67,21 @@ export const CatalogProvider: FC = ({ children }) => {
     });
   };
 
+  const sortCatalog = (products: IProduct[]) => {
+    startLoading();
+    dispatch({
+      type: '[PRODUCT LIST] - SORT PRODUCT LIST',
+      payload: products
+    });
+  };
 
   return (
     <CatalogContext.Provider value={{
       ...state,
 
       //Methods
-      applyCatalogFilter
+      applyCatalogFilter,
+      sortCatalog
     }}>
       { children }
     </CatalogContext.Provider>

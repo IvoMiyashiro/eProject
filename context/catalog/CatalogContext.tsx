@@ -9,6 +9,7 @@ interface ContextProps {
 
   //Methods
   applyCatalogFilter: (categoryQuery: string, brandQuery: string, stockQuery: boolean, pricesQuery: string) => Promise<void>;
+  sortCatalog: (products: IProduct[]) => void;
 }
 
 export const CatalogContext = createContext({} as ContextProps);

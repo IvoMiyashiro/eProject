@@ -1,20 +1,22 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { IProduct } from 'interfaces';
+import { IProductCart } from 'interfaces';
+import { CartContext } from 'context';
 import { Counter } from '../Counter';
+import { TrashIcon } from 'components/icons';
 
-import { TrashIcon } from 'components/icons/Trash';
 import { Button, Div, H3, ImageContainer, ImageWrapper, P, PriceWrapper, Section, Span, Wrapper } from './styles';
 
 interface Props {
-  product: IProduct;
+  product: IProductCart;
 }
 
 export const ProductCartCard = ({ product }: Props) => {
 
-  const [quantity, setQuantity] = useState(1);
+  const { removeFromCart } = useContext(CartContext);
+  const [quantity, setQuantity] = useState(product.quantity);
 
   return (
     <Div>
@@ -22,9 +24,9 @@ export const ProductCartCard = ({ product }: Props) => {
         <ImageWrapper>
           <ImageContainer>
             <Image 
-              src={product.imageUrl}
+              src={product.image_urls as string}
               alt={product.title}
-              objectFit="cover"
+              objectFit="contain"
               layout="fill"
             />
           </ImageContainer>
@@ -35,15 +37,15 @@ export const ProductCartCard = ({ product }: Props) => {
           <Link href={`products/${product.id}`} passHref>
             <H3>{product.title}</H3>
           </Link>
-          <Button>
+          <Button onClick={() => removeFromCart(product.id)}>
             <TrashIcon width="18px" height="18px" />
           </Button>
         </Section>
         <Section>
-          <Counter value={quantity} handleValue={setQuantity} />
+          <Counter value={quantity} handleValue={setQuantity} product={product} />
           <PriceWrapper>
             <Span>$ {product.price}</Span>
-            <P>$ {product.discountPrice * quantity}</P>
+            <P>$ {product.discount_price * quantity}</P>
           </PriceWrapper>
         </Section>
       </Wrapper>

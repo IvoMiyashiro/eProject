@@ -2,10 +2,10 @@ import { useContext } from 'react';
 import Link from 'next/link';
 
 import { CartIcon, DarkModeIcon, UserIcon, BarsIcon } from 'components/icons';
-import { UiContext } from 'context';
+import { CartContext, UiContext } from 'context';
 
 import { DefaultTheme } from 'styled-components';
-import { Button, LastButton } from './styles';
+import { Button, CartItemsCounter, LastButton } from './styles';
 
 interface Props {
   handleAppTheme: (theme: DefaultTheme) => void;
@@ -14,6 +14,7 @@ interface Props {
 export const ActionButtons = ({ handleAppTheme }: Props) => {
 
   const { toggleMenu, toggleCartMenu } = useContext(UiContext);
+  const { cart } = useContext(CartContext);
 
   return (
     <>          
@@ -22,6 +23,20 @@ export const ActionButtons = ({ handleAppTheme }: Props) => {
       </Button>
       <Button onClick={toggleCartMenu}>
         <CartIcon width="25px" height="25px" />
+        {  
+          cart.length > 0
+          && 
+          <CartItemsCounter>
+            { 
+              cart.length > 9
+                ? '+9'
+                : cart.length
+            }
+          </CartItemsCounter> 
+        }
+        
+
+        
       </Button>
       <Link href="/signin" passHref>
         <Button>

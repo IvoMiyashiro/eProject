@@ -1,5 +1,5 @@
 import { BrandList, CategoryList, IProduct } from 'interfaces';
-import { ProductListState } from '.';
+import { ProductListState } from './';
 
 type ProductListActionType = 
   | { type: '[PRODUCT LIST] - START LOADING' }
@@ -8,6 +8,9 @@ type ProductListActionType =
   | { type: '[PRODUCT LIST] - LOAD CATEGORIES', payload: CategoryList[] }
   | { type: '[PRODUCT LIST] - APPLY FILTERS', payload: IProduct[] }
   | { type: '[PRODUCT LIST] - SORT PRODUCT LIST', payload: IProduct[]}
+  | { type: '[PRODUCT LIST] - CHANGE DISPLAY TO GRID' }
+  | { type: '[PRODUCT LIST] - CHANGE DISPLAY TO LIST' }
+  | { type: '[PRODUCT LIST] - TOGGLE FILTER MENU'}
 
 export const catalogReducer = (state: ProductListState, action: ProductListActionType): ProductListState => {
 
@@ -52,6 +55,24 @@ export const catalogReducer = (state: ProductListState, action: ProductListActio
       ...state,
       productList: action.payload,
       isLoading: false
+    };
+
+  case '[PRODUCT LIST] - CHANGE DISPLAY TO GRID':
+    return {
+      ...state,
+      display: 'grid'
+    };
+
+  case '[PRODUCT LIST] - CHANGE DISPLAY TO LIST':
+    return {
+      ...state,
+      display: 'list'
+    };
+
+  case '[PRODUCT LIST] - TOGGLE FILTER MENU':
+    return {
+      ...state,
+      isFilterMenuOpen: !state.isFilterMenuOpen
     };
 
   default:

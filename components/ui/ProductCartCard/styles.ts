@@ -8,7 +8,7 @@ export const Div = styled.div`
 export const ImageWrapper = styled.div`
   align-items: center;
   background-color: ${props => props.theme.color_product_background};
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   display: flex;
   height: 90px;
@@ -32,6 +32,7 @@ export const Section = styled.section`
   display: flex;
   gap: 1em;
   justify-content: space-between;
+  align-items: flex-end;
 `;
 
 export const H3 = styled.h3`

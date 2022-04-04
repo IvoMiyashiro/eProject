@@ -20,7 +20,11 @@ export const Aside = styled.aside<Styles>`
 export const Header = styled.header`
   border-bottom: 1px solid ${props => props.theme.color_neutral_0};
   padding: 1em;
-  position: relative;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background-color: ${props => props.theme.color_ui_background};
+  z-index: 1;
 `;
 
 export const H2 = styled.h2`
@@ -35,18 +39,6 @@ export const Span = styled.span`
   position: absolute;
   right: 1em;
   top: 14px;
-`;
-
-export const Section = styled.section`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: space-between;
-  padding: 1em;
-`;
-
-export const Footer = styled.footer`
-  margin-top: auto;
 `;
 
 export const EmptyCart = styled.div`
@@ -84,7 +76,6 @@ export const Button = styled.button`
 export const A = styled.div`
   align-items: center;
   background-color: ${props => props.theme.color_primary_0};
-  border-radius: 4px;
   color: ${props => props.theme.color_ui_text_contrast};
   cursor: pointer;
   display: flex;
@@ -92,10 +83,6 @@ export const A = styled.div`
   justify-content: center;
   padding: 0.75em 0;
   width: 100%;
-`;
-
-export const ProductsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
+  min-height: 63px;
+  margin-top: 1em;
 `;

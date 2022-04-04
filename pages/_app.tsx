@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { AppProps } from 'next/app';
-import { UiProvider } from 'context';
+import { DefaultTheme, ThemeProvider } from 'styled-components';
+
+import { UiProvider, CartProvider } from 'context';
 import { Navbar, Cart, MobileMenu } from 'components/ui';
 
 import GlobalStyle from 'styles/global';
-import { DefaultTheme, ThemeProvider } from 'styled-components';
 import { lightTheme } from 'styles';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -14,11 +15,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={appTheme}>
       <UiProvider>
-        <Navbar handleAppTheme={setAppTheme} />
-        <MobileMenu />
-        <Cart />
-        <Component {...pageProps} />
-        <GlobalStyle />
+        <CartProvider>
+          <Navbar handleAppTheme={setAppTheme} />
+          <MobileMenu />
+          <Cart />
+          <Component {...pageProps} />
+          <GlobalStyle />
+        </CartProvider>
       </UiProvider>
     </ThemeProvider>
   );

@@ -2,11 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { IProduct } from 'interfaces';
-
-// import { Rating } from '../Rating';
-
 import { CartIcon } from 'components/icons';
-import { Button, Header, Div, ImageWrapper, InfoWrapper, Title, H2, Price, P, Span, Brand } from './styles';
+import { Rating } from '../RatingStars';
+
+import { Button, Header, Div, ImageWrapper, InfoWrapper, Title, H2, Price, P, Span, Brand, ImageContainer } from './styles';
 
 interface Props {
   product: IProduct;
@@ -25,14 +24,16 @@ export const ProductGridCard = ({ product }: Props) => {
       </Button>
       <Link href={`/product/${product.id}`} passHref>
         <ImageWrapper>
-          <Image 
-            src={product.image_urls as string}
-            alt={product.title}
-            layout="fill"
-            objectFit="contain"
-            placeholder="blur"
-            blurDataURL={product.image_urls as string}
-          />
+          <ImageContainer>
+            <Image 
+              src={product.image_urls as string}
+              alt={product.title}
+              layout="fill"
+              objectFit="contain"
+              placeholder="blur"
+              blurDataURL={product.image_urls as string}
+            />
+          </ImageContainer>
         </ImageWrapper>
       </Link>
       <InfoWrapper>
@@ -40,7 +41,7 @@ export const ProductGridCard = ({ product }: Props) => {
           <Brand>
             {product.brand}
           </Brand>
-          {/* <Rating rating={product.rating.rate} /> */}
+          <Rating rating={5} />
         </Header>
         <Link href={`/product/${product.id}`} passHref>
           <Title>

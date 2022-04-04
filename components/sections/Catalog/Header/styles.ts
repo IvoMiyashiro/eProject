@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { bp } from 'styles';
 
 export const Div = styled.div`
   display: flex;
@@ -39,4 +40,10 @@ export const Label = styled.label`
 export const Button = styled.button`
   border: none;
   background-color: transparent;
+
+  :last-child {
+    @media (min-width: ${bp.desktop}) {
+      display: none;
+    }
+  }
 `;

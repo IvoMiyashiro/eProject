@@ -2,13 +2,24 @@ import { ChangeEvent, useContext } from 'react';
 
 import { array } from 'utils';
 import { CatalogContext } from 'context';
+import { GridIcon, ListIcon, FilterIcon } from 'components/icons';
 
-import { GridIcon, ListIcon } from 'components/icons';
+import { lightTheme } from 'styles';
 import { Div, Button, Wrapper, Label, Select, Option, Section } from './styles';
 
 export const Header = () => {
 
-  const { productList, sortCatalog } = useContext(CatalogContext);
+  const { 
+    productList,
+    display,
+    sortCatalog,
+    changeDisplayToGrid,
+    changeDisplayToList,
+    toggleFilterMenu
+  } = useContext(CatalogContext);
+
+  const gridIconColor = display === 'grid' ? lightTheme.color_primary_0.toString() : '';
+  const listIconColor = display === 'list' ? lightTheme.color_primary_0.toString() : '';
 
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
@@ -34,11 +45,14 @@ export const Header = () => {
   return (
     <Div>
       <Section>
-        <Button>
-          <GridIcon width="22px" height="20px" />
+        <Button onClick={changeDisplayToGrid}>
+          <GridIcon width="22px" height="20px" color={ gridIconColor }/>
         </Button>
-        <Button>
-          <ListIcon width="22px" height="22px" />
+        <Button onClick={changeDisplayToList}>
+          <ListIcon width="22px" height="22px" color={ listIconColor }/>
+        </Button>
+        <Button onClick={toggleFilterMenu}>
+          <FilterIcon width="22px" height="22px" />
         </Button>
       </Section>
       <Wrapper>

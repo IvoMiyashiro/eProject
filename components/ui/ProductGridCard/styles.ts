@@ -1,13 +1,33 @@
 import styled from 'styled-components';
+import { bp } from 'styles';
 
 export const ImageWrapper = styled.section`
+  align-items: center;
   background-color: ${props => props.theme.color_product_background};
   border-radius: 16px;
   cursor: pointer;
+  display: flex;
   height: 250px;
+  justify-content: center;
+  width: 250px;
+
+  @media (max-width: ${bp.tablet}) {
+    width: 200px;
+    height: 200px;
+  }
+
+`;
+
+export const ImageContainer = styled.section`
+  height: 230px;
   position: relative;
   transition: transform 0.2s;
-  width: 250px;
+  width: 230px;
+
+  @media (max-width: ${bp.tablet}) {
+    width: 180px;
+    height: 180px;
+  }
 `;
 
 export const InfoWrapper = styled.section`
@@ -18,8 +38,8 @@ export const InfoWrapper = styled.section`
 `;
 
 export const Button = styled.button`
-  background-color: ${props => props.theme.color_primary_0 + 'D9'};
-  border-radius: 4px;
+  background-color: ${props => props.theme.color_primary_0};
+  border-radius: 50%;
   cursor: pointer;
   opacity: 0;
   padding: 0.5em;
@@ -45,6 +65,11 @@ export const Div = styled.div`
   :hover ${Button} {
     opacity: 1;
     transition: opacity 0.2s;
+  }
+
+  @media (max-width: ${bp.tablet}) {
+    width: 200px;
+    height: 300px;
   }
 `;
 

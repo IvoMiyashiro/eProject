@@ -1,19 +1,21 @@
 import { useContext } from 'react';
 
 import { CatalogContext } from 'context';
-import { AsideFilter, ProductGridCard, Spinner } from 'components/ui';
+import { AsideFilter, Modal, ProductGridCard, ProductListCard, Spinner } from 'components/ui';
 import { Header } from './Header';
 
-import { Div, Wrapper, SpinnerWrapper, ProductList } from './styles';
+import { Div, Wrapper, SpinnerWrapper, ProductListAsGrid, ProductListAsList } from './styles';
 
 export const Catalog = () => {
 
-  const {productList, isLoading} = useContext(CatalogContext);
+  const { productList, isLoading, display, isFilterMenuOpen, toggleFilterMenu } = useContext(CatalogContext);
 
   return (
     
     <Div>
-      <AsideFilter />
+      <Wrapper>
+        <AsideFilter />
+      </Wrapper>
       <Wrapper>
         <Header />
         {
@@ -23,18 +25,39 @@ export const Catalog = () => {
                 <Spinner />
               </SpinnerWrapper>
             )
-            : (
-              <ProductList>
-                {
-                  productList.map(product => {
-                    return <ProductGridCard key={product.id} product={product} />;
-                  })
-                }
-              </ProductList>
-            )
+            : display === 'grid'
+              ? (
+                <ProductListAsGrid>
+                  {
+                    productList.map(product => {
+                      return <ProductGridCard key={product.id} product={product} />;
+                    })
+                  }
+                </ProductListAsGrid>
+              )
+              : (
+                <ProductListAsList>
+                  {
+                    productList.map(product => {
+                      return <ProductListCard key={product.id} product={product} />;
+                    })
+                  }
+                </ProductListAsList>
+              )
         }
       </Wrapper>
+      {
+        isFilterMenuOpen
+        &&
+        <Modal
+          handleCloseChildren={toggleFilterMenu}
+          isMobile={true}
+        >
+          <AsideFilter />
+        </Modal>
+      }
     </Div>
+
 
   );
 };

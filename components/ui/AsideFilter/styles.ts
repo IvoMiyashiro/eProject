@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { bp } from 'styles';
 
 export const Aside = styled.aside`
   border-radius: 4px;
@@ -8,6 +9,13 @@ export const Aside = styled.aside`
   0px 0px 17px rgba(0, 0, 0, 0.11);
   padding: 1.25em;
   width: 100%;
+  background-color: ${props => props.theme.color_ui_background};
+
+  @media (max-width: ${bp.desktop}) {
+    max-width: 285px;
+    height: 550px;
+    overflow-y: scroll;
+  }
 `;
 
 export const Form = styled.form`

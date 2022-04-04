@@ -37,32 +37,60 @@ export const InfoWrapper = styled.section`
   margin-top: 0.5em;
 `;
 
-export const Button = styled.button`
-  background-color: ${props => props.theme.color_primary_0};
+const commun = `
+  align-items: center;
   border-radius: 50%;
+  border: none;
   cursor: pointer;
+  display: flex;
+  height: 35px;
+  justify-content: center;
   opacity: 0;
   padding: 0.5em;
   position: absolute;
   right: 14px;
   top: 14px;
   transition: opacity 0.2s;
+  width: 35px;
   z-index: 1;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+`;
+
+export const AddToCartButton = styled.button`
+  ${commun};
+  background-color: ${props => props.theme.color_primary_0};
+`;
+
+export const RemoveFromCartButton = styled.button`
+  ${commun};
+  background-color: ${props => props.theme.color_ui_danger};
+`;
+
+export const IsInCartButton = styled.button`
+  ${commun};
+  background-color: ${props => props.theme.color_ui_ok};
 `;
 
 export const Div = styled.div`
   height: 360px;
   position: relative;
   width: 250px;
+
   :hover ${ImageWrapper} {
     transform: scale(0.97);
     transition: transform 0.2s;
   }
-  :hover ${Button} {
+
+  :hover ${AddToCartButton} {
+    opacity: 1;
+    transition: opacity 0.2s;
+  }
+
+  :hover ${RemoveFromCartButton} {
+    opacity: 1;
+    transition: opacity 0.2s;
+  }
+
+  :hover ${IsInCartButton} {
     opacity: 1;
     transition: opacity 0.2s;
   }

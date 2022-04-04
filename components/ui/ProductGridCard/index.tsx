@@ -1,27 +1,74 @@
+import { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { IProduct } from 'interfaces';
-import { CartIcon } from 'components/icons';
+import { CartContext } from 'context';
 import { Rating } from '../RatingStars';
+import { CartIcon, CheckIcon, TrashIcon } from 'components/icons';
 
-import { Button, Header, Div, ImageWrapper, InfoWrapper, Title, H2, Price, P, Span, Brand, ImageContainer } from './styles';
+import { AddToCartButton, Header, Div, ImageWrapper, InfoWrapper, Title, H2, Price, P, Span, Brand, ImageContainer, RemoveFromCartButton, IsInCartButton } from './styles';
 
-interface Props {
-  product: IProduct;
-}
+interface Props { product: IProduct; }
 
 export const ProductGridCard = ({ product }: Props) => {
 
+  const { cart, addToCart, removeFromCart } = useContext(CartContext);
+  const [isInCart, setInCart] = useState(false);
+  const [isButtonHover, setButtonHover] = useState(false);
+
+  const addProduct = () => {
+    const productToAdd = { ...product, quantity: 1 };
+    addToCart(productToAdd);
+  };
+
+  useEffect(() => {
+    const isInCart = cart.some(p => p.id === product.id);
+    setInCart(isInCart);
+  },[cart, product.id]);
+
   return (
     <Div>
-      <Button>
-        <CartIcon
-          width="22px"
-          height="22px"
-          color="white"
-        />
-      </Button>
+      {
+        isInCart
+          ? (
+            <div 
+              onMouseEnter={() => setButtonHover(true)}
+              onMouseLeave={() => setButtonHover(false)}
+            >
+              {
+                isButtonHover
+                  ? (
+                    <RemoveFromCartButton onClick={() => removeFromCart(product.id)}>
+                      <TrashIcon 
+                        width="22px"
+                        height="22px"
+                        color="white"
+                      />
+                    </RemoveFromCartButton>
+                  )
+                  : (
+                    <IsInCartButton>
+                      <CheckIcon
+                        width="22px"
+                        height="22px"
+                        color="white"
+                      />
+                    </IsInCartButton>
+                  )
+              }
+            </div>
+          )
+          : (
+            <AddToCartButton onClick={addProduct}>
+              <CartIcon
+                width="22px"
+                height="22px"
+                color="white"
+              />
+            </AddToCartButton>
+          )
+      }
       <Link href={`/product/${product.id}`} passHref>
         <ImageWrapper>
           <ImageContainer>

@@ -19,3 +19,5 @@ export * from './StarEmpy';
 export * from './StarFill';
 export * from './StarHalf';
 export * from './Filter';
+export * from './Trash';
+export * from './Check';

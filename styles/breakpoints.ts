@@ -7,5 +7,5 @@ interface IBps {
 export const bp: IBps = {
   mobile: '484px',
   tablet: '830px',
-  desktop: '1280px'
+  desktop: '1140px'
 };

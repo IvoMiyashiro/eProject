@@ -22,6 +22,7 @@ export const Div = styled.div<Styles>`
   overflow: hidden;
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   z-index: 10;
 

@@ -6,7 +6,7 @@ type Data = { ok: boolean, message?: string, products?: any }
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
   const query = req.query;
-  const isFiltered = query.c?.length > 2 || query.b?.length > 2 || query.s === 'true' || query.p?.length > 9;
+  const isFiltered = query.categories?.length > 2 || query.brands?.length > 2 || query.stock === 'true' || query.price?.length > 9;
 
   switch( req.method ) {
   case 'GET':
@@ -48,34 +48,39 @@ const getProducts = async(req: NextApiRequest, res: NextApiResponse<Data>, isFil
 };
 
 const getFilteredProducts = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
-  const reqQuery = req.query;
   let query = '';
   let values: string[] | number[] = [];
-  
-  const bArray = JSON.parse(req.query.b as string);
-  const cArray = JSON.parse(req.query.c as string);
-  const pArray = JSON.parse(req.query.p as string);
 
-  const b_FilterSelected   =  reqQuery.b?.length > 2 && reqQuery.c?.length === 2 && reqQuery.s === 'false'   && reqQuery.p?.length === 9;      
-  const c_FilterSelected   =  reqQuery.c?.length > 2 && reqQuery.b?.length === 2 && reqQuery.s === 'false'   && reqQuery.p?.length === 9;
-  const bc_FilterSelected  =  reqQuery.b?.length > 2 && reqQuery.c?.length > 2   && reqQuery.s === 'false'   && reqQuery.p?.length === 9;
-  const s_FilterSelected   =  reqQuery.s === 'true'  && reqQuery.c?.length === 2 && reqQuery.b?.length === 2 && reqQuery.p?.length === 9;
-  const sb_FilterSelected  =  reqQuery.s === 'true'  && reqQuery.b?.length > 2   && reqQuery.c?.length === 2 && reqQuery.p?.length === 9;
-  const sc_FilterSelected  =  reqQuery.s === 'true'  && reqQuery.c?.length > 2   && reqQuery.b?.length === 2 && reqQuery.p?.length === 9;
-  const sbc_FilterSelected =  reqQuery.s === 'true'  && reqQuery.b?.length > 2   && reqQuery.c?.length > 2   && reqQuery.p?.length === 9;
-  const p_FilterSelected   =  reqQuery.p?.length > 9 && reqQuery.c?.length === 2 && reqQuery.b?.length === 2 && reqQuery.s === 'false';
-  const pb_FilterSelected  =  reqQuery.p?.length > 9 && reqQuery.c?.length === 2 && reqQuery.b?.length > 2   && reqQuery.s === 'false';
-  const pc_FilterSelected  =  reqQuery.p?.length > 9 && reqQuery.c?.length > 2   && reqQuery.b?.length === 2 && reqQuery.s === 'false';
-  const ps_FilterSelected  =  reqQuery.p?.length > 9 && reqQuery.c?.length === 2 && reqQuery.b?.length === 2 && reqQuery.s === 'true';
-  const pbc_FilterSelected =  reqQuery.p?.length > 9 && reqQuery.c?.length > 2   && reqQuery.b?.length > 2   && reqQuery.s === 'false';
-  const pbs_FilterSelected =  reqQuery.p?.length > 9 && reqQuery.c?.length === 2 && reqQuery.b?.length > 2   && reqQuery.s === 'true';
-  const psc_FilterSelected =  reqQuery.p?.length > 9 && reqQuery.c?.length > 2   && reqQuery.b?.length === 2 && reqQuery.s === 'true';
-  const all_FilterSelected =  reqQuery.p?.length > 9 && reqQuery.c?.length > 2   && reqQuery.b?.length > 2   && reqQuery.s === 'true';
+  const offset = req.query.offset || 0;
+  const BRANDS_FILTER_SELECTED     = req.query.brands.length > 2;
+  const CATEGORIES_FILTER_SELECTED = req.query.categories.length > 2;
+  const PRICE_FILTER_SELECTED      = req.query.price.length > 2;
+  const STOCK_FILTER_SELECTED      = req.query.stock === 'true';
+  
+  const bArray = JSON.parse(req.query.brands as string);
+  const cArray = JSON.parse(req.query.categories as string);
+  const pArray = JSON.parse(req.query.price as string);
+
+  const b_FilterSelected   =   BRANDS_FILTER_SELECTED && !CATEGORIES_FILTER_SELECTED && !PRICE_FILTER_SELECTED && !STOCK_FILTER_SELECTED;
+  const c_FilterSelected   =  !BRANDS_FILTER_SELECTED &&  CATEGORIES_FILTER_SELECTED && !PRICE_FILTER_SELECTED && !STOCK_FILTER_SELECTED;
+  const bc_FilterSelected  =   BRANDS_FILTER_SELECTED &&  CATEGORIES_FILTER_SELECTED && !PRICE_FILTER_SELECTED && !STOCK_FILTER_SELECTED;
+  const s_FilterSelected   =  !BRANDS_FILTER_SELECTED && !CATEGORIES_FILTER_SELECTED && !PRICE_FILTER_SELECTED &&  STOCK_FILTER_SELECTED;
+  const sb_FilterSelected  =   BRANDS_FILTER_SELECTED && !CATEGORIES_FILTER_SELECTED && !PRICE_FILTER_SELECTED &&  STOCK_FILTER_SELECTED;
+  const sc_FilterSelected  =  !BRANDS_FILTER_SELECTED &&  CATEGORIES_FILTER_SELECTED && !PRICE_FILTER_SELECTED &&  STOCK_FILTER_SELECTED;
+  const sbc_FilterSelected =   BRANDS_FILTER_SELECTED &&  CATEGORIES_FILTER_SELECTED && !PRICE_FILTER_SELECTED &&  STOCK_FILTER_SELECTED;
+  const p_FilterSelected   =  !BRANDS_FILTER_SELECTED && !CATEGORIES_FILTER_SELECTED &&  PRICE_FILTER_SELECTED && !STOCK_FILTER_SELECTED;
+  const pb_FilterSelected  =   BRANDS_FILTER_SELECTED && !CATEGORIES_FILTER_SELECTED &&  PRICE_FILTER_SELECTED && !STOCK_FILTER_SELECTED;
+  const pc_FilterSelected  =  !BRANDS_FILTER_SELECTED &&  CATEGORIES_FILTER_SELECTED &&  PRICE_FILTER_SELECTED && !STOCK_FILTER_SELECTED;
+  const ps_FilterSelected  =  !BRANDS_FILTER_SELECTED && !CATEGORIES_FILTER_SELECTED &&  PRICE_FILTER_SELECTED &&  STOCK_FILTER_SELECTED;
+  const pbc_FilterSelected =   BRANDS_FILTER_SELECTED &&  CATEGORIES_FILTER_SELECTED &&  PRICE_FILTER_SELECTED && !STOCK_FILTER_SELECTED;
+  const pbs_FilterSelected =   BRANDS_FILTER_SELECTED && !CATEGORIES_FILTER_SELECTED &&  PRICE_FILTER_SELECTED &&  STOCK_FILTER_SELECTED;
+  const psc_FilterSelected =  !BRANDS_FILTER_SELECTED &&  CATEGORIES_FILTER_SELECTED &&  PRICE_FILTER_SELECTED &&  STOCK_FILTER_SELECTED;
+  const all_FilterSelected =   BRANDS_FILTER_SELECTED &&  CATEGORIES_FILTER_SELECTED &&  PRICE_FILTER_SELECTED &&  STOCK_FILTER_SELECTED;
 
   if (b_FilterSelected) {
     // console.log('Filtro B');
-    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product WHERE brand = ANY ($1)';
-    values = [bArray];
+    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product WHERE brand = ANY ($1) LIMIT 12 OFFSET ($2)';
+    values = [bArray, offset];
 
   } else if (c_FilterSelected) {
     // console.log('Filtro C');

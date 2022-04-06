@@ -42,9 +42,9 @@ export const CartProvider: FC = ({ children }) => {
   }, [state.cart]);
 
   useEffect(() => {
-    const orderPrice    = state.cart.reduce( (prev, current) => (current.price * current.quantity) + prev, 0);
-    const orderDiscount = state.cart.reduce( (prev, current) => ((current.price - current.discount_price) * current.quantity) + prev, 0);
-    const orderTotalPrice = state.cart.reduce( (prev, current) => (current.discount_price * current.quantity) + prev, 0);
+    const orderPrice    = state.cart.reduce((prev, current) => (current.price * current.quantity) + prev, 0);
+    const orderDiscount = state.cart.reduce((prev, current) => ((current.price - current.discount_price) * current.quantity) + prev, 0);
+    const orderTotalPrice = state.cart.reduce((prev, current) => (current.discount_price * current.quantity) + prev, 0);
 
     const orderSummary = {
       orderPrice,

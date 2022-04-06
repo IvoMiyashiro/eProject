@@ -3,3 +3,4 @@ export * from './Manufacturers';
 export * from './PriceFilter';
 export * from './Skeleton';
 export * from './Stock';
+export * from './Input';

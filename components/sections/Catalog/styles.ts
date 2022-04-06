@@ -28,6 +28,7 @@ export const ProductListAsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, 250px);
   gap: 2.5em;
+  padding-bottom: 2em;
 
   @media (max-width: ${bp.desktop}) {
     justify-content: center;
@@ -72,4 +73,10 @@ export const A = styled.a`
 
 export const P = styled.p`
   margin-top: -0.15em;
+`;
+
+export const ScrollSpinnerWrapper = styled.div`
+  padding: 2em;
+  display: flex;
+  justify-content: center;
 `;

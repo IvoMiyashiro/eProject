@@ -23,11 +23,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 const getProducts = async(req: NextApiRequest, res: NextApiResponse<Data>, isFiltered: boolean) => {
 
   if (isFiltered) return getFilteredProducts(req, res);
-
-  const query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product';
-
+  
+  const offset = req.query.offset || 0;
+  
+  const query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product LIMIT 12 OFFSET ($1)';
+  const value = [offset];
+  
   try {
-    const { rows } = await db.conn.query(query);
+    const { rows } = await db.conn.query(query, value);
 
     return res.status(200).json({
       ok: true,
@@ -46,7 +49,6 @@ const getProducts = async(req: NextApiRequest, res: NextApiResponse<Data>, isFil
 
 const getFilteredProducts = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
   const reqQuery = req.query;
-  
   let query = '';
   let values: string[] | number[] = [];
   

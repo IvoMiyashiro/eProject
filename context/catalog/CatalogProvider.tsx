@@ -1,29 +1,9 @@
 import { FC, useEffect, useReducer } from 'react';
 import Cookies from 'js-cookie';
 
-import { CatalogContext, catalogReducer } from './';
 import { BrandList, CategoryList, IProduct } from 'interfaces';
 import { getBrands, getCategories, getProducts } from 'services';
-
-export interface ProductListState {
-  productList: IProduct[];
-  categories: CategoryList[];
-  brands: BrandList[];
-  isLoading: boolean;
-  isFilterMenuOpen: boolean;
-  haveMoreProducts: boolean;
-  display: 'grid' | 'list';
-}
-
-const PRODUCT_LIST_INIT_STATE: ProductListState = {
-  productList: [],
-  categories: [],
-  brands: [],
-  isLoading: true,
-  isFilterMenuOpen: false,
-  haveMoreProducts: false,
-  display: 'grid'
-};
+import { CatalogContext, catalogReducer, Filters, PRODUCT_LIST_INIT_STATE } from './';
 
 export const CatalogProvider: FC = ({ children }) => {
 
@@ -46,23 +26,15 @@ export const CatalogProvider: FC = ({ children }) => {
     }
   }, []);
 
-  const startLoading = () => {
-    dispatch({ type: '[PRODUCT LIST] - START LOADING' });
-  };
-
-  const toggleFilterMenu = () => {
-    dispatch({ type: '[PRODUCT LIST] - TOGGLE FILTER MENU' });
-  };
-
-  const applyCatalogFilter = async (
-    categoryQuery: string,
-    brandQuery: string,
-    stockQuery: boolean,
-    priceQuery: string
-  ) => {
+  const applyCatalogFilter = async (offset: number = 0, filters: Filters) => {
+    const { categories, brands, stock, price } = filters;
     startLoading();
-    const resp = await fetch(`/api/products?c=${categoryQuery}&b=${brandQuery}&s=${stockQuery}&p=${priceQuery}`);
-    const { products } = await resp.json();
+    
+    const products = await getProducts(offset, categories, brands, stock, price);
+    console.log(products);
+    if (products.length === 0) {
+      return dispatch({ type: '[PRODUCT LIST] - NO MORE PRODUCTS' });
+    }
 
     dispatch({
       type: '[PRODUCT LIST] - APPLY FILTERS',
@@ -79,13 +51,11 @@ export const CatalogProvider: FC = ({ children }) => {
   };
 
   const changeDisplayToGrid = () => {
-    Cookies.remove('PRODUCT_DISPLAY');
     Cookies.set('PRODUCT_DISPLAY', 'grid');
     dispatch({ type: '[PRODUCT LIST] - CHANGE DISPLAY TO GRID' });
   };
 
   const changeDisplayToList = () => {
-    Cookies.remove('PRODUCT_DISPLAY');
     Cookies.set('PRODUCT_DISPLAY', 'list');
     dispatch({ type: '[PRODUCT LIST] - CHANGE DISPLAY TO LIST' });
   };
@@ -125,17 +95,61 @@ export const CatalogProvider: FC = ({ children }) => {
     });
   };
 
+  const startLoading = () => {
+    dispatch({ type: '[PRODUCT LIST] - START LOADING' });
+  };
+
+  const toggleFilterMenu = () => {
+    dispatch({ type: '[PRODUCT LIST] - TOGGLE FILTER MENU' });
+  };
+
+  const updateStockFilter = () => {
+    dispatch({ type: '[PRODUCT LIST] - TOGGLE STOCK FILTER' });
+  };
+
+  const updateCategoriesFilter = (value: CategoryList) => {
+    const isInFiltersArr = state.filters.categories.includes(value);
+
+    if (isInFiltersArr) {
+      const newFilter = state.filters.categories.filter(category => (category !== value));
+      return dispatch({ type: '[PRODUCT LIST] - UPDATE CATEGORIES FILTER', payload: newFilter });
+    }
+
+    const newFilter = [...state.filters.categories, value];
+    dispatch({ type: '[PRODUCT LIST] - UPDATE CATEGORIES FILTER', payload: newFilter });
+  };
+
+  const updateBrandsFilter = (value: BrandList) => {
+    const isInFiltersArr = state.filters.brands.includes(value);
+
+    if (isInFiltersArr) {
+      const newFilter = state.filters.brands.filter(brands => (brands !== value));
+      return dispatch({ type: '[PRODUCT LIST] - UPDATE BRANDS FILTER', payload: newFilter });
+    }
+
+    const newFilter = [...state.filters.brands, value];
+    dispatch({ type: '[PRODUCT LIST] - UPDATE BRANDS FILTER', payload: newFilter });
+  };
+
+  const updatePriceFilter = (minValue: number, maxValue: number) => {
+    dispatch({ type: '[PRODUCT LIST] - UPDATE PRICE FILTER', payload: [minValue, maxValue]});
+  };
+  
   return (
     <CatalogContext.Provider value={{
       ...state,
 
       //Methods
       applyCatalogFilter,
-      sortCatalog,
       changeDisplayToGrid,
       changeDisplayToList,
+      loadProducts,
+      sortCatalog,
       toggleFilterMenu,
-      loadProducts
+      updateBrandsFilter,
+      updateCategoriesFilter,
+      updatePriceFilter,
+      updateStockFilter
     }}>
       { children }
     </CatalogContext.Provider>

@@ -12,8 +12,9 @@ interface Props {
   href?: string;
   isLink?: boolean;
   width?: string;
+  fontSize?: string;
   type: 'button' | 'submit' | 'reset';
-  onClick?: () => void | undefined;
+  onClick?: any;
 }
 
 export const Button = ({ 
@@ -25,6 +26,7 @@ export const Button = ({
   bRadius = '0px',
   width = '100%',
   height = '100%',
+  fontSize = '0.8rem',
   type = 'button',
   onClick
 }: Props) => {
@@ -34,13 +36,13 @@ export const Button = ({
         isLink
           ? (
             <Link href={href} passHref>
-              <ButtonWrapper color={textColor} bgColor={bgColor} bRadius={bRadius} width={width} height={height}>
+              <ButtonWrapper color={textColor} bgColor={bgColor} bRadius={bRadius} width={width} height={height} fontSize={fontSize}>
                 { children }
               </ButtonWrapper>
             </Link>
           )
           : (
-            <ButtonWrapper type={type} onClick={onClick} color={textColor} bgColor={bgColor} bRadius={bRadius} width={width} height={height}>
+            <ButtonWrapper type={type} onClick={onClick} color={textColor} bgColor={bgColor} bRadius={bRadius} width={width} height={height} fontSize={fontSize}>
               { children}
             </ButtonWrapper>
           )
@@ -55,6 +57,7 @@ interface Styles {
   bRadius: string;
   width: string;
   height: string;
+  fontSize: string;
 }
 
 const ButtonWrapper = styled.button<Styles>`
@@ -67,4 +70,5 @@ const ButtonWrapper = styled.button<Styles>`
   height: ${props => props.height};
   justify-content: center;
   width: ${props => props.width};
+  font-size: ${props => props.fontSize};
 `;

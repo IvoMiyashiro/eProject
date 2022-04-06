@@ -1,13 +1,24 @@
-import { ChangeEvent } from 'react';
+import { useContext, useState } from 'react';
+
+import { CatalogContext } from 'context';
 import { Skeleton } from '../Skeleton';
-import { Div, H3, Section, Label, Input } from '../../styles';
+import { Button } from 'components/ui/Button';
 
-interface Props {
-  handleStockInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  isLoading: boolean;
-}
+import { Div, H3, Section, Label, Input, ButtonWrapper } from '../../styles';
+import { lightTheme } from 'styles';
 
-export const Stock = ({ handleStockInputChange, isLoading }: Props) => {
+export const Stock = () => {
+
+  const { filters, isLoading, updateStockFilter, applyCatalogFilter } = useContext(CatalogContext);
+  const [isButtonVisible, setButtonVisible] = useState(false);
+  const [isChecked, setChecked] = useState(false);
+
+  const handleInputChange = () => {
+    updateStockFilter();
+    setButtonVisible(prev => !prev);
+    setChecked(prev => !prev);
+  };
+
   return (
     <Div>
       {
@@ -20,13 +31,31 @@ export const Stock = ({ handleStockInputChange, isLoading }: Props) => {
                 <Label>           
                   <Input 
                     type="checkbox"
-                    onChange={handleStockInputChange}
+                    onChange={handleInputChange}
+                    checked={isChecked}
                   />
                   Exclude out of stock items. 
                 </Label>
               </Section>
             </>
           )
+      }
+
+      {
+        isButtonVisible
+        &&
+        <ButtonWrapper>
+          <Button
+            bgColor={lightTheme.color_tertiary_0}
+            bRadius="4px"
+            textColor={lightTheme.color_ui_text_main}
+            type="button"
+            fontSize="0.75rem"
+            onClick={() => {applyCatalogFilter(filters); setButtonVisible(false);}}
+          >
+            Apply
+          </Button>
+        </ButtonWrapper>
       }
     </Div>
   );

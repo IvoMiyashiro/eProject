@@ -1,16 +1,17 @@
-import { ChangeEvent } from 'react';
+import { useContext, useState } from 'react';
 
-import { CategoryList } from 'interfaces';
-import { Div, H3, Section, Label, Input } from '../../styles';
-import { Skeleton } from '../Skeleton';
+import { CatalogContext } from 'context';
+import { Input, Skeleton } from '../';
+import { Button } from 'components/ui/Button';
 
-interface Props {
-  handleCategInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  categories: CategoryList[];
-  isLoading: boolean;
-}
+import { lightTheme } from 'styles';
+import { Div, H3, ButtonWrapper } from '../../styles';
 
-export const Categories = ({ handleCategInputChange, categories, isLoading }: Props) => {
+export const Categories = () => {
+  
+  const { filters, categories, isLoading, applyCatalogFilter } = useContext(CatalogContext);
+  const [isButtonVisible, setButtonVisible] = useState(false);
+
   return (
     <Div>
       {
@@ -22,21 +23,32 @@ export const Categories = ({ handleCategInputChange, categories, isLoading }: Pr
               {
                 categories.map((category, i) => {
                   return (
-                    <Section key={i}>
-                      <Label>
-                        <Input
-                          type="checkbox"
-                          value={category}
-                          onChange={handleCategInputChange}
-                        />
-                        {category}
-                      </Label>
-                    </Section>
+                    <Input
+                      key={i}
+                      data={category}
+                      handleButtonVisible={setButtonVisible}
+                    />
                   );
                 })
               }
             </>
           )
+      }
+      {
+        isButtonVisible
+        &&
+        <ButtonWrapper>
+          <Button
+            bgColor={lightTheme.color_tertiary_0}
+            bRadius="4px"
+            textColor={lightTheme.color_ui_text_main}
+            type="button"
+            fontSize="0.75rem"
+            onClick={() => {applyCatalogFilter(filters); setButtonVisible(false);}}
+          >
+            Apply
+          </Button>
+        </ButtonWrapper>
       }
     </Div>
   );

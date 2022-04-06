@@ -1,25 +1,16 @@
 import { useContext } from 'react';
 import Link from 'next/link';
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { CatalogContext } from 'context';
-import { AsideFilter, Modal, ProductGridCard, ProductListCard, Spinner } from 'components/ui';
+import { AsideFilter, Modal } from 'components/ui';
 import { Header } from './Header';
 
-import { Div, Wrapper, SpinnerWrapper, ProductListAsGrid, ProductListAsList, Section, A, P, ScrollSpinnerWrapper } from './styles';
+import { Div, Wrapper, Section, A, P } from './styles';
+import { ProductList } from './ProductList';
 
 export const Catalog = () => {
 
-  const { 
-    productList,
-    isLoading,
-    display,
-    isFilterMenuOpen,
-    haveMoreProducts,
-    toggleFilterMenu,
-    loadProducts
-  } = useContext(CatalogContext);
-  const offset = productList.reduce(() => (productList.length), 0);
+  const { isFilterMenuOpen,productList,toggleFilterMenu } = useContext(CatalogContext);
 
   return (
     <>
@@ -38,44 +29,7 @@ export const Catalog = () => {
         </Wrapper>
         <Wrapper>
           <Header />
-          {
-            isLoading
-              ? (
-                <SpinnerWrapper>
-                  <Spinner />
-                </SpinnerWrapper>
-              )
-              : (
-                <InfiniteScroll
-                  dataLength={productList.length}
-                  next={() => loadProducts(offset)}
-                  hasMore={haveMoreProducts}
-                  loader={<ScrollSpinnerWrapper><Spinner /></ScrollSpinnerWrapper>}
-                >
-                  {
-                    display === 'grid'
-                      ? (
-                        <ProductListAsGrid>
-                          {
-                            productList.map(product => {
-                              return <ProductGridCard key={product.id} product={product} />;
-                            })
-                          }
-                        </ProductListAsGrid>
-                      )
-                      : (
-                        <ProductListAsList>
-                          {
-                            productList.map(product => {
-                              return <ProductListCard key={product.id} product={product} />;
-                            })
-                          }
-                        </ProductListAsList>
-                      )
-                  }
-                </InfiniteScroll>
-              )
-          }
+          <ProductList />
         </Wrapper>
         {
           isFilterMenuOpen

@@ -7,6 +7,7 @@ interface ContextProps {
   brands: BrandList[];
   isLoading: boolean;
   isFilterMenuOpen: boolean;
+  haveMoreProducts: boolean;
   display: 'grid' | 'list';
 
   //Methods
@@ -15,6 +16,7 @@ interface ContextProps {
   changeDisplayToGrid: () => void;
   changeDisplayToList: () => void;
   toggleFilterMenu: () => void;
+  loadProducts: (offset: number) => void;
 }
 
 export const CatalogContext = createContext({} as ContextProps);

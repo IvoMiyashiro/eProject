@@ -1,9 +1,9 @@
 import { FC, useEffect, useReducer } from 'react';
 import Cookies from 'js-cookie';
 
-import { array } from 'utils';
-import { BrandList, CategoryList, IProduct } from 'interfaces';
 import { CatalogContext, catalogReducer } from './';
+import { BrandList, CategoryList, IProduct } from 'interfaces';
+import { getBrands, getCategories, getProducts } from 'services';
 
 export interface ProductListState {
   productList: IProduct[];
@@ -11,6 +11,7 @@ export interface ProductListState {
   brands: BrandList[];
   isLoading: boolean;
   isFilterMenuOpen: boolean;
+  haveMoreProducts: boolean;
   display: 'grid' | 'list';
 }
 
@@ -20,7 +21,8 @@ const PRODUCT_LIST_INIT_STATE: ProductListState = {
   brands: [],
   isLoading: true,
   isFilterMenuOpen: false,
-  display: 'grid',
+  haveMoreProducts: false,
+  display: 'grid'
 };
 
 export const CatalogProvider: FC = ({ children }) => {
@@ -28,22 +30,19 @@ export const CatalogProvider: FC = ({ children }) => {
   const [state, dispatch] = useReducer(catalogReducer, PRODUCT_LIST_INIT_STATE);
 
   useEffect(() => {
-    loadData();
+    loadProducts();
+    loadBrands();
+    loadCategories();
   }, []);
 
   useEffect(() => {
-    const productDisplay = Cookies.get('PRODUCT_DISPLAY');
+    try {
+      const cookieDisplay = Cookies.get('PRODUCT_DISPLAY') ? Cookies.get('PRODUCT_DISPLAY')! : '';
 
-    if (!!!productDisplay) {
+      if (cookieDisplay === 'list') return changeDisplayToList();
+      if (cookieDisplay === 'grid') return changeDisplayToGrid();
+    } catch (error) {
       Cookies.set('PRODUCT_DISPLAY', 'grid');
-    };
-
-    if (productDisplay === 'list') {
-      changeDisplayToList();
-    }
-
-    if (productDisplay === 'grid') {
-      changeDisplayToGrid();
     }
   }, []);
 
@@ -91,37 +90,39 @@ export const CatalogProvider: FC = ({ children }) => {
     dispatch({ type: '[PRODUCT LIST] - CHANGE DISPLAY TO LIST' });
   };
 
-  const loadData = async () => {
+  const loadProducts = async (offset: number = 0) => {
+    const products = await getProducts(offset);
 
-    try {
-      const productResp = await fetch('/api/products');
-      const { ok, products } = await productResp.json();
-      
-      if (!ok) return;
-      
-      dispatch({
-        type: '[PRODUCT LIST] - LOAD PRODUCTS',
-        payload: products
-      });
-  
-      const brands = products.map((product: IProduct) => {
-        return product.brand;
-      });
-      dispatch({
-        type: '[PRODUCT LIST] - LOAD BRANDS',
-        payload: array.uniqueArr(brands)
-      });
-  
-      const category = products.map((product: IProduct) => {
-        return product.category;
-      });
-      dispatch({
-        type: '[PRODUCT LIST] - LOAD CATEGORIES',
-        payload: array.uniqueArr(category)
-      });
-    } catch (error) {
-      console.log(error);  
+    if (products.length === 0) {
+      return dispatch({ type: '[PRODUCT LIST] - NO MORE PRODUCTS' });
     }
+
+    dispatch({
+      type: '[PRODUCT LIST] - LOAD PRODUCTS',
+      payload: products
+    });
+  };
+
+  const loadBrands = async () => {
+    const brands = await getBrands();
+
+    dispatch({
+      type: '[PRODUCT LIST] - LOAD BRANDS',
+      payload: brands.map(brand => {
+        return brand.brand_name;
+      })
+    });
+  };
+
+  const loadCategories = async () => {
+    const categories = await getCategories();
+
+    dispatch({
+      type: '[PRODUCT LIST] - LOAD CATEGORIES',
+      payload: categories.map(category => {
+        return category.category_name;
+      })
+    });
   };
 
   return (
@@ -133,7 +134,8 @@ export const CatalogProvider: FC = ({ children }) => {
       sortCatalog,
       changeDisplayToGrid,
       changeDisplayToList,
-      toggleFilterMenu
+      toggleFilterMenu,
+      loadProducts
     }}>
       { children }
     </CatalogContext.Provider>

@@ -11,6 +11,8 @@ type ProductListActionType =
   | { type: '[PRODUCT LIST] - CHANGE DISPLAY TO GRID' }
   | { type: '[PRODUCT LIST] - CHANGE DISPLAY TO LIST' }
   | { type: '[PRODUCT LIST] - TOGGLE FILTER MENU'}
+  | { type: '[PRODUCT LIST] - NO MORE PRODUCTS' }
+;
 
 export const catalogReducer = (state: ProductListState, action: ProductListActionType): ProductListState => {
 
@@ -25,7 +27,11 @@ export const catalogReducer = (state: ProductListState, action: ProductListActio
   case '[PRODUCT LIST] - LOAD PRODUCTS':
     return {
       ...state,
-      productList: action.payload,
+      productList: [
+        ...state.productList,
+        ...action.payload
+      ],
+      haveMoreProducts: true,
       isLoading: false
     };
 
@@ -74,6 +80,13 @@ export const catalogReducer = (state: ProductListState, action: ProductListActio
       ...state,
       isFilterMenuOpen: !state.isFilterMenuOpen
     };
+  
+  case '[PRODUCT LIST] - NO MORE PRODUCTS':
+    return {
+      ...state,
+      haveMoreProducts: false
+    };
+
 
   default:
     return state;

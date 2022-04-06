@@ -10,10 +10,15 @@ export const getProducts = async (
   categories: CategoryList[] = [],
   brands: BrandList[] = [],
   stock: boolean = false,
-  price: [] = []
+  price: number[] = []
 ): Promise<IProduct[]> => {
   
-  const resp = await fetch(`/api/products?offset=${offset}&categories=${categories}&brands=${brands}&stock=${stock}&price=${price}`);
+  const encodeBrands     = encodeURIComponent(JSON.stringify(brands));
+  const encodeCategories = encodeURIComponent(JSON.stringify(categories));
+  const encodeStock      = encodeURIComponent(JSON.stringify(stock));
+  const encodePrice      = encodeURIComponent(JSON.stringify(price));
+
+  const resp = await fetch(`/api/products?offset=${offset}&categories=${encodeCategories}&brands=${encodeBrands}&stock=${encodeStock}&price=${encodePrice}`);
   const { ok, products }: Response = await resp.json();
 
   if (!ok) return [];

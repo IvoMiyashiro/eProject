@@ -2,11 +2,14 @@ import styled from 'styled-components';
 import { bp } from 'styles';
 
 export const Aside = styled.aside`
+  display: flex;
   border-radius: 4px;
   box-shadow:
   0px 0px 1.1px rgba(0, 0, 0, 0.044),
   0px 0px 3.8px rgba(0, 0, 0, 0.066),
   0px 0px 17px rgba(0, 0, 0, 0.11);
+  flex-direction: column;
+  gap: 1.25em;
   padding: 1.25em;
   width: 100%;
   background-color: ${props => props.theme.color_ui_background};
@@ -16,12 +19,6 @@ export const Aside = styled.aside`
     height: 550px;
     overflow-y: scroll;
   }
-`;
-
-export const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1.25em;
 `;
 
 export const Div = styled.div``;
@@ -51,5 +48,11 @@ export const Wrapper = styled.div`
   display: flex;
   gap: 1em;
   height: 30px;
+  margin-top: 1em;
+`;
+
+export const ButtonWrapper = styled.div`
+  height: 20px;
+  width: 75px;
   margin-top: 1em;
 `;

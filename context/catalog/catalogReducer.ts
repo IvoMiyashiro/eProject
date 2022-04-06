@@ -12,6 +12,10 @@ type ProductListActionType =
   | { type: '[PRODUCT LIST] - CHANGE DISPLAY TO LIST' }
   | { type: '[PRODUCT LIST] - TOGGLE FILTER MENU'}
   | { type: '[PRODUCT LIST] - NO MORE PRODUCTS' }
+  | { type: '[PRODUCT LIST] - UPDATE BRANDS FILTER', payload: BrandList[]}
+  | { type: '[PRODUCT LIST] - UPDATE CATEGORIES FILTER', payload: CategoryList[]}
+  | { type: '[PRODUCT LIST] - TOGGLE STOCK FILTER' }
+  | { type: '[PRODUCT LIST] - UPDATE PRICE FILTER', payload: [number, number]}
 ;
 
 export const catalogReducer = (state: ProductListState, action: ProductListActionType): ProductListState => {
@@ -53,6 +57,7 @@ export const catalogReducer = (state: ProductListState, action: ProductListActio
     return {
       ...state,
       productList: action.payload,
+      isFilterApplied: true,
       isLoading: false
     };
 
@@ -84,7 +89,43 @@ export const catalogReducer = (state: ProductListState, action: ProductListActio
   case '[PRODUCT LIST] - NO MORE PRODUCTS':
     return {
       ...state,
-      haveMoreProducts: false
+      haveMoreProducts: false,
+    };
+
+  case '[PRODUCT LIST] - TOGGLE STOCK FILTER':
+    return {
+      ...state,
+      filters: {
+        ...state.filters,
+        stock: !state.filters.stock
+      }
+    };
+
+  case '[PRODUCT LIST] - UPDATE BRANDS FILTER':
+    return {
+      ...state,
+      filters: {
+        ...state.filters,
+        brands: action.payload
+      }
+    };
+
+  case '[PRODUCT LIST] - UPDATE CATEGORIES FILTER':
+    return {
+      ...state,
+      filters: {
+        ...state.filters,
+        categories: action.payload
+      }
+    };
+
+  case '[PRODUCT LIST] - UPDATE PRICE FILTER':
+    return {
+      ...state,
+      filters: {
+        ...state.filters,
+        price: action.payload
+      }
     };
 
 

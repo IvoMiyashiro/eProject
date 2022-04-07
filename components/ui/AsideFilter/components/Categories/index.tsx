@@ -1,21 +1,65 @@
-import { useContext, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+
+import { array } from 'utils';
 
 import { CatalogContext } from 'context';
-import { Input, Skeleton } from '../';
+import { Skeleton } from '../';
 import { Button } from 'components/ui/Button';
 
 import { lightTheme } from 'styles';
-import { Div, H3, ButtonWrapper } from '../../styles';
+import { Div, H3, ButtonWrapper, Section, Label, Input } from '../../styles';
+import { CategoryList } from 'interfaces';
 
 export const Categories = () => {
   
-  const { filters, categories, isLoading, applyCatalogFilter } = useContext(CatalogContext);
+  const { filters, categories, isCategoryLoading, applyCatalogFilter, updateCategoriesFilter } = useContext(CatalogContext);
   const [isButtonVisible, setButtonVisible] = useState(false);
+  const [checkedState, setCheckedState] = useState([false]);
+  const [prevCheckedState, setPrevCheckedState] = useState<[] | boolean[]>([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    setCheckedState(new Array(categories.length).fill(false));
+  },[categories.length]);
+
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>, position: number) => {
+    updateCategoriesFilter(e.target.value as CategoryList);
+    const updatedCheckedState = checkedState.map((item, index) =>
+      index === position ? !item : item
+    );
+    
+    setCheckedState(updatedCheckedState);
+
+    if (prevCheckedState.length === 0) {
+      if (!updatedCheckedState.includes(true)) return setButtonVisible(false);
+      return setButtonVisible(true);
+    }
+
+    if (array.arraysEqual(prevCheckedState, updatedCheckedState)) {
+      return setButtonVisible(false);
+    }
+    return setButtonVisible(true);
+  };
+
+  const handleApplyFilter = () => {
+    router.push({
+      query: {
+        brands: filters.brands,
+        categories: filters.categories,
+        stock: filters.stock,
+        price: filters.price,
+      },
+    }, undefined, { shallow: true });
+    setPrevCheckedState(checkedState);
+    applyCatalogFilter(0, filters, true);
+    setButtonVisible(false);
+  };
 
   return (
     <Div>
       {
-        isLoading
+        isCategoryLoading
           ? <Skeleton rows={8}/>
           : (
             <>
@@ -23,11 +67,17 @@ export const Categories = () => {
               {
                 categories.map((category, i) => {
                   return (
-                    <Input
-                      key={i}
-                      data={category}
-                      handleButtonVisible={setButtonVisible}
-                    />
+                    <Section key={i}>
+                      <Label>
+                        <Input
+                          type="checkbox"
+                          value={category}
+                          onChange={(e) => handleOnChange(e, i)}
+                          checked={checkedState[i]}
+                        />
+                        {category}
+                      </Label>
+                    </Section>
                   );
                 })
               }
@@ -44,7 +94,7 @@ export const Categories = () => {
             textColor={lightTheme.color_ui_text_main}
             type="button"
             fontSize="0.75rem"
-            onClick={() => {applyCatalogFilter(filters); setButtonVisible(false);}}
+            onClick={handleApplyFilter}
           >
             Apply
           </Button>

@@ -9,7 +9,7 @@ import { lightTheme } from 'styles';
 
 export const Stock = () => {
 
-  const { filters, isLoading, updateStockFilter, applyCatalogFilter } = useContext(CatalogContext);
+  const { filters, isBrandLoading, updateStockFilter, applyCatalogFilter } = useContext(CatalogContext);
   const [isButtonVisible, setButtonVisible] = useState(false);
   const [isChecked, setChecked] = useState(false);
 
@@ -22,7 +22,7 @@ export const Stock = () => {
   return (
     <Div>
       {
-        isLoading
+        isBrandLoading
           ? <Skeleton rows={1}/>
           : (
             <>
@@ -51,7 +51,7 @@ export const Stock = () => {
             textColor={lightTheme.color_ui_text_main}
             type="button"
             fontSize="0.75rem"
-            onClick={() => {applyCatalogFilter(filters); setButtonVisible(false);}}
+            onClick={() => {applyCatalogFilter(0, filters); setButtonVisible(false);}}
           >
             Apply
           </Button>

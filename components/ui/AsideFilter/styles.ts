@@ -52,7 +52,14 @@ export const Wrapper = styled.div`
 `;
 
 export const ButtonWrapper = styled.div`
-  height: 20px;
-  width: 75px;
+  height: 22px;
+  width: 100%;
   margin-top: 1em;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+export const ReasetButtonWrapper = styled.div`
+  width: 100%;
+  height: 30px;
 `;

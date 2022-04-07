@@ -13,7 +13,7 @@ interface Props {
   isLink?: boolean;
   width?: string;
   fontSize?: string;
-  type: 'button' | 'submit' | 'reset';
+  type?: 'button' | 'submit' | 'reset';
   onClick?: any;
 }
 

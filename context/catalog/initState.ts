@@ -1,15 +1,17 @@
 import { BrandList, CategoryList, IProduct } from 'interfaces';
 
 export interface ProductListState {
-  brands:           BrandList[];
-  categories:       CategoryList[];
-  display:          'grid' | 'list';
-  filters:          Filters;
-  haveMoreProducts: boolean;
-  isFilterApplied:  boolean;
-  isFilterMenuOpen: boolean;
-  isLoading:        boolean;
-  productList:      IProduct[];
+  brands:            BrandList[];
+  categories:        CategoryList[];
+  display:           'grid' | 'list';
+  filters:           Filters;
+  haveMoreProducts:  boolean;
+  isFilterApplied:   boolean;
+  isFilterMenuOpen:  boolean;
+  isProductLoading:  boolean;
+  isBrandLoading:    boolean;
+  isCategoryLoading: boolean;
+  productList:       IProduct[];
 }
 
 export type Filters = {
@@ -20,18 +22,20 @@ export type Filters = {
 }
 
 export const PRODUCT_LIST_INIT_STATE: ProductListState = {
-  brands: [],
-  categories: [],
-  display: 'grid',
+  brands:       [],
+  categories:   [],
+  display:      'grid',
   filters: {
-    brands: [],
+    brands:     [],
     categories: [],
-    stock: false,
-    price: []
+    stock:      false,
+    price:      []
   },
-  haveMoreProducts: false,
-  isFilterApplied: false,
-  isFilterMenuOpen: false,
-  isLoading: true,
-  productList: [],
+  haveMoreProducts:  false,
+  isFilterApplied:   false,
+  isFilterMenuOpen:  false,
+  isProductLoading:  true,
+  isBrandLoading:    true,
+  isCategoryLoading: true,
+  productList:       [],
 };

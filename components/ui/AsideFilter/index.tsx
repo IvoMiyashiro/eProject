@@ -1,34 +1,33 @@
-import { useContext, useState } from 'react';
-
-import { array } from 'utils';
+import { useContext } from 'react';
+import { useRouter } from 'next/router';
 
 import { CatalogContext } from 'context';
 import { PriceFilter, Stock, Manufacturer, Categories } from './components';
+import { Button } from 'components/ui';
 
-import { Aside } from './styles';
+import { Aside, ReasetButtonWrapper } from './styles';
 
 export const AsideFilter = () => {
 
   const { productList } = useContext(CatalogContext);
-
-  const minmaxPrice = array.minmaxValue(productList);
-  const [minPrice, setMinPrice] = useState<number>(minmaxPrice[0]);
-  const [maxPrice, setMaxPrice] = useState<number>(minmaxPrice[1]);
-  const [validPriceFilter, setValidPriceFilter] = useState<{ ok: boolean; message: string }>({ ok: true, message: '' });
+  const router = useRouter();
 
   return (
     <Aside>
       <Stock />
       <Manufacturer /> 
       <Categories />
-      <PriceFilter
-        minPrice={minPrice} 
-        maxPrice={maxPrice}
-        formError={validPriceFilter}
-        handleMinPrice={setMinPrice} 
-        handleMaxPrice={setMaxPrice} 
-        handleFormError={setValidPriceFilter}
-      />
+      <PriceFilter productList={productList}/>
+      <ReasetButtonWrapper>
+        <Button
+          bRadius='4px'
+          bgColor=''
+          textColor=''
+          onClick={() => router.reload()}
+        >
+          Reset
+        </Button>
+      </ReasetButtonWrapper>
     </Aside>
   );
 };

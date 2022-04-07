@@ -1,4 +1,4 @@
-import { FC, useEffect, useReducer } from 'react';
+import { FC, useCallback, useEffect, useReducer } from 'react';
 import Cookies from 'js-cookie';
 
 import { BrandList, CategoryList, IProduct } from 'interfaces';
@@ -10,10 +10,11 @@ export const CatalogProvider: FC = ({ children }) => {
   const [state, dispatch] = useReducer(catalogReducer, PRODUCT_LIST_INIT_STATE);
 
   useEffect(() => {
-    loadProducts();
     loadBrands();
     loadCategories();
+    loadProducts();
   }, []);
+
 
   useEffect(() => {
     try {
@@ -26,52 +27,62 @@ export const CatalogProvider: FC = ({ children }) => {
     }
   }, []);
 
-  const applyCatalogFilter = async (offset: number = 0, filters: Filters) => {
+
+  const applyCatalogFilter = useCallback( async (offset: number, filters: Filters, firstApply: boolean) => {
     const { categories, brands, stock, price } = filters;
-    startLoading();
-    
+
+    const CATEGORY_FILTER_APPLY = categories?.length === 0;
+    const BRAND_FILTER_APPLY    = brands?.length === 0;
+    const STOCK_FILTER_APPLY    = stock === false;
+    const PRICE_FILTER_APPLY    = price?.length === 0;
+
+    firstApply ? startLoading() : '';
     const products = await getProducts(offset, categories, brands, stock, price);
-    console.log(products);
+    
     if (products.length === 0) {
       return dispatch({ type: '[PRODUCT LIST] - NO MORE PRODUCTS' });
     }
 
-    dispatch({
-      type: '[PRODUCT LIST] - APPLY FILTERS',
+    if (CATEGORY_FILTER_APPLY && BRAND_FILTER_APPLY && STOCK_FILTER_APPLY && PRICE_FILTER_APPLY) {
+      dispatch({ type: '[PRODUCT LIST] - FILTERS NOT APPLIED' });
+      return loadProducts(0, true);
+    }
+
+    if (firstApply) {
+      return dispatch({
+        type: '[PRODUCT LIST] - APPLY FILTERS',
+        payload: products
+      });
+    }
+
+    return dispatch({
+      type: '[PRODUCT LIST] - LOAD PRODUCTS',
       payload: products
     });
-  };
+  }, []);
 
-  const sortCatalog = (products: IProduct[]) => {
-    startLoading();
-    dispatch({
-      type: '[PRODUCT LIST] - SORT PRODUCT LIST',
-      payload: products
-    });
-  };
-
-  const changeDisplayToGrid = () => {
-    Cookies.set('PRODUCT_DISPLAY', 'grid');
-    dispatch({ type: '[PRODUCT LIST] - CHANGE DISPLAY TO GRID' });
-  };
-
-  const changeDisplayToList = () => {
-    Cookies.set('PRODUCT_DISPLAY', 'list');
-    dispatch({ type: '[PRODUCT LIST] - CHANGE DISPLAY TO LIST' });
-  };
-
-  const loadProducts = async (offset: number = 0) => {
+  const loadProducts = async (offset: number = 0, fromStart = false) => {
     const products = await getProducts(offset);
 
     if (products.length === 0) {
       return dispatch({ type: '[PRODUCT LIST] - NO MORE PRODUCTS' });
     }
 
+    if (!fromStart) {
+      return dispatch({
+        type: '[PRODUCT LIST] - LOAD PRODUCTS',
+        payload: products
+      });
+    }
+
     dispatch({
-      type: '[PRODUCT LIST] - LOAD PRODUCTS',
+      type: '[PRODUCT LIST] - LOAD PRODUCTS FROM START',
       payload: products
     });
+
   };
+
+
 
   const loadBrands = async () => {
     const brands = await getBrands();
@@ -84,6 +95,8 @@ export const CatalogProvider: FC = ({ children }) => {
     });
   };
 
+
+
   const loadCategories = async () => {
     const categories = await getCategories();
 
@@ -95,17 +108,7 @@ export const CatalogProvider: FC = ({ children }) => {
     });
   };
 
-  const startLoading = () => {
-    dispatch({ type: '[PRODUCT LIST] - START LOADING' });
-  };
 
-  const toggleFilterMenu = () => {
-    dispatch({ type: '[PRODUCT LIST] - TOGGLE FILTER MENU' });
-  };
-
-  const updateStockFilter = () => {
-    dispatch({ type: '[PRODUCT LIST] - TOGGLE STOCK FILTER' });
-  };
 
   const updateCategoriesFilter = (value: CategoryList) => {
     const isInFiltersArr = state.filters.categories.includes(value);
@@ -119,6 +122,8 @@ export const CatalogProvider: FC = ({ children }) => {
     dispatch({ type: '[PRODUCT LIST] - UPDATE CATEGORIES FILTER', payload: newFilter });
   };
 
+
+
   const updateBrandsFilter = (value: BrandList) => {
     const isInFiltersArr = state.filters.brands.includes(value);
 
@@ -131,8 +136,52 @@ export const CatalogProvider: FC = ({ children }) => {
     dispatch({ type: '[PRODUCT LIST] - UPDATE BRANDS FILTER', payload: newFilter });
   };
 
+
+
+  const sortCatalog = (products: IProduct[]) => {
+    startLoading();
+    dispatch({
+      type: '[PRODUCT LIST] - SORT PRODUCT LIST',
+      payload: products
+    });
+  };
+
+
+
+  const changeDisplayToGrid = () => {
+    Cookies.set('PRODUCT_DISPLAY', 'grid');
+    dispatch({ type: '[PRODUCT LIST] - CHANGE DISPLAY TO GRID' });
+  };
+
+
+
+  const changeDisplayToList = () => {
+    Cookies.set('PRODUCT_DISPLAY', 'list');
+    dispatch({ type: '[PRODUCT LIST] - CHANGE DISPLAY TO LIST' });
+  };
+
+
+
   const updatePriceFilter = (minValue: number, maxValue: number) => {
     dispatch({ type: '[PRODUCT LIST] - UPDATE PRICE FILTER', payload: [minValue, maxValue]});
+  };
+
+
+
+  const startLoading = () => {
+    dispatch({ type: '[PRODUCT LIST] - START LOADING PRODUCTS' });
+  };
+
+
+
+  const toggleFilterMenu = () => {
+    dispatch({ type: '[PRODUCT LIST] - TOGGLE FILTER MENU' });
+  };
+
+
+  
+  const updateStockFilter = () => {
+    dispatch({ type: '[PRODUCT LIST] - TOGGLE STOCK FILTER' });
   };
   
   return (

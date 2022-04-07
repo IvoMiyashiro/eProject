@@ -2,7 +2,7 @@ import { BrandList, CategoryList, IProduct } from 'interfaces';
 import { ProductListState } from './';
 
 type ProductListActionType = 
-  | { type: '[PRODUCT LIST] - START LOADING' }
+  | { type: '[PRODUCT LIST] - START LOADING PRODUCTS' }
   | { type: '[PRODUCT LIST] - LOAD PRODUCTS', payload: IProduct[] }
   | { type: '[PRODUCT LIST] - LOAD BRANDS', payload: BrandList[] }
   | { type: '[PRODUCT LIST] - LOAD CATEGORIES', payload: CategoryList[] }
@@ -16,16 +16,18 @@ type ProductListActionType =
   | { type: '[PRODUCT LIST] - UPDATE CATEGORIES FILTER', payload: CategoryList[]}
   | { type: '[PRODUCT LIST] - TOGGLE STOCK FILTER' }
   | { type: '[PRODUCT LIST] - UPDATE PRICE FILTER', payload: [number, number]}
+  | { type: '[PRODUCT LIST] - FILTERS NOT APPLIED' }
+  | { type: '[PRODUCT LIST] - LOAD PRODUCTS FROM START', payload: IProduct[]}
 ;
 
 export const catalogReducer = (state: ProductListState, action: ProductListActionType): ProductListState => {
 
   switch (action.type) {
 
-  case '[PRODUCT LIST] - START LOADING':
+  case '[PRODUCT LIST] - START LOADING PRODUCTS':
     return {
       ...state,
-      isLoading: true
+      isProductLoading: true
     };
 
   case '[PRODUCT LIST] - LOAD PRODUCTS':
@@ -36,36 +38,48 @@ export const catalogReducer = (state: ProductListState, action: ProductListActio
         ...action.payload
       ],
       haveMoreProducts: true,
-      isLoading: false
+      isProductLoading: false
+    };
+  
+  case '[PRODUCT LIST] - LOAD PRODUCTS FROM START':
+    return {
+      ...state,
+      productList: [
+        ...action.payload
+      ],
+      haveMoreProducts: true,
+      isProductLoading: false
     };
 
   case '[PRODUCT LIST] - LOAD CATEGORIES':
     return {
       ...state,
       categories: action.payload,
-      isLoading: false
+      isCategoryLoading: false
     };
 
   case '[PRODUCT LIST] - LOAD BRANDS':
     return {
       ...state,
       brands: action.payload,
-      isLoading: false
+      isBrandLoading: false
     };
 
   case '[PRODUCT LIST] - APPLY FILTERS':
     return {
       ...state,
-      productList: action.payload,
+      productList: [
+        ...action.payload,
+      ],
       isFilterApplied: true,
-      isLoading: false
+      isProductLoading: false
     };
 
   case '[PRODUCT LIST] - SORT PRODUCT LIST':
     return {
       ...state,
       productList: action.payload,
-      isLoading: false
+      isProductLoading: false
     };
 
   case '[PRODUCT LIST] - CHANGE DISPLAY TO GRID':
@@ -90,6 +104,7 @@ export const catalogReducer = (state: ProductListState, action: ProductListActio
     return {
       ...state,
       haveMoreProducts: false,
+      isProductLoading: false
     };
 
   case '[PRODUCT LIST] - TOGGLE STOCK FILTER':
@@ -128,6 +143,11 @@ export const catalogReducer = (state: ProductListState, action: ProductListActio
       }
     };
 
+  case '[PRODUCT LIST] - FILTERS NOT APPLIED':
+    return {
+      ...state,
+      isFilterApplied: false
+    };
 
   default:
     return state;

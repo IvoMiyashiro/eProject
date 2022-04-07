@@ -10,11 +10,13 @@ interface ContextProps {
   haveMoreProducts:       boolean;
   isFilterApplied:        boolean;
   isFilterMenuOpen:       boolean;
-  isLoading:              boolean;
+  isProductLoading:       boolean;
+  isBrandLoading:         boolean;
+  isCategoryLoading:      boolean;
   productList:            IProduct[];
 
   //Methods
-  applyCatalogFilter:     (offset: number, filters: Filters) => Promise<void>;
+  applyCatalogFilter:     (offset: number, filters: Filters, firstApply: boolean) => Promise<void>;
   changeDisplayToGrid:    () => void;
   changeDisplayToList:    () => void;
   loadProducts:           (offset: number) => void;

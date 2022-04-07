@@ -1,4 +1,7 @@
 import { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react';
+import { NextRouter } from 'next/router';
+
+import { Filters } from 'context';
 import { array } from 'utils';
 
 export const handleCheckboxChange = (
@@ -20,6 +23,8 @@ export const handleCheckboxChange = (
   handleQuery(newQueryArr);
 };
 
+
+
 export const handleStockInputChange = (
   e: ChangeEvent<HTMLInputElement>,
   handleQuery: Dispatch<SetStateAction<boolean>>
@@ -32,6 +37,8 @@ export const handleStockInputChange = (
   handleQuery(false);
 };
 
+
+
 export const handleResetFilters = (
   handleFilters: (
     categoryQuery: string,
@@ -42,31 +49,58 @@ export const handleResetFilters = (
   handleFilters('', '', false, '[0, \'0]');
 };
 
-export const handleFormSubmit = (
+
+
+export const handleSubmit = (
   e: FormEvent<HTMLFormElement>,
-  minPrice: number,
-  maxPrice: number,
-  stockQuery: boolean,
-  categoriesQuery: string[],
-  brandsQuery: string[],
-  handleValidPriceFilter: Dispatch<SetStateAction<{ ok: boolean; message: string; }>>,
-  handleFilters: (categoryQuery: string, brandQuery: string, stockQuery: boolean, pricesQuery: string) => Promise<void>
+  filters: Filters,
+  router: NextRouter,
+  handleButtonVisible: Dispatch<SetStateAction<boolean>>,
+  handleApplyFilter: (offset: number, filters: Filters, firstApply: boolean) => Promise<void>,
 ) => {
   e.preventDefault();
-  
-  if ((minPrice > maxPrice) && (minPrice !== Infinity) && (maxPrice !== -Infinity)) {
-    return handleValidPriceFilter({
-      ok: false,
-      message: 'Max. price must be higher than min. price.'
-    });
-  }
 
-  let minP = minPrice ===  Infinity ? '0' : minPrice.toString();
-  let maxP = maxPrice === -Infinity ? '0' : maxPrice.toString();
+  router.push({
+    pathname: '/products',
+    query: {
+      brands: filters.brands,
+      categories: filters.categories,
+      stock: filters.stock,
+      price: filters.price,
+    },
+  }, undefined, { shallow: true });
 
-  const categoryQuery = encodeURIComponent(JSON.stringify(categoriesQuery));
-  const brandQuery    = encodeURIComponent(JSON.stringify(brandsQuery));
-  const pricesQuery   = encodeURIComponent(JSON.stringify([minP, maxP]));
+  handleButtonVisible(false);
+  handleApplyFilter(0, filters, true);
+};
 
-  handleFilters(categoryQuery, brandQuery, stockQuery, pricesQuery);
+
+
+export const handleInputMaxNumberChange = (
+  e: ChangeEvent<HTMLInputElement>,
+  minPrice: number,
+  handleValidPriceFilter: Dispatch<SetStateAction<{ ok: boolean; message: string; }>>,
+  handleButtonVisible: Dispatch<SetStateAction<boolean>>,
+  handleMaxPrice: Dispatch<SetStateAction<number | undefined>>,
+  handleUpdatePriceFilter: (minValue: number, maxValue: number) => void
+) => {
+  handleValidPriceFilter({
+    ok: true,
+    message: ''
+  });
+  handleButtonVisible(true);
+  handleMaxPrice(Number(e.target.value));
+  handleUpdatePriceFilter(minPrice, Number(e.target.value));
+};
+
+
+
+export const handleInputMinNumberChange = (
+  e: ChangeEvent<HTMLInputElement>,
+  maxPrice: number,
+  handleMinPrice: Dispatch<SetStateAction<number>>,
+  handleUpdatePriceFilter: (minValue: number, maxValue: number) => void
+) => {
+  handleMinPrice(Number(e.target.value));
+  handleUpdatePriceFilter(Number(e.target.value), maxPrice);
 };

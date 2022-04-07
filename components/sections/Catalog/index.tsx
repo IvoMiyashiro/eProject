@@ -10,7 +10,7 @@ import { ProductList } from './ProductList';
 
 export const Catalog = () => {
 
-  const { isFilterMenuOpen,productList,toggleFilterMenu } = useContext(CatalogContext);
+  const { isFilterMenuOpen, toggleFilterMenu } = useContext(CatalogContext);
 
   return (
     <>

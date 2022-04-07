@@ -1,51 +1,74 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
-import { Div, H3, Label, Wrapper, InputNumber, Span, Error } from './styles';
+import { useContext, useState } from 'react';
+
+import { array } from 'utils';
+import { handleInputMaxNumberChange, handleInputMinNumberChange, handleSubmit } from '../../_handlers';
+
+import { IProduct } from 'interfaces';
+import { CatalogContext } from 'context';
+import { Button } from 'components/ui/Button';
+
+import { lightTheme } from 'styles';
+import { ButtonWrapper } from '../../styles';
+import { Form, H3, Label, Wrapper, InputNumber, Span, Error } from './styles';
+import { useRouter } from 'next/router';
 
 interface Props {
-  minPrice: number;
-  maxPrice: number;
-  formError: { ok: boolean; message: string };
-  handleMinPrice: (value: number) => void;
-  handleMaxPrice: (value: number) => void;
-  handleFormError: Dispatch<SetStateAction<{ ok: boolean; message: string; }>>
+  productList: IProduct[]
 }
 
-export const PriceFilter = ({ minPrice, maxPrice, formError, handleMinPrice, handleMaxPrice }: Props) => {
+export const PriceFilter = ({productList}: Props) => {
 
-  const handleInputMinNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleMinPrice(Number(e.target.value));
-  };
-
-  const handleInputMaxNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleMaxPrice(Number(e.target.value));
-  };
+  const { filters, applyCatalogFilter, updatePriceFilter } = useContext(CatalogContext);
+  const [isButtonVisible, setButtonVisible] = useState(false);
+  const [minPrice, setMinPrice] = useState<number>(0);
+  const [maxPrice, setMaxPrice] = useState<number>();
+  const [validPriceFilter, setValidPriceFilter] = useState<{ ok: boolean; message: string }>({ ok: true, message: '' });
+  const router = useRouter();
 
   return (
-    <Div>
+    <Form onSubmit={(e) => handleSubmit(e, filters, router, setButtonVisible, applyCatalogFilter)}>
       <H3>Price</H3>
       <Wrapper>
         <InputNumber
           type="number"
           placeholder="Min."
+          min="0"
           value={ minPrice }
-          onChange={ handleInputMinNumberChange }
+          onChange={(e) => handleInputMinNumberChange(e, maxPrice!, setMinPrice, updatePriceFilter)}
         />
         <Label>to</Label>
         <InputNumber
           type="number"
           placeholder="Max."
           value={ maxPrice }
-          onChange={ handleInputMaxNumberChange }
+          onChange={ 
+            (e) => handleInputMaxNumberChange(e, minPrice, setValidPriceFilter, setButtonVisible, setMaxPrice, updatePriceFilter)
+          }
         />
       </Wrapper>
       {
-        formError
+        isButtonVisible
+        &&
+        <ButtonWrapper>
+          <Button
+            bgColor={lightTheme.color_primary_0}
+            textColor={lightTheme.color_neutral_1}
+            bRadius="2px"
+            fontSize='0.75rem'
+            width="75px"
+            type="submit"
+          >
+            Apply
+          </Button>
+        </ButtonWrapper>
+      }
+      {
+        !validPriceFilter.ok
         &&
         <Error>
-          <Span>{ formError.message }</Span>
+          <Span>{ validPriceFilter.message }</Span>
         </Error>
       }
-      
-    </Div>
+    </Form>
   );
 };

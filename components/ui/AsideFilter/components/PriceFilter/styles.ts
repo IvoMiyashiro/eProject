@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Div = styled.div``;
+export const Form = styled.form``;
   
 export const H3 = styled.h3`
   font-size: 1rem;

@@ -1,28 +1,29 @@
 import { useContext } from 'react';
-import Link from 'next/link';
 
 import { CatalogContext } from 'context';
-import { AsideFilter, Modal } from 'components/ui';
+import { AsideFilter, MapLinks, Modal } from 'components/ui';
 import { Header } from './Header';
 
-import { Div, Wrapper, Section, A, P } from './styles';
+import { Div, Wrapper } from './styles';
 import { ProductList } from './ProductList';
 
 export const Catalog = () => {
 
   const { isFilterMenuOpen, toggleFilterMenu } = useContext(CatalogContext);
+  const links = [
+    {
+      name: 'Home',
+      link: '/'
+    },
+    {
+      name: 'Products',
+      link: '/products'
+    }
+  ];
 
   return (
     <>
-      <Section>
-        <Link href="/" passHref>
-          <A>Home</A>
-        </Link>
-        <P> &#62; </P>
-        <Link href="/products" passHref>
-          <A>Products</A>
-        </Link>
-      </Section>
+      <MapLinks links={links}/>
       <Div>
         <Wrapper>
           <AsideFilter />

@@ -24,25 +24,3 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const Section = styled.section`
-  display: flex;
-  gap: 0.5em;
-  margin-top: 5em;
-  margin-bottom: 1em;
-  align-items: center;
-`;
-
-export const A = styled.a`
-  text-decoration: none;
-  color: ${props => props.theme.color_primary_2};
-  font-size: 0.9rem;
-
-  :hover {
-    text-decoration: underline;
-  }
-`;
-
-export const P = styled.p`
-  margin-top: -0.15em;
-`;
-

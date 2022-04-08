@@ -52,4 +52,5 @@ const Underline = styled.span`
 const Wrapper = styled.div`
   position: relative;
   display: inline;
+  margin-bottom: 2.5em;
 `;

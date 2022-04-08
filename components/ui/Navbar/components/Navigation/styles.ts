@@ -25,6 +25,7 @@ export const Ul = styled.ul`
   color: ${props => props.theme.color_ui_text_main};
   display: flex;
   gap: 4.5em;
+  list-style: none;
   margin: 0 auto;
   max-width: 1240px;
   padding: 0.75em 2em;

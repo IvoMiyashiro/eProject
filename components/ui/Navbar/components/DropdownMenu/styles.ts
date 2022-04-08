@@ -11,6 +11,7 @@ export const Ul = styled.ul`
   background-color: ${props => props.theme.color_primary_0};
   border-radius: 4px;
   gap: 1.5em;
+  list-style: none;
   padding: 0.5em 1.25em;
 `;
 

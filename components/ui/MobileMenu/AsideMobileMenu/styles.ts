@@ -36,6 +36,7 @@ export const Ul = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 0.5em;
+  list-style: none;
 `;
 
 export const Wrapper = styled.div`

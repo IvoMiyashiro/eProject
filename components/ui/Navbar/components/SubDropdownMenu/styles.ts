@@ -14,6 +14,7 @@ export const Ul = styled.ul`
   flex-direction: column;
   gap: 1.5em;
   padding: 1.25em;
+  list-style: none;
 `;
 
 export const Li = styled.li``;

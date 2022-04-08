@@ -69,16 +69,16 @@ export const ProductGridCard = ({ product }: Props) => {
             </AddToCartButton>
           )
       }
-      <Link href={`/product/${product.id}`} passHref>
+      <Link href={`/products/${product.id}`} passHref>
         <ImageWrapper>
           <ImageContainer>
             <Image 
-              src={product.image_urls as string}
+              src={product.image_urls[0] as string}
               alt={product.title}
               layout="fill"
               objectFit="contain"
               placeholder="blur"
-              blurDataURL={product.image_urls as string}
+              blurDataURL={product.image_urls[0] as string}
             />
           </ImageContainer>
         </ImageWrapper>
@@ -90,7 +90,7 @@ export const ProductGridCard = ({ product }: Props) => {
           </Brand>
           <Rating rating={5} />
         </Header>
-        <Link href={`/product/${product.id}`} passHref>
+        <Link href={`/products/${product.id}`} passHref>
           <Title>
             <H2>{product.title}</H2>
           </Title>

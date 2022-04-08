@@ -23,8 +23,8 @@ export const ProductCartCard = ({ product }: Props) => {
       <Link href={`products/${product.id}`} passHref>
         <ImageWrapper>
           <ImageContainer>
-            <Image 
-              src={product.image_urls as string}
+            <Image
+              src={product.image_urls[0] as string}
               alt={product.title}
               objectFit="contain"
               layout="fill"

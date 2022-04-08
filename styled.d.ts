@@ -11,7 +11,8 @@ declare module 'styled-components' {
     color_neutral_1: string;
     color_neutral_2: string;
     color_ui_background: string,
-    color_ui_ok: string,
+    color_ui_ok_0: string,
+    color_ui_ok_1: string,
     color_ui_warn: string,
     color_ui_danger: string,
     color_ui_text_main: string;

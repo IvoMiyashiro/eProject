@@ -21,3 +21,6 @@ export * from './StarHalf';
 export * from './Filter';
 export * from './Trash';
 export * from './Check';
+export * from './Shield';
+export * from './Truck';
+export * from './Return';

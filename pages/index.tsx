@@ -94,9 +94,7 @@ const Underline = styled.span`
   z-index: -1;
 `;
 
-const Section = styled.section`
-
-`;
+const Section = styled.section``;
 
 const P = styled.p`
   color: ${props => props.theme.color_ui_text_main};

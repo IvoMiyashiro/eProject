@@ -18,7 +18,7 @@ export const getProducts = async (
   const encodeStock      = encodeURIComponent(JSON.stringify(stock));
   const encodePrice      = encodeURIComponent(JSON.stringify(price));
 
-  const resp = await fetch(`/api/products?offset=${offset}&categories=${encodeCategories}&brands=${encodeBrands}&stock=${encodeStock}&price=${encodePrice}`);
+  const resp = await fetch(`${process.env.BASE_URL}/api/products?offset=${offset}&categories=${encodeCategories}&brands=${encodeBrands}&stock=${encodeStock}&price=${encodePrice}`);
   const { ok, products }: Response = await resp.json();
 
   if (!ok) return [];

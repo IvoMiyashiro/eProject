@@ -26,7 +26,7 @@ const getProducts = async(req: NextApiRequest, res: NextApiResponse<Data>, isFil
   
   const offset = req.query.offset || 0;
   
-  const query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product LIMIT 12 OFFSET ($1)';
+  const query = 'SELECT * FROM product LIMIT 12 OFFSET ($1)';
   const value = [offset];
   
   try {

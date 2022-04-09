@@ -1,11 +1,12 @@
-import { Rating } from 'components/ui';
+import { IProduct } from 'interfaces';
+import { Rating, ProductImagesCarrousel } from 'components/ui';
 import { Services } from './Services';
 import { Buttons } from './Buttons';
 import { Keypoints } from './Keypoints';
+import { Title } from './Title';
+import { Price } from './Price';
 
-import { Div, Wrapper, Section, Span, H1, H2, Price, PriceWrapper, Discount } from './styles';
-import { ProductImagesCarrousel } from 'components/ui/ProductImagesCarrousel';
-import { IProduct } from 'interfaces';
+import { Div, Wrapper, Section } from './styles';
 
 interface Props {
   product: IProduct
@@ -17,21 +18,13 @@ export const MainInfo = ({ product }: Props) => {
 
   return (
     <Div>
-      <ProductImagesCarrousel images={image_urls} title={title} />
+      <ProductImagesCarrousel images={ image_urls } title={ title } />
       <Wrapper>
         <Section>
-          <div>
-            <Span>{ brand }</Span>
-            <H1>{ title }</H1>
-          </div>
-          <Rating rating={5}/>
+          <Title brand={ brand } title={ title } />
+          <Rating rating={ 5 }/>
           <Services />
-          <PriceWrapper>
-            <Price>
-              <H2>${ price }</H2>
-              <Discount>${ discount_price }</Discount>
-            </Price>
-          </PriceWrapper>
+          <Price price={price} discount_price={discount_price} />
           <Buttons product={product} />
           <Keypoints keypoints={description} />
         </Section>

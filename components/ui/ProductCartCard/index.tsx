@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -16,7 +16,11 @@ interface Props {
 export const ProductCartCard = ({ product }: Props) => {
 
   const { removeFromCart } = useContext(CartContext);
-  const [quantity, setQuantity] = useState(product.quantity);
+  const [quantity, setQuantity] = useState(0);
+
+  useEffect(() => {
+    setQuantity(product.quantity);
+  }, [product.quantity]);
 
   return (
     <Div>

@@ -25,7 +25,7 @@ export const CartProvider: FC = ({ children }) => {
   useEffect(() => {
     try {
       const cookieProduct = Cookies.get('CART') ? JSON.parse(Cookies.get('CART')!) : [];
-      dispatch({ 
+      dispatch({
         type: '[CART] - LOAD FROM COOKIES', 
         payload: cookieProduct
       });
@@ -56,7 +56,30 @@ export const CartProvider: FC = ({ children }) => {
   }, [state.cart]);
 
   const addToCart = (product: IProductCart) => {
-    dispatch({ type: '[CART] - ADD TO CART', payload: product });
+    let productToAdd = product;
+    let isInCart = false;
+
+    state.cart.map(cartProduct => {
+      if (cartProduct.id === product.id) {
+        isInCart = true;
+        productToAdd = {
+          ...product,
+          quantity: cartProduct.quantity + 1
+        };
+      }
+    });
+
+    if (isInCart) {
+      const newCartArr = state.cart.map(cartProduct => {
+        if (cartProduct.id !== product.id) return cartProduct;
+  
+        return productToAdd;
+      });
+      console.log(newCartArr);
+      dispatch({ type: '[CART] - UPDATE PRODUCT CART QUANTITY', payload: newCartArr });
+    } else {
+      dispatch({ type: '[CART] - ADD TO CART', payload: productToAdd });
+    }
   };
 
   const removeFromCart = (id: string) => {
@@ -68,8 +91,8 @@ export const CartProvider: FC = ({ children }) => {
   };
 
   const updateProductQuantity = (product: IProductCart) => {
-    const newCartArr = state.cart.map(p => {
-      if (p.id !== product.id) return p;
+    const newCartArr = state.cart.map(cartProduct => {
+      if (cartProduct.id !== product.id) return cartProduct;
 
       return product;
     });
@@ -81,7 +104,7 @@ export const CartProvider: FC = ({ children }) => {
     <CartContext.Provider value={{
       ...state,
 
-      //Methods
+      // Methods
       addToCart,
       removeFromCart,
       updateProductQuantity

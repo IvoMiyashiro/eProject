@@ -1,15 +1,15 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import styled from 'styled-components';
 
-import { getProducts, getProductById } from 'services';
+import { getProducts, getProductById, getProductSpecs } from 'services';
 
-import { IProduct } from 'interfaces';
+import { IProduct ,ISpecs } from 'interfaces';
 import { CatalogProvider } from 'context';
 import { MainLayout, MapLinks, Product } from 'components';
 
-import styled from 'styled-components';
-
 interface Props {
-  product: IProduct
+  product: IProduct;
+  specs: ISpecs;
 }
 
 const ProductPage: NextPage<Props> = ({ product }) => {
@@ -71,14 +71,17 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     };
   }
 
+  const specs = await getProductSpecs(id);
+
   return {
     props: {
-      product: product[0]
+      product: product[0],
+      specs: specs
     },
     revalidate: 60 * 60 * 24
   };
 };
 
 export const Wrapper = styled.div`
-  padding: 7em 0;
+  padding: 6em 0;
 `;

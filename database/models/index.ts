@@ -32,3 +32,32 @@ export const Brand = sql.define({
     'brand_name'
   ]
 } as any);
+
+export const GpuSpecs = sql.define({
+  name: 'specs_gpu',
+  columns: [
+    'id',
+    'category_id',
+    'product_id',
+    'brand',
+    'series',
+    'model',
+    'interface',
+    'chipset_manufactor',
+    'gpu',
+    'cuda_cores',
+    'effective_memory_clock',
+    'memory_size',
+    'memory_interface',
+    'memory_type',
+    'multi_monitor_support',
+    'hdmi',
+    'display_port',
+    'max_resolution',
+    'cooler',
+    'thermal_design_power',
+    'power_connector',
+    'max_length',
+    'dimentions',
+  ]
+} as any);

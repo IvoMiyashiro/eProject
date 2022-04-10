@@ -21,7 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
 const getProductById = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   
-  const id = req.query.id;
+  const { id } = req.query;
 
   const query = 'SELECT * FROM product WHERE id = ($1)';
   const value = [id];

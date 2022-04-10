@@ -6,7 +6,7 @@ type Data = { ok: boolean, message?: string, products?: any }
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
   const query = req.query;
-  const isFiltered = query.categories?.length > 2 || query.brands?.length > 2 || query.stock === 'true' || req.query.price.length > 2;
+  const isFiltered = query.categories?.length > 2 || query.brands?.length > 2 || query.stock === 'true' || req.query.price?.length > 2;
 
   switch( req.method ) {
   case 'GET':

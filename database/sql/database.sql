@@ -40,16 +40,38 @@ ALTER TABLE IF EXISTS product ADD CONSTRAINT fk_category_name FOREIGN KEY (categ
 
 /* Product Table */
 
-/* Images for Products */
+/* Specs */
 
--- CREATE TABLE IF NOT EXISTS image_url (
---   id VARCHAR(100) NOT NULL UNIQUE PRIMARY KEY,
---   product_id VARCHAR(100),
---   image_url VARCHAR(2048) NOT NULL DEFAULT '',
---   CONSTRAINT fk_product_id
---   FOREIGN KEY(product_id)
---   REFERENCES product(id)
---   ON DELETE CASCADE
--- );
+CREATE TABLE IF NOT EXISTS specs_gpu (
+  id VARCHAR(100) NOT NULL UNIQUE PRIMARY KEY,
+  category_id VARCHAR(100) NOT NULL,
+  product_id VARCHAR(100) NOT NULL,
+  brand VARCHAR(100),
+  series VARCHAr(100),
+  model VARCHAR(100),
+  interface VARCHAR(100),
+  chipset_manufactor VARCHAR(100),
+  gpu VARCHAR(100),
+  cuda_cores INT,
+  effective_memory_clock VARCHAR(100),
+  memory_size VARCHAR(100),
+  memory_interface VARCHAR(100),
+  memory_type VARCHAR(100),
+  multi_monitor_support INT,
+  hdmi VARCHAR(100),
+  display_port VARCHAR(100),
+  max_resolution VARCHAR(100),
+  cooler VARCHAR(100),
+  thermal_design_power VARCHAR(100),
+  power_connector VARCHAR(100),
+  max_length VARCHAR(100),
+  dimentions VARCHAR(100),
+  CONSTRAINT fk_category_id
+  FOREIGN KEY(category_id)
+  REFERENCES category(id)
+  ON DELETE CASCADE
+);
 
-/* Images for Products */
+ALTER TABLE IF EXISTS specs_gpu ADD CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE;
+
+/* Specs */

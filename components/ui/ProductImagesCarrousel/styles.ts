@@ -20,12 +20,12 @@ export const Wrapper = styled.section`
 
 export const ImageWrapper = styled.div`
   display: flex;
-  height: 450px;
+  height: 350px;
   min-width: 475px;
 `;
 
 export const ImageContainer = styled.div`
-  height: 450px;
+  height: 350px;
   min-width: 475px;
   position: relative;
 `;

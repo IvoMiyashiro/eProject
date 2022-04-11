@@ -6,13 +6,14 @@ export const Div = styled.div`
   0px 0px 3.8px rgba(0, 0, 0, 0.066),
   0px 0px 17px rgba(0, 0, 0, 0.11);
   border-radius: 12px;
-  overflow: hidden;
   padding: 2em;
 `;
 
 export const MainInfo = styled.div`
   display: flex;
   gap: 3em;
+  position: relative;
+  align-items: flex-start;
 `;
 
 export const Wrapper = styled.div``;
@@ -27,3 +28,8 @@ export const TabSection = styled.div`
   margin-top: 7em;
 `;
 
+export const ProductImageWrapper = styled.div`
+  position: sticky;
+  top: 90px;
+
+`;

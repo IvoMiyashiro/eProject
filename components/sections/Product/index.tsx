@@ -2,7 +2,7 @@ import { IProduct } from 'interfaces';
 import { Title, Services, Price, Buttons, Keypoints, Specs } from './components';
 import { Tab, ProductImagesCarrousel, Rating } from 'components/ui';
 
-import { Div, Wrapper, Section, MainInfo, TabSection } from './styles';
+import { Div, Wrapper, Section, MainInfo, TabSection, ProductImageWrapper } from './styles';
 
 interface Props {
   product: IProduct;
@@ -14,13 +14,14 @@ export const Product = ({ product, specs }: Props) => {
   const tabInfo = [
     <Specs key={0} specs={specs}/>,
     'Reviews',
-    'Q&A'
   ];
 
   return (
     <Div>
       <MainInfo>
-        <ProductImagesCarrousel images={ product.image_urls } title={ product.title } />
+        <ProductImageWrapper>
+          <ProductImagesCarrousel images={ product.image_urls } title={ product.title } />
+        </ProductImageWrapper>
         <Wrapper>
           <Section>
             <Title brand={ product.brand } title={ product.title } />

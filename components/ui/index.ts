@@ -14,3 +14,4 @@ export * from './AsideFilter';
 export * from './MapLinks';
 export * from './RatingStars';
 export * from './Tab';
+export * from './Review';

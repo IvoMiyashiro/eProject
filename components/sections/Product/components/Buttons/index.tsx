@@ -15,11 +15,23 @@ export const Buttons = ({ product }: Props) => {
 
   const { cart, addToCart } = useContext(CartContext);
   const [isInCart, setInCart] = useState(false);
+  const [cartQuantity, setCartQuantity] = useState('0');
 
   useEffect(() => {
     const isInCart = cart.some(p => p.id === product.id);
     setInCart(isInCart);
   },[cart, product.id]);
+
+  useEffect(() => {
+    cart.map(p => {
+      if (p.id === product.id) {
+        if (p.quantity > 9) {
+          return setCartQuantity('+9');
+        }
+        return setCartQuantity(p.quantity.toString());
+      }
+    });
+  }, [cart, product.id]);
 
   const addProduct = () => {
     const productToAdd = { ...product, quantity: 1 };
@@ -51,8 +63,14 @@ export const Buttons = ({ product }: Props) => {
               ? 'Product in cart'
               : 'Add to cart'
           }
-          
         </Button>
+        {
+          (cartQuantity !== '0' && isInCart)
+          &&
+          <Div>
+            { cartQuantity }
+          </Div>
+        }
       </ButtonWrapper>
     </ButtonsWrapper>
   );
@@ -67,4 +85,15 @@ const ButtonsWrapper = styled.div`
 const ButtonWrapper = styled.div`
   width: 100%;
   height: 45px;
+  position: relative;
+`;
+
+const Div = styled.div`
+  padding: 0.25em 0.5em;
+  position: absolute;
+  top: -10px;
+  right: 0;
+  background-color: ${props => props.theme.color_tertiary_0};
+  border-radius: 50%;
+  font-size: 0.8rem;
 `;

@@ -75,7 +75,6 @@ export const CartProvider: FC = ({ children }) => {
   
         return productToAdd;
       });
-      console.log(newCartArr);
       dispatch({ type: '[CART] - UPDATE PRODUCT CART QUANTITY', payload: newCartArr });
     } else {
       dispatch({ type: '[CART] - ADD TO CART', payload: productToAdd });

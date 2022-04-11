@@ -1,18 +1,19 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import styled from 'styled-components';
 
-import { getProducts, getProductById, getProductSpecs } from 'services';
+import { getProducts, getProductById, getProductSpecs, getProductReviews } from 'services';
 
-import { IProduct ,ISpecs } from 'interfaces';
+import { IProduct ,IReviews, ISpecs } from 'interfaces';
 import { CatalogProvider } from 'context';
 import { MainLayout, MapLinks, Product } from 'components';
 
 interface Props {
   product: IProduct;
   specs: ISpecs;
+  reviews: IReviews[]
 }
 
-const ProductPage: NextPage<Props> = ({ product, specs }) => {
+const ProductPage: NextPage<Props> = ({ product, specs, reviews }) => {
 
   const links = [
     {
@@ -34,7 +35,7 @@ const ProductPage: NextPage<Props> = ({ product, specs }) => {
           <MapLinks 
             links={links}
           />
-          <Product product={ product } specs={specs} />
+          <Product product={ product } specs={specs} reviews={reviews} />
         </Wrapper>
       </MainLayout>
     </CatalogProvider>
@@ -72,11 +73,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   }
 
   const specs = await getProductSpecs(id);
+  const reviews = await getProductReviews(id);
 
   return {
     props: {
       product: product[0],
-      specs: specs[0]
+      specs: specs[0],
+      reviews: reviews
     },
     revalidate: 86400
   };

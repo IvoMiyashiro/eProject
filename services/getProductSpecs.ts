@@ -1,4 +1,4 @@
-import { IGpuSpects } from 'interfaces/specs';
+import { IGpuSpects } from 'interfaces';
 
 interface Response {
   ok: boolean;

@@ -1,16 +1,40 @@
 import { IProduct } from 'interfaces';
-import { MainInfo } from './components/MainInfo';
+import { Title, Services, Price, Buttons, Keypoints, Specs } from './components';
+import { Tab, ProductImagesCarrousel, Rating } from 'components/ui';
 
-import { Div } from './styles';
+import { Div, Wrapper, Section, MainInfo, TabSection } from './styles';
 
 interface Props {
-  product: IProduct
+  product: IProduct;
+  specs: any;
 }
 
-export const Product = ({ product }: Props) => {
+export const Product = ({ product, specs }: Props) => {
+  const tabNav  = ['Specs', 'Reviews', 'Q&A'];
+  const tabInfo = [
+    <Specs key={0} specs={specs}/>,
+    'Reviews',
+    'Q&A'
+  ];
+
   return (
     <Div>
-      <MainInfo product={product} />
+      <MainInfo>
+        <ProductImagesCarrousel images={ product.image_urls } title={ product.title } />
+        <Wrapper>
+          <Section>
+            <Title brand={ product.brand } title={ product.title } />
+            <Rating rating={ 5 }/>
+            <Services />
+            <Price price={ product.price } discount_price={ product.discount_price } />
+            <Buttons product={ product } />
+            <Keypoints keypoints={ product.description } />
+          </Section>
+        </Wrapper>
+      </MainInfo>
+      <TabSection>
+        <Tab nav={tabNav} info={tabInfo}/>
+      </TabSection>
     </Div>
   );
 };

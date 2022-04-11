@@ -9,3 +9,21 @@ export const Div = styled.div`
   overflow: hidden;
   padding: 2em;
 `;
+
+export const MainInfo = styled.div`
+  display: flex;
+  gap: 3em;
+`;
+
+export const Wrapper = styled.div``;
+
+export const Section = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+`;
+
+export const TabSection = styled.div`
+  margin-top: 7em;
+`;
+

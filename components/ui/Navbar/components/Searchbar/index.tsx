@@ -13,7 +13,7 @@ export const Searchbar = () => {
       />
       <Button
         bgColor={lightTheme.color_tertiary_0}
-        textColor={lightTheme.color_primary_0}
+        textColor={lightTheme.color_ui_text_main}
         width="100px"
         bRadius="2px"
         type="submit"

@@ -32,7 +32,7 @@ const getProductSpecs = async (req: NextApiRequest, res: NextApiResponse<Data>) 
     
     query = `SELECT * FROM specs_${tableToQuery} WHERE product_id = ($1)`;
     const { rows } = await db.conn.query(query, value);
-    console.log(query);
+    
     return res.status(200).json({
       ok: true,
       specs: rows

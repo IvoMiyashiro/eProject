@@ -8,7 +8,7 @@ interface Response {
 export const getProductSpecs = async (product_id: string): Promise<IGpuSpects[] | []> => {
 
   const resp = await fetch(`${process.env.BASE_URL}/api/products/${product_id}/specs`);
-  console.log(resp);
+
   const { ok, specs }: Response = await resp.json();
 
   if (!ok) return [];

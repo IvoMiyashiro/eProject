@@ -1,11 +1,12 @@
-import { IGpuSpects } from './../../interfaces/specs';
-import { IBrand, ICategory, IProduct } from 'interfaces';
+import { IBrand, ICategory, IProduct, IGpuSpects, IReviews, ICustomer} from 'interfaces';
 
 interface SeedData {
   products: IProduct[];
   categories: ICategory[];
   brands: IBrand[];
   gpu_specs: IGpuSpects[];
+  reviews: IReviews[];
+  customer: ICustomer[];
 }
 
 export const initialData: SeedData = {
@@ -807,5 +808,40 @@ export const initialData: SeedData = {
       max_length: '300 mm',
       dimentions: '11.81" x 5.38"',
     }
-  ]
+  ],
+  reviews: [
+    {
+      id: 'a7832757-1a6d-4e16-bc79-db8c6540f0b7',
+      customer_id: 'a7832757-1a6d-4e16-bc79-db8c6540f0b7',
+      product_id: '29f27c40-8888-481e-8601-d3d36af9ad07',
+      rating: 4,
+      title: 'I beat the pandemic GPU shortage with Newegg shuffle',
+      pros: `-Incredibly powerful
+      -Relatively quiet
+      -iCX3 technology keeps the GPU extremely cool
+      -All metal backplate
+      -Adjustable ARGB LED
+      -Fantastic quality and packaging from EVGA
+      -Makes any build look aggressive yet elegant
+      `,
+      cons: `-Absolutely massive (a con for those with smaller cases)
+      -Fans get quite loud under heavy load
+      -GPU shortage makes this card difficult to find
+      `,
+      overall: 'Through Newegg shuffle I managed to successfully acquire what 99% of other people are STILL struggling to get their hands on, an RTX 3xxx series Ampere GPU. The RTX 3070Ti wasn\'t my first choice for a new GPU but I couldn\'t pass up the opportunity for an upgrade and something that has eaten away at my mind while also taking up a great deal of my free time to find. Upon arrival I felt a huge weight had finally been lifted off of my shoulders. First impressions, the card absolutely dwarfs my GTX 1070Ti in comparison. I have only ever owned MSI GPUs so as my first EVGA product the build quality is outstanding. Handling the GPU before installation you really get a sense that great care was taken when manufacturing and assembling. After the card clicked into my PCI-E slot it was eerily quiet, time seemed to slow, and I basked in the glory that my build had finally acquired the final piece of the puzzle. Gaming at 1440p 144hz MAX settings in several intensive games the EVGA RTX 3070Ti FTW3 does not disappoint and I was thoroughly impressed with it\'s performance. Would I recommend this to others? The RTX 3070Ti is one of the least impressive Ti cards Nvidia has released over the years. The RTX 3070Ti is essentially a beefed up RTX 3070 rather than a gimped RTX 3080. This puts it closer to the RTX 3070 in terms of performance. However, I would recommend this particular card to others because of EVGA\'s factory overclock, build quality, and visual appeal. If you want an astounding 1440p gaming experience and the ability to also dabble in some light 4k gaming then this product is for you. This card will suit me well for years to come and I am finally happy to be enjoying a current generation GPU.',
+      created_at: new Date(),
+      likes: 50,
+      dislikes: 4,
+    }
+  ],
+  customer: [
+    {
+      id: 'a7832757-1a6d-4e16-bc79-db8c6540f0b7',
+      full_name: 'Ivo Miyashiro',
+      username: 'zSik',
+      email: 'testing@dev.com',
+      profile_image: '',
+      role: 'admin'
+    }
+  ],
 };

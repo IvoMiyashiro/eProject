@@ -61,3 +61,32 @@ export const GpuSpecs = sql.define({
     'dimentions',
   ]
 } as any);
+
+export const Review = sql.define({
+  name: 'review',
+  columns: [
+    'id',
+    'customer_id',
+    'product_id',
+    'rating',
+    'title',
+    'pros',
+    'cons',
+    'overall',
+    'created_at',
+    'likes',
+    'dislikes',
+  ]
+} as any);
+
+export const Customer = sql.define({
+  name: 'customer',
+  columns: [
+    'id',
+    'full_name',
+    'username',
+    'email',
+    'profile_image',
+    'role',
+  ]
+} as any);

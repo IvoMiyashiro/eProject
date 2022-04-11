@@ -75,3 +75,42 @@ CREATE TABLE IF NOT EXISTS specs_gpu (
 ALTER TABLE IF EXISTS specs_gpu ADD CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE;
 
 /* Specs */
+
+/* User */
+
+CREATE TYPE user_roles AS ENUM('admin', 'client');
+
+CREATE TABLE IF NOT EXISTS customer (
+  id VARCHAR(100) NOT NULL UNIQUE PRIMARY KEY,
+  full_name VARCHAR(100) NOT NULL,
+  username VARCHAR(100) NOT NULL UNIQUE,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  profile_image VARCHAR(2048),
+  role user_roles
+);
+
+/* User */
+
+/* Review */
+
+CREATE TABLE IF NOT EXISTS review (
+  id VARCHAR(100) NOT NULL UNIQUE PRIMARY KEY,
+  customer_id VARCHAR(100),
+  product_id VARCHAR(100),
+  rating INT,
+  title VARCHAR(100),
+  pros TEXT,
+  cons TEXT,
+  overall TEXT,
+  likes INT,
+  dislikes INT,
+  created_at DATE,
+  CONSTRAINT fk_user_id
+  FOREIGN KEY(customer_id)
+  REFERENCES customer(id)
+  ON DELETE CASCADE
+);
+
+ALTER TABLE IF EXISTS review ADD CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE;
+
+/* Review */

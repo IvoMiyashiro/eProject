@@ -12,7 +12,7 @@ interface Props {
   specs: ISpecs;
 }
 
-const ProductPage: NextPage<Props> = ({ product }) => {
+const ProductPage: NextPage<Props> = ({ product, specs }) => {
 
   const links = [
     {
@@ -34,7 +34,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
           <MapLinks 
             links={links}
           />
-          <Product product={ product }/>
+          <Product product={ product } specs={specs} />
         </Wrapper>
       </MainLayout>
     </CatalogProvider>
@@ -76,9 +76,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       product: product[0],
-      specs: specs
+      specs: specs[0]
     },
-    revalidate: 60 * 60 * 24
+    revalidate: 86400
   };
 };
 

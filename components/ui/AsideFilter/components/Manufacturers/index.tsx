@@ -9,11 +9,12 @@ import { Skeleton } from '../';
 import { Button } from 'components/ui/Button';
 
 import { lightTheme } from 'styles';
-import { Div, H3, ButtonWrapper, Section, Label, Input } from '../../styles';
+import { Div, H3, ButtonWrapper } from '../../styles';
+import { InputCheckbox } from '../Input';
 
 export const Manufacturer = () => {
 
-  const { filters, brands, isBrandLoading, applyCatalogFilter, updateBrandsFilter } = useContext(CatalogContext);
+  const { filters, brands, isBrandLoading, applyCatalogFilter } = useContext(CatalogContext);
   const [isButtonVisible, setButtonVisible] = useState(false);
   const [checkedState, setCheckedState] = useState<[] | boolean[]>([]);
   const [prevCheckedState, setPrevCheckedState] = useState<[] | boolean[]>([]);
@@ -22,25 +23,6 @@ export const Manufacturer = () => {
   useEffect(() => {
     setCheckedState(new Array(brands.length).fill(false));
   },[brands.length]);
-
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>, position: number) => {
-    updateBrandsFilter(e.target.value as BrandList);
-    const updatedCheckedState = checkedState.map((item, index) =>
-      index === position ? !item : item
-    );
-    
-    setCheckedState(updatedCheckedState);
-
-    if (prevCheckedState.length === 0) {
-      if (!updatedCheckedState.includes(true)) return setButtonVisible(false);
-      return setButtonVisible(true);
-    }
-
-    if (array.arraysEqual(prevCheckedState, updatedCheckedState)) {
-      return setButtonVisible(false);
-    }
-    return setButtonVisible(true);
-  };
 
   const handleApplyFilter = () => {
     router.push({
@@ -68,17 +50,15 @@ export const Manufacturer = () => {
               {
                 brands.map((brand, i) => {
                   return (
-                    <Section key={i}>
-                      <Label>
-                        <Input
-                          type="checkbox"
-                          value={ brand }
-                          onChange={(e) => handleOnChange(e, i)}
-                          checked={checkedState[i]}
-                        />
-                        { brand }
-                      </Label>
-                    </Section>
+                    <InputCheckbox
+                      inputValue={brand}
+                      checkedState={checkedState}
+                      key={i}
+                      index={i}
+                      prevCheckedState={prevCheckedState}
+                      handleButtonVisible={setButtonVisible}
+                      handleCheckedState={setCheckedState}
+                    />
                   );
                 })
               }

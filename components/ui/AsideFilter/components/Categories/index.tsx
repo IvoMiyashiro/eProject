@@ -1,46 +1,25 @@
-import { ChangeEvent, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-
-import { array } from 'utils';
 
 import { CatalogContext } from 'context';
 import { Skeleton } from '../';
-import { Button } from 'components/ui/Button';
+import { Button } from 'components/ui';
 
 import { lightTheme } from 'styles';
-import { Div, H3, ButtonWrapper, Section, Label, Input } from '../../styles';
-import { CategoryList } from 'interfaces';
+import { Div, H3, ButtonWrapper } from '../../styles';
+import { InputCheckbox } from '../Input';
 
 export const Categories = () => {
   
-  const { filters, categories, isCategoryLoading, applyCatalogFilter, updateCategoriesFilter } = useContext(CatalogContext);
+  const { filters, categories, isCategoryLoading, applyCatalogFilter } = useContext(CatalogContext);
   const [isButtonVisible, setButtonVisible] = useState(false);
-  const [checkedState, setCheckedState] = useState([false]);
+  const [checkedState, setCheckedState] = useState<[] | boolean[]>([]);
   const [prevCheckedState, setPrevCheckedState] = useState<[] | boolean[]>([]);
   const router = useRouter();
 
   useEffect(() => {
     setCheckedState(new Array(categories.length).fill(false));
   },[categories.length]);
-
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>, position: number) => {
-    updateCategoriesFilter(e.target.value as CategoryList);
-    const updatedCheckedState = checkedState.map((item, index) =>
-      index === position ? !item : item
-    );
-    
-    setCheckedState(updatedCheckedState);
-
-    if (prevCheckedState.length === 0) {
-      if (!updatedCheckedState.includes(true)) return setButtonVisible(false);
-      return setButtonVisible(true);
-    }
-
-    if (array.arraysEqual(prevCheckedState, updatedCheckedState)) {
-      return setButtonVisible(false);
-    }
-    return setButtonVisible(true);
-  };
 
   const handleApplyFilter = () => {
     router.push({
@@ -64,23 +43,21 @@ export const Categories = () => {
           : (
             <>
               <H3>Categories</H3>
-              {
+              {/* {
                 categories.map((category, i) => {
                   return (
-                    <Section key={i}>
-                      <Label>
-                        <Input
-                          type="checkbox"
-                          value={category}
-                          onChange={(e) => handleOnChange(e, i)}
-                          checked={checkedState[i]}
-                        />
-                        {category}
-                      </Label>
-                    </Section>
+                    <InputCheckbox
+                      inputValue={category}
+                      checkedState={checkedState}
+                      key={i}
+                      index={i}
+                      prevCheckedState={prevCheckedState}
+                      handleButtonVisible={setButtonVisible}
+                      handleCheckedState={setCheckedState}
+                    />
                   );
                 })
-              }
+              } */}
             </>
           )
       }

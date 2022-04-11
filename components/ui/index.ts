@@ -13,3 +13,4 @@ export * from './MobileMenu';
 export * from './AsideFilter';
 export * from './MapLinks';
 export * from './RatingStars';
+export * from './Tab';

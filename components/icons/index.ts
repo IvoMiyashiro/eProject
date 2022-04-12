@@ -5,7 +5,7 @@ export * from './Search';
 export * from './User';
 export * from './ArrowDown';
 export * from './ArrowRight';
-// export * from './ChevronLeft';
+export * from './ArrowLeft';
 export * from './Bars';
 export * from './Home';
 export * from './Tag';

@@ -1,4 +1,4 @@
-import { IProduct, IReviews } from 'interfaces';
+import { IProduct } from 'interfaces';
 import { Title, Services, Price, Buttons, Keypoints, Specs, Reviews } from './components';
 import { Tab, ProductImagesCarrousel, Rating } from 'components/ui';
 
@@ -7,14 +7,13 @@ import { Div, Wrapper, Section, MainInfo, TabSection, ProductImageWrapper } from
 interface Props {
   product: IProduct;
   specs: any;
-  reviews: IReviews[];
 }
 
-export const Product = ({ product, specs, reviews }: Props) => {
+export const Product = ({ product, specs }: Props) => {
   const tabNav  = ['Specs', 'Reviews'];
   const tabInfo = [
-    <Specs key={0} specs={specs}/>,
-    <Reviews key={0} reviews={reviews} />
+    <Specs key={0} specs={specs} />,
+    <Reviews key={1} product_id={product.id} />
   ];
 
   return (

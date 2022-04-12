@@ -79,87 +79,87 @@ const getFilteredProducts = async(req: NextApiRequest, res: NextApiResponse<Data
 
   if (b_FilterSelected) {
     // console.log('Filtro B');
-    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product WHERE brand = ANY ($1) LIMIT 12 OFFSET ($2)';
+    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls FROM product WHERE brand = ANY ($1) LIMIT 12 OFFSET ($2)';
     values = [bArray, offset];
 
   } else if (c_FilterSelected) {
     // console.log('Filtro C');
-    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product WHERE category = ANY ($1) LIMIT 12 OFFSET ($2)';
+    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls FROM product WHERE category = ANY ($1) LIMIT 12 OFFSET ($2)';
     values = [cArray];
 
   } else if (bc_FilterSelected) {
     // console.log('Filtro B y C');
-    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product WHERE category = ANY ($1) AND brand = ANY ($2) LIMIT 12 OFFSET ($3)';
+    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls FROM product WHERE category = ANY ($1) AND brand = ANY ($2) LIMIT 12 OFFSET ($3)';
     values = [cArray, bArray, offset];
 
   } else if (s_FilterSelected) {
     // console.log('Filtro S');
-    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product WHERE stock > 0 LIMIT 12 OFFSET ($1)';
+    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls FROM product WHERE stock > 0 LIMIT 12 OFFSET ($1)';
     values = [offset];
     
   } else if (sb_FilterSelected) {
     // console.log('Filtro S y B');
-    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product WHERE brand = ANY ($1) AND stock > 0 LIMIT 12 OFFSET ($2)';
+    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls FROM product WHERE brand = ANY ($1) AND stock > 0 LIMIT 12 OFFSET ($2)';
     values = [bArray, offset];
   }
 
   else if (sc_FilterSelected) {
     // console.log('Filtro S y C');
-    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product WHERE category = ANY ($1) AND stock > 0 LIMIT 12 OFFSET ($2)';
+    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls FROM product WHERE category = ANY ($1) AND stock > 0 LIMIT 12 OFFSET ($2)';
     values = [cArray, offset];
   }
 
   else if (sbc_FilterSelected) {
     // console.log('Filtro S y B y C');
-    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product WHERE category = ANY ($1) AND brand = ANY ($2) AND stock > 0 LIMIT 12 OFFSET ($3)';
+    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls FROM product WHERE category = ANY ($1) AND brand = ANY ($2) AND stock > 0 LIMIT 12 OFFSET ($3)';
     values = [cArray, bArray, offset];
   }
 
   else if (p_FilterSelected) {
     // console.log('Filtro P');
-    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product WHERE discount_price BETWEEN ($1) AND ($2) LIMIT 12 OFFSET ($3)';
+    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls FROM product WHERE discount_price BETWEEN ($1) AND ($2) LIMIT 12 OFFSET ($3)';
     values = [Number(pArray[0]), Number(pArray[1]), offset];
   }
 
   else if (pb_FilterSelected) {
     // console.log('Filtro P y B');
-    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product WHERE brand = ANY ($3) AND discount_price BETWEEN ($1) AND ($2) LIMIT 12 OFFSET ($4)';
+    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls FROM product WHERE brand = ANY ($3) AND discount_price BETWEEN ($1) AND ($2) LIMIT 12 OFFSET ($4)';
     values = [Number(pArray[0]), Number(pArray[1]), bArray, offset];
   }
 
   else if (pc_FilterSelected) {
     // console.log('Filtro P y C');
-    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product WHERE category = ANY ($3) AND discount_price BETWEEN ($1) AND ($2) LIMIT 12 OFFSET ($4)';
+    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls FROM product WHERE category = ANY ($3) AND discount_price BETWEEN ($1) AND ($2) LIMIT 12 OFFSET ($4)';
     values = [Number(pArray[0]), Number(pArray[1]), cArray, offset];
   }
 
   else if (ps_FilterSelected) {
     // console.log('Filtro P y S');
-    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product WHERE stock > 0 AND discount_price BETWEEN ($1) AND ($2) LIMIT 12 OFFSET ($3)';
+    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls FROM product WHERE stock > 0 AND discount_price BETWEEN ($1) AND ($2) LIMIT 12 OFFSET ($3)';
     values = [Number(pArray[0]), Number(pArray[1]), offset];
   }
 
   else if (pbc_FilterSelected) {
     // console.log('Filtro P y B y C');
-    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product WHERE category = ANY ($1) AND brand = ANY ($2) AND discount_price BETWEEN ($3) AND ($4) LIMIT 12 OFFSET ($5)';
+    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls FROM product WHERE category = ANY ($1) AND brand = ANY ($2) AND discount_price BETWEEN ($3) AND ($4) LIMIT 12 OFFSET ($5)';
     values = [cArray, bArray, Number(pArray[0]), Number(pArray[1]), offset];
   }
 
   else if (pbs_FilterSelected) {
     // console.log('Filtro P y B y S');
-    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product WHERE brand = ANY ($3) AND stock > 0 AND discount_price BETWEEN ($1) AND ($2) LIMIT 12 OFFSET ($4)';
+    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls FROM product WHERE brand = ANY ($3) AND stock > 0 AND discount_price BETWEEN ($1) AND ($2) LIMIT 12 OFFSET ($4)';
     values = [Number(pArray[0]), Number(pArray[1]), bArray, offset];
   }
 
   else if (psc_FilterSelected) {
     // console.log('Filtro P y S y C');
-    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product WHERE stock > 0 AND category = ANY ($3) AND discount_price BETWEEN ($1) AND ($2) LIMIT 12 OFFSET ($4)';
+    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls FROM product WHERE stock > 0 AND category = ANY ($3) AND discount_price BETWEEN ($1) AND ($2) LIMIT 12 OFFSET ($4)';
     values = [Number(pArray[0]), Number(pArray[1]), cArray, offset];
   }
 
   else if (all_FilterSelected) {
     // console.log('Filtro S y B y C');
-    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls[1] FROM product WHERE stock > 0 AND category = ANY ($1) AND brand = ANY ($2) AND discount_price BETWEEN ($3) AND ($4) LIMIT 12 OFFSET ($5)';
+    query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls FROM product WHERE stock > 0 AND category = ANY ($1) AND brand = ANY ($2) AND discount_price BETWEEN ($3) AND ($4) LIMIT 12 OFFSET ($5)';
     values = [Number(pArray[0]), Number(pArray[1]), cArray, bArray, offset];
   }
 

@@ -70,7 +70,7 @@ export const AddToCartButton = styled.button`
 
 export const IsInCartButton = styled.button`
   ${commun};
-  background-color: ${props => props.theme.color_ui_ok};
+  background-color: ${props => props.theme.color_ui_ok_0};
   `;
 
 export const RemoveFromCartButton = styled.button`

@@ -1,9 +1,9 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import styled from 'styled-components';
 
-import { getProducts, getProductById, getProductSpecs, getProductReviews } from 'services';
+import { getProducts, getProductById, getProductSpecs } from 'services';
 
-import { IProduct ,IReviews, ISpecs } from 'interfaces';
+import { IProduct , ISpecs } from 'interfaces';
 import { CatalogProvider } from 'context';
 import { MainLayout, MapLinks, Product } from 'components';
 

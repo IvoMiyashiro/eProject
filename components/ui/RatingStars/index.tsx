@@ -291,7 +291,7 @@ export const Rating = ({ rating }: Props) => {
   );
 };
 
-export const Div = styled.div`
+const Div = styled.div`
   display: flex;
   align-items: center;
   gap: 0.25em;

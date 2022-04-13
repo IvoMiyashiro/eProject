@@ -5,6 +5,7 @@ import { MainLayout } from 'components/layouts';
 import { Catalog } from 'components/sections';
 
 import styled from 'styled-components';
+import { getStaticProps } from './[id]';
 
 const ProductsPage: NextPage = () => {
 

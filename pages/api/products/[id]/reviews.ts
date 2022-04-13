@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { IReviews } from 'interfaces';
 import { db } from 'database';
 
-type Data = { ok: boolean, message?: string, reviews?: any }
+type Data = { ok: boolean, message?: string, reviews?: IReviews[], totalLength?: number }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   
@@ -19,17 +20,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
 const getReviews = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   
-  const { id } = req.query;
+  const { id, limit, offset } = req.query;
 
-  let query = 'SELECT review.*, customer.username, customer.profile_image FROM review INNER JOIN customer ON customer.id = review.customer_id WHERE product_id = ($1)';
-  const value = [id];
+  let query = 'SELECT review.*, customer.username, customer.profile_image FROM review INNER JOIN customer ON customer.id = review.customer_id WHERE product_id = ($1) LIMIT ($2) OFFSET ($3)';
+  let value = [id, limit, offset];
 
   try {
-    const { rows } = await db.conn.query(query, value);
+    const { rows: reviewsRows } = await db.conn.query(query, value);
+
+    query = 'SELECT id FROM review WHERE product_id = ($1)';
+    value = [id];
+
+    const { rows: lengthRows } = await db.conn.query(query, value);
     
     return res.status(200).json({
       ok: true,
-      reviews: rows
+      reviews: reviewsRows,
+      totalLength: lengthRows.length
     });
 
   } catch (error) {

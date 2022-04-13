@@ -1,25 +1,34 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
+import { BrandList, CategoryList } from 'interfaces';
 import { CatalogContext } from 'context';
+import { Button } from 'components/ui/Button';
+import { InputCheckbox } from '../Input';
 import { Skeleton } from '../';
-import { Button } from 'components/ui';
 
 import { lightTheme } from 'styles';
 import { Div, H3, ButtonWrapper } from '../../styles';
-import { InputCheckbox } from '../Input';
 
-export const Categories = () => {
-  
-  const { filters, categories, isCategoryLoading, applyCatalogFilter } = useContext(CatalogContext);
+interface Props {
+  list: BrandList[] | CategoryList[];
+  title: string;
+  rows: number;
+  isLoading: boolean;
+  handleUpdateFilters: any;
+}
+
+export const CheckboxList = ({ list, title, rows, isLoading, handleUpdateFilters }: Props) => {
+
+  const { filters } = useContext(CatalogContext);
   const [isButtonVisible, setButtonVisible] = useState(false);
   const [checkedState, setCheckedState] = useState<[] | boolean[]>([]);
   const [prevCheckedState, setPrevCheckedState] = useState<[] | boolean[]>([]);
   const router = useRouter();
 
   useEffect(() => {
-    setCheckedState(new Array(categories.length).fill(false));
-  },[categories.length]);
+    setCheckedState(new Array(list.length).fill(false));
+  },[list.length]);
 
   const handleApplyFilter = () => {
     router.push({
@@ -30,34 +39,35 @@ export const Categories = () => {
         price: filters.price,
       },
     }, undefined, { shallow: true });
+
     setPrevCheckedState(checkedState);
-    applyCatalogFilter(0, filters, true);
     setButtonVisible(false);
   };
 
   return (
     <Div>
       {
-        isCategoryLoading
-          ? <Skeleton rows={8}/>
+        isLoading
+          ? <Skeleton rows={rows}/>
           : (
             <>
-              <H3>Categories</H3>
-              {/* {
-                categories.map((category, i) => {
+              <H3>{ title }</H3>
+              {
+                list.map((value, i) => {
                   return (
                     <InputCheckbox
-                      inputValue={category}
+                      inputValue={value}
                       checkedState={checkedState}
                       key={i}
                       index={i}
                       prevCheckedState={prevCheckedState}
                       handleButtonVisible={setButtonVisible}
                       handleCheckedState={setCheckedState}
+                      handleUpdateFilters={handleUpdateFilters}
                     />
                   );
                 })
-              } */}
+              }
             </>
           )
       }
@@ -66,9 +76,9 @@ export const Categories = () => {
         &&
         <ButtonWrapper>
           <Button
-            bgColor={lightTheme.color_tertiary_0}
+            bgColor={lightTheme.color_primary_0}
             bRadius="4px"
-            textColor={lightTheme.color_ui_text_main}
+            textColor={lightTheme.color_ui_background}
             type="button"
             fontSize="0.75rem"
             onClick={handleApplyFilter}
@@ -80,3 +90,4 @@ export const Categories = () => {
     </Div>
   );
 };
+

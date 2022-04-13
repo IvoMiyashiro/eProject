@@ -34,7 +34,7 @@ export const Tab = ({ nav, info }: Props) => {
           nav.map((nav, i) => {
             if (i === panel) {
               return (
-                <div>{ info[i] }</div>
+                <div key={i}>{ info[i] }</div>
               );
             }
           })

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { DislikeIcon, LikeIcon, Button } from 'components';
+import { DislikeIcon, LikeIcon } from 'components/icons';
+import { Button } from 'components/ui';
 
 interface Props {
   likes: number;
@@ -31,15 +32,15 @@ export const LikeDislikeButtons = ({ likes, dislikes }: Props) => {
   );
 };
 
-export const Buttons = styled.div`
+const Buttons = styled.div`
   display: flex;
   gap: 1em;
-  width: 150px;
+  width: 125px;
   height: 35px;
   margin-top: 2em;
   margin-left: auto;
 `;
 
-export const Span = styled.span`
+const Span = styled.span`
   margin-left: 0.5em;
 `;

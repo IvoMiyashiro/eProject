@@ -1,55 +1,51 @@
-import styled from 'styled-components';
-import { IReviews } from 'interfaces';
-import { Button, Review } from 'components/ui';
-import { EditIcon } from 'components/icons';
-import { lightTheme } from 'styles';
+import { useState } from 'react';
+
+import { useReviews } from 'hooks';
+
+import { Spinner } from 'components/ui';
+import { ReviewsList } from './ReviewsList';
+import { Header } from './Header';
+import { Pagination } from './Pagination';
+
+import { SpinnerWrapper, Div } from './styles';
 
 interface Props {
-  reviews: IReviews[];
+  product_id: string;
 }
 
-export const Reviews = ({ reviews }: Props) => {
+export const Reviews = ({ product_id }: Props) => {
+
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const [limit, setLimit] = useState(5);
+  const { reviews, isLoading, totalLenReviews } = useReviews(product_id, limit, itemOffset);
+
+  const handlePageClick = (e: any) => {
+    const newOffset = (e.selected * limit) % totalLenReviews;
+    setItemOffset(newOffset);
+  };
+
   return (
     <div>
-      <Header>
-        <Button 
-          width="150px"
-          height="30px"
-          bgColor={lightTheme.color_primary_2}
-          bRadius="4px"
-          textColor="white"
-        >
-          <>
-            <EditIcon width="22px" height="22px" />
-            <Span>Write a review</Span>
-          </>
-        </Button>
-        <P>{ reviews.length } reviews found</P>
-      </Header>
+      <Header
+        totalLenReviews={totalLenReviews}
+        itemsPerPage={limit}
+        handleItemsPerPage={setLimit}
+      />
       {
-        reviews.map(review => {
-          return <Review key={review.id} review={review} />;
-        })
+        isLoading
+          ? <SpinnerWrapper><Spinner /></SpinnerWrapper>
+          : (
+            reviews?.length === 0
+              ? (
+                <Div>
+                  This product don&apos;t have any reviews yet.
+                </Div>
+              )
+              : <ReviewsList reviews={reviews!} offset={itemOffset} handlePageCount={setPageCount} totalLenReviews={totalLenReviews} limit={limit}/>
+          )
       }
+      <Pagination limit={limit} pageCount={pageCount} handlePageClick={handlePageClick} />
     </div>
   );
 };
-
-const Header = styled.header`
-  margin-bottom: 2em;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  /* background-color: ${props => props.theme.color_neutral_1}; */
-
-  border-radius: 4px;
-`;
-
-const P = styled.p`
-  /* font-family: 'Inter'; */
-  font-size: 0.9rem;
-`;
-
-const Span = styled.span`
-  margin-left: 0.5em;
-`;

@@ -1,4 +1,4 @@
-import { Rating } from 'components/ui/RatingStars';
+import { Rating } from 'components/ui';
 import styled from 'styled-components';
 
 interface Props {
@@ -40,26 +40,26 @@ export const ReviewInfo = ({ rating, created_at, title, pros, cons, overall }: P
   );
 };
 
-export const Header = styled.header`
+const Header = styled.header`
   display: flex;
   justify-content: space-between;
 `;
 
-export const P = styled.p`
+const P = styled.p`
   font-family: 'Inter';
   font-size: 0.9rem;
 `;
 
-export const H2 = styled.h2`
+const H2 = styled.h2`
   font-size: 1.15rem;
   margin: 0.5em 0;
 `;
 
-export const H3 = styled.h3`
+const H3 = styled.h3`
   font-size: 1rem;
 `;
 
-export const Section = styled.section`
+const Section = styled.section`
   font-size: 0.9rem;
   margin-bottom: 1em;
 `;

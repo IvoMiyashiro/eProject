@@ -12,14 +12,12 @@ export const ProductList = () => {
     display,
     filters,
     haveMoreProducts,
-    isFilterApplied,
     isProductLoading,
     productList,
-    applyCatalogFilter,
     loadProducts,
   } = useContext(CatalogContext);
   const offset = productList.reduce(() => (productList.length), 0);
-  
+
   return (
     <>
       {
@@ -32,8 +30,8 @@ export const ProductList = () => {
           : (
             <InfiniteScroll
               dataLength={productList.length}
-              next={isFilterApplied ? () => applyCatalogFilter(offset, filters, false) : () => loadProducts(offset)}
-              hasMore={productList.length < 12 ? false : haveMoreProducts }
+              next={() => loadProducts(offset, filters, false)}
+              hasMore={productList.length < 12 ? false : haveMoreProducts}
               loader={<ScrollSpinnerWrapper><Spinner /></ScrollSpinnerWrapper>}
             >
               {

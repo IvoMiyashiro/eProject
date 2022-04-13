@@ -1,24 +1,18 @@
 import { useContext, useState } from 'react';
+import { useRouter } from 'next/router';
 
-import { array } from 'utils';
 import { handleInputMaxNumberChange, handleInputMinNumberChange, handleSubmit } from '../../_handlers';
 
-import { IProduct } from 'interfaces';
 import { CatalogContext } from 'context';
 import { Button } from 'components/ui/Button';
 
 import { lightTheme } from 'styles';
 import { ButtonWrapper } from '../../styles';
 import { Form, H3, Label, Wrapper, InputNumber, Span, Error } from './styles';
-import { useRouter } from 'next/router';
 
-interface Props {
-  productList: IProduct[]
-}
+export const PriceFilter = () => {
 
-export const PriceFilter = ({productList}: Props) => {
-
-  const { filters, applyCatalogFilter, updatePriceFilter } = useContext(CatalogContext);
+  const { filters, updatePriceFilter } = useContext(CatalogContext);
   const [isButtonVisible, setButtonVisible] = useState(false);
   const [minPrice, setMinPrice] = useState<number>(0);
   const [maxPrice, setMaxPrice] = useState<number>();
@@ -26,7 +20,7 @@ export const PriceFilter = ({productList}: Props) => {
   const router = useRouter();
 
   return (
-    <Form onSubmit={(e) => handleSubmit(e, filters, router, setButtonVisible, applyCatalogFilter)}>
+    <Form onSubmit={(e) => handleSubmit(e, filters, router, setButtonVisible)}>
       <H3>Price</H3>
       <Wrapper>
         <InputNumber

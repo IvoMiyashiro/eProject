@@ -1,20 +1,18 @@
 import { FC, useCallback, useEffect, useReducer } from 'react';
+import { useRouter } from 'next/router';
+import { ParsedUrlQuery } from 'querystring';
 import Cookies from 'js-cookie';
 
-import { BrandList, CategoryList, IProduct } from 'interfaces';
+import { obj } from 'utils';
 import { getBrands, getCategories, getProducts } from 'services';
+
+import { BrandList, CategoryList, IProduct } from 'interfaces';
 import { CatalogContext, catalogReducer, Filters, PRODUCT_LIST_INIT_STATE } from './';
 
 export const CatalogProvider: FC = ({ children }) => {
 
   const [state, dispatch] = useReducer(catalogReducer, PRODUCT_LIST_INIT_STATE);
-
-  useEffect(() => {
-    loadBrands();
-    loadCategories();
-    loadProducts();
-  }, []);
-
+  const router = useRouter();
 
   useEffect(() => {
     try {
@@ -28,29 +26,22 @@ export const CatalogProvider: FC = ({ children }) => {
   }, []);
 
 
-  const applyCatalogFilter = useCallback( async (offset: number, filters: Filters, firstApply: boolean) => {
-    const { categories, brands, stock, price } = filters;
+  useEffect(() => {
+    loadBrands();
+    loadCategories();
+  }, []);
 
-    const CATEGORY_FILTER_APPLY = categories?.length === 0;
-    const BRAND_FILTER_APPLY    = brands?.length === 0;
-    const STOCK_FILTER_APPLY    = stock === false;
-    const PRICE_FILTER_APPLY    = price?.length === 0;
 
-    firstApply ? startLoading() : '';
-    const products = await getProducts(offset, categories, brands, stock, price);
-    
+  const loadProducts = useCallback(async (offset: number = 0, filters: Filters | ParsedUrlQuery, isFiltered: boolean) => {
+    const products = await getProducts(offset, filters);
+
     if (products.length === 0) {
       return dispatch({ type: '[PRODUCT LIST] - NO MORE PRODUCTS' });
     }
 
-    if (CATEGORY_FILTER_APPLY && BRAND_FILTER_APPLY && STOCK_FILTER_APPLY && PRICE_FILTER_APPLY) {
-      dispatch({ type: '[PRODUCT LIST] - FILTERS NOT APPLIED' });
-      return loadProducts(0, true);
-    }
-
-    if (firstApply) {
+    if (isFiltered) {
       return dispatch({
-        type: '[PRODUCT LIST] - APPLY FILTERS',
+        type: '[PRODUCT LIST] - LOAD PRODUCTS FROM START',
         payload: products
       });
     }
@@ -61,27 +52,14 @@ export const CatalogProvider: FC = ({ children }) => {
     });
   }, []);
 
-  const loadProducts = async (offset: number = 0, fromStart = false) => {
-    const products = await getProducts(offset);
 
-    if (products.length === 0) {
-      return dispatch({ type: '[PRODUCT LIST] - NO MORE PRODUCTS' });
-    }
+  useEffect(() => {
+    startLoading();
+    const query = router.query;
+    const isFiltered = obj.isEmpty(query) ? false : true;
 
-    if (!fromStart) {
-      return dispatch({
-        type: '[PRODUCT LIST] - LOAD PRODUCTS',
-        payload: products
-      });
-    }
-
-    dispatch({
-      type: '[PRODUCT LIST] - LOAD PRODUCTS FROM START',
-      payload: products
-    });
-
-  };
-
+    loadProducts(0, query, isFiltered);
+  }, [router, loadProducts]);
 
 
   const loadBrands = async () => {
@@ -96,7 +74,6 @@ export const CatalogProvider: FC = ({ children }) => {
   };
 
 
-
   const loadCategories = async () => {
     const categories = await getCategories();
 
@@ -107,7 +84,6 @@ export const CatalogProvider: FC = ({ children }) => {
       })
     });
   };
-
 
 
   const updateCategoriesFilter = (value: CategoryList) => {
@@ -123,7 +99,6 @@ export const CatalogProvider: FC = ({ children }) => {
   };
 
 
-
   const updateBrandsFilter = (value: BrandList) => {
     const isInFiltersArr = state.filters.brands.includes(value);
 
@@ -137,7 +112,6 @@ export const CatalogProvider: FC = ({ children }) => {
   };
 
 
-
   const sortCatalog = (products: IProduct[]) => {
     startLoading();
     dispatch({
@@ -147,12 +121,10 @@ export const CatalogProvider: FC = ({ children }) => {
   };
 
 
-
   const changeDisplayToGrid = () => {
     Cookies.set('PRODUCT_DISPLAY', 'grid');
     dispatch({ type: '[PRODUCT LIST] - CHANGE DISPLAY TO GRID' });
   };
-
 
 
   const changeDisplayToList = () => {
@@ -161,11 +133,9 @@ export const CatalogProvider: FC = ({ children }) => {
   };
 
 
-
   const updatePriceFilter = (minValue: number, maxValue: number) => {
     dispatch({ type: '[PRODUCT LIST] - UPDATE PRICE FILTER', payload: [minValue, maxValue]});
   };
-
 
 
   const startLoading = () => {
@@ -173,13 +143,11 @@ export const CatalogProvider: FC = ({ children }) => {
   };
 
 
-
   const toggleFilterMenu = () => {
     dispatch({ type: '[PRODUCT LIST] - TOGGLE FILTER MENU' });
   };
 
 
-  
   const updateStockFilter = () => {
     dispatch({ type: '[PRODUCT LIST] - TOGGLE STOCK FILTER' });
   };
@@ -189,7 +157,6 @@ export const CatalogProvider: FC = ({ children }) => {
       ...state,
 
       //Methods
-      applyCatalogFilter,
       changeDisplayToGrid,
       changeDisplayToList,
       loadProducts,

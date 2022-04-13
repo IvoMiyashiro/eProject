@@ -1,9 +1,8 @@
-import { ChangeEvent, Dispatch, SetStateAction, useContext } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 
 import { array } from 'utils';
 
 import { BrandList } from 'interfaces';
-import { CatalogContext } from 'context';
 import { Section, Label, Input } from '../../styles';
 
 interface Props {
@@ -13,6 +12,7 @@ interface Props {
   prevCheckedState:  [] | boolean[];
   handleCheckedState: Dispatch<SetStateAction<[] | boolean[]>>;
   handleButtonVisible: Dispatch<SetStateAction<boolean>>;
+  handleUpdateFilters: any;
 }
 
 export const InputCheckbox = ({ 
@@ -20,14 +20,13 @@ export const InputCheckbox = ({
   checkedState,
   index,
   prevCheckedState,
+  handleUpdateFilters,
   handleCheckedState,
-  handleButtonVisible 
+  handleButtonVisible,
 }: Props) => {
 
-  const { updateBrandsFilter } = useContext(CatalogContext);
-
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>, position: number) => {
-    updateBrandsFilter(e.target.value as BrandList);
+    handleUpdateFilters(e.target.value as BrandList);
     const updatedCheckedState = checkedState.map((item, index) =>
       index === position ? !item : item
     );

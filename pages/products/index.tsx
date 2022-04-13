@@ -1,13 +1,15 @@
-import type { NextPage } from 'next';
+import type { NextPage, GetServerSideProps } from 'next';
+import styled from 'styled-components';
 
 import { CatalogProvider } from 'context';
 import { MainLayout } from 'components/layouts';
 import { Catalog } from 'components/sections';
 
-import styled from 'styled-components';
-import { getStaticProps } from './[id]';
+interface Props {
+  query: any[]
+}
 
-const ProductsPage: NextPage = () => {
+const ProductsPage: NextPage<Props> = ({ query }) => {
 
   return (
     <CatalogProvider>
@@ -27,6 +29,15 @@ const ProductsPage: NextPage = () => {
 };
 
 export default ProductsPage;
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+
+  return {
+    props: {
+      query: ctx.query
+    },
+  };
+};
 
 const Div = styled.div`
   padding: 7em 0;

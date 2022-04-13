@@ -56,7 +56,6 @@ export const handleSubmit = (
   filters: Filters,
   router: NextRouter,
   handleButtonVisible: Dispatch<SetStateAction<boolean>>,
-  handleApplyFilter: (offset: number, filters: Filters, firstApply: boolean) => Promise<void>,
 ) => {
   e.preventDefault();
 
@@ -71,7 +70,6 @@ export const handleSubmit = (
   }, undefined, { shallow: true });
 
   handleButtonVisible(false);
-  handleApplyFilter(0, filters, true);
 };
 
 

@@ -5,8 +5,12 @@ type Data = { ok: boolean, message?: string, products?: any }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
-  const query = req.query;
-  const isFiltered = query.categories?.length > 2 || query.brands?.length > 2 || query.stock === 'true' || req.query.price?.length > 2;
+  const BRANDS_QUERY     = req.query.brands !== 'undefined' ? req.query.brands : '[]';
+  const CATEGORIES_QUERY = req.query.categories !== 'undefined' ? req.query.categories : '[]';
+  const PRICE_QUERY      = req.query.price !== 'undefined' ? req.query.price : '[]';
+  const STOCK_QUERY      = req.query.stock !== 'undefined' ? 'true' : 'false';
+  
+  const isFiltered = CATEGORIES_QUERY.length > 2 || BRANDS_QUERY.length > 2 || STOCK_QUERY === 'true' || PRICE_QUERY.length > 2;
 
   switch( req.method ) {
   case 'GET':
@@ -51,16 +55,21 @@ const getFilteredProducts = async(req: NextApiRequest, res: NextApiResponse<Data
   let query = '';
   let values: any = [];
 
-  const offset = req.query.offset || 0;
-  const BRANDS_FILTER_SELECTED     = req.query.brands.length > 2;
-  const CATEGORIES_FILTER_SELECTED = req.query.categories.length > 2;
-  const PRICE_FILTER_SELECTED      = req.query.price.length > 2;
-  const STOCK_FILTER_SELECTED      = req.query.stock === 'true';
+  const offset           = req.query.offset || 0;
+  const BRANDS_QUERY     = req.query.brands !== 'undefined' ? req.query.brands : '[]';
+  const CATEGORIES_QUERY = req.query.categories !== 'undefined' ? req.query.categories : '[]';
+  const PRICE_QUERY      = req.query.price !== 'undefined' ? req.query.price : '[]';
+  const STOCK_QUERY      = req.query.stock !== 'undefined' ? 'true' : 'false';
 
-  const bArray = JSON.parse(req.query.brands as string);
-  const cArray = JSON.parse(req.query.categories as string);
-  const pArray = JSON.parse(req.query.price as string);
+  const BRANDS_FILTER_SELECTED     = BRANDS_QUERY.length > 2;
+  const CATEGORIES_FILTER_SELECTED = CATEGORIES_QUERY.length > 2;
+  const PRICE_FILTER_SELECTED      = PRICE_QUERY.length > 2;
+  const STOCK_FILTER_SELECTED      = STOCK_QUERY === 'true';
 
+  let bArray = typeof(JSON.parse(BRANDS_QUERY as string)) === 'string' ? [JSON.parse(BRANDS_QUERY as string)] : JSON.parse(BRANDS_QUERY as string);
+  let cArray = typeof(JSON.parse(CATEGORIES_QUERY as string)) === 'string' ? [JSON.parse(CATEGORIES_QUERY as string)] : JSON.parse(CATEGORIES_QUERY as string);
+  let pArray = typeof(JSON.parse(PRICE_QUERY as string)) === 'string' ? [JSON.parse(PRICE_QUERY as string)] : JSON.parse(PRICE_QUERY as string);
+  
   const b_FilterSelected   =   BRANDS_FILTER_SELECTED && !CATEGORIES_FILTER_SELECTED && !PRICE_FILTER_SELECTED && !STOCK_FILTER_SELECTED;
   const c_FilterSelected   =  !BRANDS_FILTER_SELECTED &&  CATEGORIES_FILTER_SELECTED && !PRICE_FILTER_SELECTED && !STOCK_FILTER_SELECTED;
   const bc_FilterSelected  =   BRANDS_FILTER_SELECTED &&  CATEGORIES_FILTER_SELECTED && !PRICE_FILTER_SELECTED && !STOCK_FILTER_SELECTED;

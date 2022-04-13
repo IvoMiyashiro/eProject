@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 import { BrandList, CategoryList, IProduct } from 'interfaces';
 import { Filters } from './initState';
+import { ParsedUrlQuery } from 'querystring';
 
 interface ContextProps {
   brands:                 BrandList[];
@@ -16,10 +17,9 @@ interface ContextProps {
   productList:            IProduct[];
 
   //Methods
-  applyCatalogFilter:     (offset: number, filters: Filters, firstApply: boolean) => Promise<void>;
   changeDisplayToGrid:    () => void;
   changeDisplayToList:    () => void;
-  loadProducts:           (offset: number) => void;
+  loadProducts:           (offset: number, filters: Filters | ParsedUrlQuery, isFiltered: boolean) => void;
   sortCatalog:            (products: IProduct[]) => void;
   toggleFilterMenu:       () => void;
   updateBrandsFilter:     (value: BrandList) => void;

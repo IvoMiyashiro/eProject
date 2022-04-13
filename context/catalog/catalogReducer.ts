@@ -6,7 +6,8 @@ type ProductListActionType =
   | { type: '[PRODUCT LIST] - LOAD PRODUCTS', payload: IProduct[] }
   | { type: '[PRODUCT LIST] - LOAD BRANDS', payload: BrandList[] }
   | { type: '[PRODUCT LIST] - LOAD CATEGORIES', payload: CategoryList[] }
-  | { type: '[PRODUCT LIST] - APPLY FILTERS', payload: IProduct[] }
+  | { type: '[PRODUCT LIST] - ARE FILTERS APPLIED'}
+  | { type: '[PRODUCT LIST] - NO FILTERS APPLIED'}
   | { type: '[PRODUCT LIST] - SORT PRODUCT LIST', payload: IProduct[]}
   | { type: '[PRODUCT LIST] - CHANGE DISPLAY TO GRID' }
   | { type: '[PRODUCT LIST] - CHANGE DISPLAY TO LIST' }
@@ -44,9 +45,8 @@ export const catalogReducer = (state: ProductListState, action: ProductListActio
   case '[PRODUCT LIST] - LOAD PRODUCTS FROM START':
     return {
       ...state,
-      productList: [
-        ...action.payload
-      ],
+      productList: action.payload,
+      isFilterApplied: false,
       haveMoreProducts: true,
       isProductLoading: false
     };
@@ -65,13 +65,17 @@ export const catalogReducer = (state: ProductListState, action: ProductListActio
       isBrandLoading: false
     };
 
-  case '[PRODUCT LIST] - APPLY FILTERS':
+  case '[PRODUCT LIST] - ARE FILTERS APPLIED':
     return {
       ...state,
-      productList: [
-        ...action.payload,
-      ],
       isFilterApplied: true,
+      isProductLoading: false
+    };
+
+  case '[PRODUCT LIST] - NO FILTERS APPLIED':
+    return {
+      ...state,
+      isFilterApplied: false,
       isProductLoading: false
     };
 

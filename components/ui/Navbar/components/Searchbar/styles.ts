@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { bp } from 'styles';
 
-export const Div = styled.div`
+export const Form = styled.form`
 align-items: center;
 display: flex;
 gap: 0.5em;

@@ -1,4 +1,5 @@
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 import { searchProduct } from 'services';
@@ -7,7 +8,7 @@ import { IProduct } from 'interfaces';
 import { Spinner, Button, ProductSearchCard } from 'components/ui';
 
 import { lightTheme } from 'styles';
-import { Div, Input, InputWrapper, P, SearchBox, Section, SpinnerWrapper } from './styles';
+import { Form, Input, InputWrapper, P, SearchBox, Section, SpinnerWrapper } from './styles';
 
 
 export const Searchbar = () => {
@@ -19,6 +20,7 @@ export const Searchbar = () => {
   const [isHover, setHover] = useState(false);
   const searchBoxRef = useRef<HTMLDivElement>(null);
   const isSearchBoxVisible = inputValue.length > 0 && searchList.length !== 0 && isFocus;
+  const router = useRouter();
 
   const handleSearch = async (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -34,8 +36,13 @@ export const Searchbar = () => {
     }
   };
 
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    router.push(`/products?search=${inputValue}`);
+  };
+
   return (
-    <Div>
+    <Form onSubmit={handleSubmit}>
       <InputWrapper
         onBlur={handleVisibility}
       >
@@ -74,7 +81,7 @@ export const Searchbar = () => {
             {
               searchList.length > 4
               &&
-              <Link href={`/search?q=${inputValue}`} passHref>
+              <Link href={`/products?search=${inputValue}`} passHref>
                 <Section>
                   <P>And {searchList.length - 4} more products</P>
                 </Section>
@@ -92,6 +99,6 @@ export const Searchbar = () => {
       >
         Search
       </Button>
-    </Div>
+    </Form>
   );
 };

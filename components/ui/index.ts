@@ -5,6 +5,7 @@ export * from './Modal';
 export * from './ProductCartCard';
 export * from './ProductGridCard';
 export * from './ProductListCard';
+export * from './ProductSearchCard';
 export * from './ProductImagesCarrousel';
 export * from './AsideFilter';
 export * from './Spinner';

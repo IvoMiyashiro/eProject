@@ -1,16 +1,88 @@
-import { Button } from 'components/ui/Button';
+import { ChangeEvent, useRef, useState } from 'react';
+import Link from 'next/link';
 
-import styled from 'styled-components';
+import { searchProduct } from 'services';
+
+import { IProduct } from 'interfaces';
+import { Spinner, Button, ProductSearchCard } from 'components/ui';
+
 import { lightTheme } from 'styles';
-import { bp } from 'styles';
+import { Div, Input, InputWrapper, P, SearchBox, Section, SpinnerWrapper } from './styles';
+
 
 export const Searchbar = () => {
+
+  const [inputValue, setInputValue] = useState('');
+  const [searchList, setSearchList] = useState<IProduct[] | []>([]);
+  const [isLoading, setLoading] = useState(false);
+  const [isFocus, setFocus] = useState(false);
+  const [isHover, setHover] = useState(false);
+  const searchBoxRef = useRef<HTMLDivElement>(null);
+  const isSearchBoxVisible = inputValue.length > 0 && searchList.length !== 0 && isFocus;
+
+  const handleSearch = async (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+    setLoading(true);
+    const search = await searchProduct(e.target.value);
+    setLoading(false);
+    setSearchList(search);
+  };
+
+  const handleVisibility = () => {
+    if (!isHover) {
+      setFocus(false);
+    }
+  };
+
   return (
     <Div>
-      <Input
-        type="text"
-        placeholder="Type a product name..."
-      />
+      <InputWrapper
+        onBlur={handleVisibility}
+      >
+        <Input
+          type="text"
+          placeholder="Type a product name..."
+          value={inputValue}
+          onChange={handleSearch}
+          onFocus={() => setFocus(true)}
+        />
+        {
+          isSearchBoxVisible
+          &&
+          <SearchBox
+            ref={searchBoxRef}
+            onMouseOver={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+          >
+            {
+              isLoading
+                ? <SpinnerWrapper><Spinner size="18px" /></SpinnerWrapper>
+                : searchList.map((product, i) => {
+                  if (i < 4) {
+                    return (
+                      <ProductSearchCard 
+                        key={product.id}
+                        id={product.id}
+                        image={product.image_urls[0]}
+                        title={product.title}
+                        onClick={() => {setFocus(false); setInputValue('');}}
+                      />
+                    );
+                  }
+                })
+            }
+            {
+              searchList.length > 4
+              &&
+              <Link href={`/search?q=${inputValue}`} passHref>
+                <Section>
+                  <P>And {searchList.length - 4} more products</P>
+                </Section>
+              </Link>
+            }
+          </SearchBox>
+        }
+      </InputWrapper>
       <Button
         bgColor={lightTheme.color_tertiary_0}
         textColor={lightTheme.color_ui_text_main}
@@ -23,25 +95,3 @@ export const Searchbar = () => {
     </Div>
   );
 };
-
-const Div = styled.div`
-  align-items: center;
-  display: flex;
-  gap: 0.5em;
-  height: 40px;
-
-  @media (max-width: ${bp.tablet}) {
-    display: none;
-  }
-`;
-  
-export const Input = styled.input`
-  border-radius: 2px;
-  border: none;
-  height: 100%;
-  outline: none;
-  padding: 0 1em;
-  transition: 0.2s ease-in-out;
-  width: 100%;
-`;
-

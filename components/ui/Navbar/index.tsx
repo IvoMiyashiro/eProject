@@ -3,12 +3,11 @@ import { useEffect, useCallback, useState } from 'react';
 import { Logo } from '../Logo';
 import { ActionButtons, Searchbar, Navigation } from './components';
 
-import { DefaultTheme } from 'styled-components';
 import { lightTheme } from 'styles';
 import { Div, Nav, NavWrapper, Section, Wrapper } from './styles';
 
 interface Props {
-  handleAppTheme: (theme: DefaultTheme) => void;
+  handleAppTheme: any;
 }
 
 export const Navbar = ({ handleAppTheme }: Props) => {

@@ -66,6 +66,7 @@ export const handleSubmit = (
       categories: filters.categories,
       stock: filters.stock,
       price: filters.price,
+      search: router.query.search
     },
   }, undefined, { shallow: true });
 

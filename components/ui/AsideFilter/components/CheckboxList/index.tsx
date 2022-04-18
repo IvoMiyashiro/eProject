@@ -37,6 +37,7 @@ export const CheckboxList = ({ list, title, rows, isLoading, handleUpdateFilters
         categories: filters.categories,
         stock: filters.stock,
         price: filters.price,
+        search: router.query.search
       },
     }, undefined, { shallow: true });
 

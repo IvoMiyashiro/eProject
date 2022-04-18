@@ -214,7 +214,7 @@ const getFilteredProducts = async(req: NextApiRequest, res: NextApiResponse<Data
   }
 
   else if (search_b_FilterSelected) {
-    // console.log('Filtro P y S y C');
+    // console.log('Filtro Search y B');
     query = 'SELECT id, title, price, discount_price, stock, brand, category, image_urls FROM product WHERE (LOWER(title) LIKE LOWER($1) OR LOWER(brand) LIKE LOWER($1) OR LOWER(category) LIKE LOWER($1)) AND brand = ANY ($2) LIMIT 12 OFFSET ($3)';
     values = [searchRegEx, bArray, offset];
   }
@@ -276,7 +276,6 @@ const getFilteredProducts = async(req: NextApiRequest, res: NextApiResponse<Data
 
   try {
     const { rows } = await db.conn.query(query, values);
-    console.log(rows);
     return res.status(200).json({
       ok: true,
       products: rows

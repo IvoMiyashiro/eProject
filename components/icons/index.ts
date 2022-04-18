@@ -28,3 +28,4 @@ export * from './Dislike';
 export * from './Like';
 export * from './Edit';
 export * from './Lock';
+export * from './Logo';

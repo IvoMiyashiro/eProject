@@ -64,14 +64,15 @@ export const Searchbar = () => {
             {
               isLoading
                 ? <SpinnerWrapper><Spinner size="18px" /></SpinnerWrapper>
-                : searchList.map((product, i) => {
+                : searchList.map(({id, brand, image_urls, title}, i) => {
                   if (i < 4) {
                     return (
                       <ProductSearchCard 
-                        key={product.id}
-                        id={product.id}
-                        image={product.image_urls[0]}
-                        title={product.title}
+                        key={id}
+                        id={id}
+                        brand={brand}
+                        image={image_urls[0]}
+                        title={title}
                         onClick={() => {setFocus(false); setInputValue('');}}
                       />
                     );

@@ -41,6 +41,7 @@ export const InputControlled = ({ type, placeholder, control, onChange, onBlur, 
             onFocus={() => setFocus(true)}
             onBlur={() => {setFocus(false); onBlur();}}
             onKeyUp={onKeyUp}
+            autoComplete="none"
           />
         </Wrapper>
       </Div>

@@ -33,3 +33,13 @@ export const Div = styled.div`
     transition: .3s;
   }
 `;
+
+export const Wrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const P = styled.p`
+  color: ${props => props.theme.color_neutral_0};
+  font-size: 0.7rem;
+`;

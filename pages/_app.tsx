@@ -15,17 +15,14 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
 
   return (
     <SessionProvider session={session}>
-      <ThemeProvider theme={appTheme}>
-        <UiProvider>
+      <UiProvider>
+        <ThemeProvider theme={appTheme}>
           <CartProvider>
-            <Navbar handleAppTheme={setAppTheme} />
-            <MobileMenu />
-            <Cart />
             <Component {...pageProps} />
             <GlobalStyle />
           </CartProvider>
-        </UiProvider>
-      </ThemeProvider>
+        </ThemeProvider>
+      </UiProvider>
     </SessionProvider>
   );
 }

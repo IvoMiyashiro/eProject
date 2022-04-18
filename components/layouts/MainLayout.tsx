@@ -2,6 +2,8 @@ import Head from 'next/head';
 import { ReactChild } from 'react';
 import styled from 'styled-components';
 
+import { Navbar, MobileMenu, Cart } from 'components/ui';
+
 interface Props {
   title: string;
   description: string;
@@ -11,10 +13,14 @@ interface Props {
 export const MainLayout = ({ title, description, children }: Props) => {
   return (
     <>
-      <Head>
+      <Head>  
         <title>{title}</title>
         <meta name="description" content={description} />
       </Head>
+
+      <Navbar handleAppTheme={ null } />
+      <MobileMenu />
+      <Cart />
       <Main>
         { children }
       </Main>

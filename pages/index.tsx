@@ -1,62 +1,58 @@
 import type { NextPage } from 'next';
-import Head from 'next/head';
-
-import { Button } from 'components/ui';
-
 import styled from 'styled-components';
-import { ArrowRightIcon, GithubIcon } from 'components/icons';
+
+import { Button, MainLayout, ArrowRightIcon, GithubIcon } from 'components';
+
 import { lightTheme } from 'styles';
 
 const HomePage: NextPage = () => {
   return (
     <>
-      <Head>
-        <title>eProject | We give the best shopping experience posible</title>
-      </Head>
-
-      <Div>
-        <Section>
-          <H1>We</H1>
-          <H1>Are</H1>
-          <Logo>
-            <H1>eProject</H1>
-            <Underline />
-          </Logo>
-        </Section>
-        <Section>
-          <P>I developed this e-commerce with <Span>Next.js</Span> to give to users the <Span>best shoppings experience</Span> posible.</P>
-          <ButtonWrapper>
-            <Button
-              width="175px"
-              height="45px"
-              bRadius="4px"
-              bgColor={lightTheme.color_neutral_1}
-              textColor={lightTheme.color_ui_text_main}
-              isLink={true}
-              href="https://github.com/IvoMiyashiro/eProject"
-            >
-              <Wrapper>
-                <GithubIcon width="18px" height="18px" />
-              See Repo
-              </Wrapper>
-            </Button>
-            <Button
-              width="175px"
-              height="45px"
-              bRadius="4px"
-              bgColor={lightTheme.color_neutral_1}
-              textColor={lightTheme.color_ui_text_main}
-              isLink={true}
-              href="/products"
-            >
-              <Wrapper>
-              Go Shopping
-                <ArrowRightIcon width="16px" height="16px" />
-              </Wrapper>
-            </Button>
-          </ButtonWrapper>
-        </Section>
-      </Div>
+      <MainLayout title="eProject | We give the best shopping experience posible" description="">
+        <Div>
+          <Section>
+            <H1>We</H1>
+            <H1>Are</H1>
+            <Logo>
+              <H1>eProject</H1>
+              <Underline />
+            </Logo>
+          </Section>
+          <Section>
+            <P>I developed this e-commerce with <Span>Next.js</Span> to give to users the <Span>best shoppings experience</Span> posible.</P>
+            <ButtonWrapper>
+              <Button
+                width="175px"
+                height="45px"
+                bRadius="4px"
+                bgColor={lightTheme.color_neutral_1}
+                textColor={lightTheme.color_ui_text_main}
+                isLink={true}
+                href="https://github.com/IvoMiyashiro/eProject"
+              >
+                <Wrapper>
+                  <GithubIcon width="18px" height="18px" />
+                  See Repo
+                </Wrapper>
+              </Button>
+              <Button
+                width="175px"
+                height="45px"
+                bRadius="4px"
+                bgColor={lightTheme.color_neutral_1}
+                textColor={lightTheme.color_ui_text_main}
+                isLink={true}
+                href="/products"
+              >
+                <Wrapper>
+                  Go Shopping
+                  <ArrowRightIcon width="16px" height="16px" />
+                </Wrapper>
+              </Button>
+            </ButtonWrapper>
+          </Section>
+        </Div>
+      </MainLayout>
     </>
   );
 };

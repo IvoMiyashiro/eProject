@@ -27,3 +27,4 @@ export * from './Return';
 export * from './Dislike';
 export * from './Like';
 export * from './Edit';
+export * from './Lock';

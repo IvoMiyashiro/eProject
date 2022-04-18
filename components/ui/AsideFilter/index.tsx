@@ -22,8 +22,20 @@ export const AsideFilter = () => {
   return (
     <Aside>
       <Stock />
-      <CheckboxList list={brands} title="Manufacturer" rows={17} isLoading={isBrandLoading} handleUpdateFilters={updateBrandsFilter} />
-      <CheckboxList list={categories} title="Categories" rows={9} isLoading={isCategoryLoading} handleUpdateFilters={updateCategoriesFilter} />
+      <CheckboxList
+        list={brands}
+        title="Manufacturer"
+        rows={17}
+        isLoading={isBrandLoading}
+        handleUpdateFilters={updateBrandsFilter}
+      />
+      <CheckboxList 
+        list={categories}
+        title="Categories"
+        rows={9}
+        isLoading={isCategoryLoading}
+        handleUpdateFilters={updateCategoriesFilter}
+      />
       <PriceFilter />
       <ReasetButtonWrapper>
         <Button

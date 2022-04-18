@@ -1,14 +1,13 @@
 import { FormEvent, useState } from 'react';
+import Link from 'next/link';
 
 import { Button } from '../';
 import { Inputs } from './Inputs';
+import { Providers } from './Providers';
+import { LogoIcon } from 'components/icons';
 
 import { lightTheme } from 'styles';
-import { Form, H1, Section, Wrapper, Label, Checkbox, A, ButtonWrapper, LogoWrapper, LinkWrapper } from './styles';
-import { LogoIcon } from 'components/icons/Logo';
-import { Providers } from './Providers';
-import Link from 'next/link';
-import { P } from '../MapLinks';
+import { Form, H1, Section, Wrapper, Label, Checkbox, A, ButtonWrapper, LogoWrapper, LinkWrapper, P } from './styles';
 
 interface IInputControl {
   value: string;
@@ -53,7 +52,11 @@ export const SigninForm = () => {
   return (
     <Form onSubmit={handleInputSubmit}>
       <LogoWrapper>
-        <LogoIcon widht="40px" height="40px" color={lightTheme.color_primary_0}/>
+        <Link href="/" passHref>
+          <LinkWrapper>
+            <LogoIcon widht="40px" height="40px" color={lightTheme.color_primary_0}/>
+          </LinkWrapper>
+        </Link>
         <H1>Sign in</H1>
       </LogoWrapper>
       <Inputs

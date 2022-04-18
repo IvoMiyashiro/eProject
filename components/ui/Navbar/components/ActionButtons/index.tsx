@@ -38,7 +38,7 @@ export const ActionButtons = ({ handleAppTheme }: Props) => {
 
         
       </Button>
-      <Link href="/signin" passHref>
+      <Link href="/auth/signin" passHref>
         <Button>
           <UserIcon width="23px" height="23px" />
         </Button>

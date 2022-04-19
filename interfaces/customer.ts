@@ -1,10 +1,10 @@
 export interface ICustomer {
   id: string;
   name: string;
-  username: string;
   email: string;
   profile_image: string;
   shipping_info?: Shipping_info;
+  token: string;
   role: 'admin' | 'client';
 }
 

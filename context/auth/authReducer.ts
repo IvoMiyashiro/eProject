@@ -3,8 +3,8 @@ import { ICustomer } from '../../interfaces';
 
 
 type AuthActionType = 
-   | { type: '[Auth] - Signin', payload: ICustomer } 
-   | { type: '[Auth] - Signout' } 
+   | { type: '[Auth] - Signin', payload: ICustomer }
+   | { type: '[Auth] - Signout' }
 
 
 export const authReducer = ( state: AuthState, action: AuthActionType ): AuthState => {
@@ -14,14 +14,14 @@ export const authReducer = ( state: AuthState, action: AuthActionType ): AuthSta
     return {
       ...state,
       isLoggedIn: true,
-      user: action.payload
+      customer: action.payload
     };
 
   case '[Auth] - Signout':
     return {
       ...state,
       isLoggedIn: false,
-      user: undefined,
+      customer: undefined,
     };
 
 

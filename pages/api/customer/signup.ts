@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { v4 as uuidv4 } from 'uuid';
-import { saltPassword } from 'helpers/encryption';
+
 import { db } from 'database';
+import { generateJWT, saltPassword } from 'helpers';
 
 type Data = { ok: boolean, message?: string, customer?: any }
 
@@ -32,10 +33,11 @@ const postCustomer = async (req: NextApiRequest, res: NextApiResponse<Data>) => 
   try {
     const { rows } = await db.conn.query(query, values);
     const { name, email } = rows[0];
+    const token = await generateJWT(uid, name);
 
     return res.status(200).json({
       ok: true,
-      customer: { name, email }
+      customer: { name, email, token }
     });
 
   } catch (error: any) {
@@ -44,12 +46,14 @@ const postCustomer = async (req: NextApiRequest, res: NextApiResponse<Data>) => 
     if (error.code === '23505') {
       return res.status(400).json({
         ok: false,
+        customer: null,
         message: 'Email is already in use.'
       });
     }
 
     return res.status(500).json({
       ok: false,
+      customer: null,
       message: 'Internal server error.'
     });
   }

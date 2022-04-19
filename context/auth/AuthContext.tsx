@@ -5,8 +5,8 @@ interface ContextProps {
     isLoggedIn: boolean;
     customer?: ICustomer;
 
-    signin: (email: string, password: string) => Promise<boolean>;
-    signup: (name: string, email: string, password: string) => Promise<{ hasError: boolean; message?: string; }>;
+    signin: (email: string, password: string) => Promise<{error: boolean;message?: string;}>;
+    signup: (name: string, email: string, password: string) => Promise<{error: boolean;message?: string;}>;
     signout: () => void;
 }
 

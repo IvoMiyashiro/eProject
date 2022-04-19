@@ -1,10 +1,13 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
+import { signIn, getProviders } from 'next-auth/react';
+
+import { AuthContext } from 'context';
 
 import { Button } from '../';
 import { Inputs } from './Inputs';
 import { Providers } from './Providers';
-import { LogoIcon } from 'components/icons';
+import { LogoIcon, Spinner } from 'components';
 
 import { lightTheme } from 'styles';
 import { Form, H1, Section, Wrapper, Label, Checkbox, A, ButtonWrapper, LogoWrapper, LinkWrapper, P } from './styles';
@@ -17,20 +20,29 @@ interface IInputControl {
 
 export const SigninForm = () => {
 
-  const [emailInputControl, setEmailInputControl] = useState<IInputControl>({
+  const { signin } = useContext(AuthContext);
+  const INPUT_CONTROL_INIT_STATE = {
     value: '',
     error: false,
     errorMsj: ''
-  });
+  };
+  
 
-  const [passwordInputControl, setPasswordInputControl] = useState<IInputControl>({
-    value: '',
-    error: false,
-    errorMsj: ''
-  });
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isValidForm, setValidForm] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const [emailInputControl, setEmailInputControl] = useState<IInputControl>(INPUT_CONTROL_INIT_STATE);
+  const [passwordInputControl, setPasswordInputControl] = useState<IInputControl>(INPUT_CONTROL_INIT_STATE);
 
-  const handleInputSubmit = (e: FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    if (!emailInputControl.error && !passwordInputControl.error) {
+      setValidForm(true);
+    }
+  }, [emailInputControl.error, passwordInputControl.error]);
+
+  const handleInputSubmit = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    let valid = true;
 
     if (emailInputControl.value.length === 0) {
       setEmailInputControl({
@@ -38,6 +50,8 @@ export const SigninForm = () => {
         error: true,
         errorMsj: '* Email must be filled.'
       });
+      valid = false;
+      setValidForm(false);
     }
 
     if (passwordInputControl.value.length === 0) {
@@ -46,7 +60,38 @@ export const SigninForm = () => {
         error: true,
         errorMsj: '* Password must be filled.'
       });
+      valid = false;
+      setValidForm(false);
     }
+
+    if (!valid) return;
+
+    setLoading(true);
+    const { error, message } = await signin(emailInputControl.value, passwordInputControl.value);
+
+    if (error) {
+      setValidForm(false);
+      if (message === 'Incorrect email or password.') {
+        setEmailInputControl({
+          ...emailInputControl,
+          error: true,
+          errorMsj: '*' + message
+        });
+        setPasswordInputControl({
+          ...passwordInputControl,
+          error: true,
+          errorMsj: '*' + message
+        });
+      } else {
+        setErrorMessage('Internal server error.');
+      }
+      return setLoading(false);
+    }
+
+    await signIn('credentials', {
+      email: emailInputControl.value,
+      password: passwordInputControl.value
+    });
   };
 
   return (
@@ -65,6 +110,7 @@ export const SigninForm = () => {
         handleEmailControl={setEmailInputControl}
         handlePasswordControl={setPasswordInputControl}
       />
+      { !!errorMessage && errorMessage }
       <Section>
         <Wrapper>
           <Label>
@@ -82,8 +128,13 @@ export const SigninForm = () => {
           textColor={lightTheme.color_ui_text_contrast}
           fontSize="1rem"
           type="submit"
+          disabled={isValidForm ? false : true}
         >
-            Sign in
+          {
+            isLoading
+              ? <Spinner size="20px" color={'#fff'} />
+              : 'Sign in'
+          }
         </Button>
       </ButtonWrapper>
       <Providers />

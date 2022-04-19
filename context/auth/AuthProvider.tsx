@@ -1,55 +1,75 @@
 import { FC, useReducer, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { useSession, signOut } from 'next-auth/react';
 
-import Cookies from 'js-cookie';
+import { signUp } from 'services/signUp';
 
 import { ICustomer } from 'interfaces';
 import { AuthContext, authReducer } from './';
-
-import { tesloApi } from '../../api';
+import { signIn } from 'services/signIn';
 
 export interface AuthState {
     isLoggedIn: boolean;
-    user?: IUser;
+    customer?: ICustomer;
 }
 
 const AUTH_INITIAL_STATE: AuthState = {
   isLoggedIn: false,
-  user: undefined,
+  customer: undefined,
 };
 
 export const AuthProvider:FC = ({ children }) => {
 
   const [state, dispatch] = useReducer( authReducer, AUTH_INITIAL_STATE );
   const { data, status } = useSession();
-  const router = useRouter();
 
   useEffect(() => {
     if ( status === 'authenticated' ) {
-      console.log({user: data?.user});
-      dispatch({ type: '[Auth] - Login', payload: data?.user as IUser });
+      dispatch({ type: '[Auth] - Signin', payload: data?.user as ICustomer });
     }
-    
   }, [ status, data ]);
 
 
-  const loginUser = async( email: string, password: string ) => {
+  const signin = async( email: string, password: string ) => {
+    try {
+      const { customer, message } = await signIn(email, password);
 
+      if (!!message) return { error: true, message };
 
+      dispatch({
+        type: '[Auth] - Signin',
+        payload: customer!
+      });
 
+      return { error: false };
+    } catch (error) {
+      console.log(error);
+      return { error: true };
+    }
   };
 
 
-  const registerUser = async( name: string, email: string, password: string ) => {
+  const signup = async( name: string, email: string, password: string ): Promise<{error: boolean; message?: string}> => {
+    try {
+      const { customer, message } = await signUp(name, email, password);
 
+      if (!!message) return { error: true, message };
+
+      dispatch({
+        type: '[Auth] - Signin',
+        payload: customer!
+      });
+
+      return { error: false };
+    } catch(error) {
+      console.log(error);
+      return { error: true };
+    }
   };
 
 
-  const logout = () => {
+  const signout = () => {
     signOut();
   };
-
 
 
   return (
@@ -57,9 +77,9 @@ export const AuthProvider:FC = ({ children }) => {
       ...state,
 
       // Methods
-      loginUser,
-      registerUser,
-      logout,
+      signin,
+      signup,
+      signout,
     }}>
       { children }
     </AuthContext.Provider>

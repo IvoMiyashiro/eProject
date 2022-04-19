@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { verifyPassword ,generateJWT } from 'helpers';
+import { verifyPassword } from 'helpers';
 import { db } from 'database';
 
 type Data = { ok: boolean, message?: string, customer?: any }
@@ -31,24 +31,22 @@ const postCustomer = async (req: NextApiRequest, res: NextApiResponse<Data>) => 
     if (rows.length === 0) {
       return res.status(400).json({
         ok: false,
-        message: 'Incorrect email or password'
+        message: 'Incorrect email or password.'
       });
     }
 
-    const { id, name, password: dbPassword, role } = rows[0];
+    const { id, name, password: dbPassword, role, profile_image } = rows[0];
 
     if (!verifyPassword(dbPassword, password)) {
       return res.status(400).json({
         ok: false,
-        message: 'Incorrect email or password'
+        message: 'Incorrect email or password.'
       });
     }
 
-    const token = await generateJWT(id, name);
-
     return res.status(200).json({
       ok: true,
-      customer: { name, email, role, token }
+      customer: { id, name, email, role, profile_image }
     });
     
 

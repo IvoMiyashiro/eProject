@@ -84,6 +84,14 @@ export const Inputs = ({ nameControl ,emailControl, passwordControl, handleNameC
       });
     }
 
+    if (passwordControl.value.length > 0 && passwordControl.value.length < 6) {
+      return handlePasswordControl({
+        ...passwordControl,
+        error: true,
+        errorMsj: '* Password length must be greater than 6.'
+      });
+    }
+
     handlePasswordControl({
       ...passwordControl,
       error: false,

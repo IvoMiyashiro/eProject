@@ -1,8 +1,9 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import styled from 'styled-components';
+import { getSession } from 'next-auth/react';
 
-import { SigninForm } from 'components/ui/SinginForm';
+import { SigninForm } from 'components/ui';
 
 const SigninPage: NextPage = () => {
   return (
@@ -18,9 +19,28 @@ const SigninPage: NextPage = () => {
   );
 };
 
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
+    
+  const session = await getSession({ req });
+  const { p = '/' } = query;
+
+  if (session) {
+    return {
+      redirect: {
+        destination: p.toString(),
+        permanent: false
+      }
+    };
+  }
+
+  return {
+    props: { }
+  };
+};
+
 export default SigninPage;
 
-export const Div = styled.div`
+const Div = styled.div`
   align-items: center;
   background-color: ${props => props.theme.color_neutral_1};
   display: flex;

@@ -5,3 +5,5 @@ export * from './getProduct';
 export * from './getProductSpecs';
 export * from './getProductReviews';
 export * from './searchProduct';
+export * from './signUp';
+export * from './signIn';

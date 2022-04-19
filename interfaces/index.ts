@@ -2,5 +2,5 @@ export * from './product';
 export * from './category';
 export * from './brand';
 export * from './specs';
-export * from './user';
+export * from './customer';
 export * from './reviews';

@@ -7,7 +7,7 @@ import { Button } from '../';
 import { LogoIcon } from 'components/icons';
 
 import { lightTheme } from 'styles';
-import { Form, H1, Section, Wrapper, Label, Checkbox, A, ButtonWrapper, LogoWrapper, LinkWrapper, P } from './styles';
+import { Form, H1, ButtonWrapper, LogoWrapper, LinkWrapper, P } from './styles';
 
 interface IInputControl {
   value: string;

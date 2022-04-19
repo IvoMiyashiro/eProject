@@ -1,7 +1,8 @@
 import styled, { keyframes } from 'styled-components';
 
 interface Styles {
-  size: any;
+  size?: any;
+  color?: string;
 }
 
 export const skChase = keyframes`
@@ -35,7 +36,7 @@ export const Chase = styled.div<Styles>`
   animation: ${skChase} 2.5s infinite linear both;
 `;
 
-export const Dot = styled.div`
+export const Dot = styled.div<Styles>`
     width: 100%;
     height: 100%;
     position: absolute;
@@ -47,7 +48,7 @@ export const Dot = styled.div`
     content: "";
     display: block;
     width: 25%;
-    background-color: ${prosp => prosp.theme.color_primary_2};
+    background-color: ${prosp => prosp.color};
     height: 25%;
     border-radius: 100%;
     animation: ${skChaseDotBefore} 2s infinite ease-in-out both;

@@ -24,7 +24,8 @@ export const Div = styled.div`
   align-items: center;
   background-color: ${props => props.theme.color_neutral_1};
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   justify-content: center;
   width: 100%;
+  padding: 4em;
 `;

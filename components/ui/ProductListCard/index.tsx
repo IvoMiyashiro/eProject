@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -13,7 +13,7 @@ interface Props {
   product: IProduct;
 }
 
-export const ProductListCard = ({ product }: Props) => {
+const ProductListCard = ({ product }: Props) => {
 
   const { cart, addToCart, removeFromCart } = useContext(CartContext);
   const [isInCart, setInCart] = useState(false);
@@ -107,3 +107,5 @@ export const ProductListCard = ({ product }: Props) => {
     </Div>
   );
 };
+
+export default React.memo(ProductListCard);

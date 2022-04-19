@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -11,7 +11,7 @@ import { AddToCartButton, Header, Div, ImageWrapper, InfoWrapper, Title, H2, Pri
 
 interface Props { product: IProduct; }
 
-export const ProductGridCard = ({ product }: Props) => {
+const ProductGridCard = ({ product }: Props) => {
 
   const { cart, addToCart, removeFromCart } = useContext(CartContext);
   const [isInCart, setInCart] = useState(false);
@@ -103,3 +103,5 @@ export const ProductGridCard = ({ product }: Props) => {
     </Div>
   );
 };
+
+export default React.memo(ProductGridCard);

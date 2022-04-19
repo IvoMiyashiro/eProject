@@ -14,6 +14,7 @@ interface Props {
   width?: string;
   fontSize?: string;
   type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
   onClick?: any;
 }
 
@@ -28,6 +29,7 @@ export const Button = ({
   height = '100%',
   fontSize = '0.8rem',
   type = 'button',
+  disabled = false,
   onClick
 }: Props) => {
   return (
@@ -36,13 +38,13 @@ export const Button = ({
         isLink
           ? (
             <Link href={href} passHref>
-              <ButtonWrapper color={textColor} bgColor={bgColor} bRadius={bRadius} width={width} height={height} fontSize={fontSize}>
+              <ButtonWrapper color={textColor} bgColor={bgColor} bRadius={bRadius} width={width} height={height} fontSize={fontSize} disabled={disabled}>
                 { children }
               </ButtonWrapper>
             </Link>
           )
           : (
-            <ButtonWrapper type={type} onClick={onClick} color={textColor} bgColor={bgColor} bRadius={bRadius} width={width} height={height} fontSize={fontSize}>
+            <ButtonWrapper type={type} onClick={onClick} color={textColor} bgColor={bgColor} bRadius={bRadius} width={width} height={height} fontSize={fontSize} disabled={disabled}>
               { children}
             </ButtonWrapper>
           )
@@ -71,4 +73,8 @@ const ButtonWrapper = styled.button<Styles>`
   justify-content: center;
   width: ${props => props.width};
   font-size: ${props => props.fontSize};
+
+  :disabled {
+    background-color: ${props => props.bgColor + '99'};
+  }
 `;

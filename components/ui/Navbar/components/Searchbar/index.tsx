@@ -40,7 +40,7 @@ export const Searchbar = () => {
     e.preventDefault();
     router.push(`/products?search=${inputValue}`);
   };
-
+  
   return (
     <Form onSubmit={handleSubmit}>
       <InputWrapper

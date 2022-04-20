@@ -10,7 +10,7 @@ interface Props {
   handleAppTheme: any;
 }
 
-export const Navbar = ({ handleAppTheme }: Props) => {
+export const Navbar = () => {
 
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -50,7 +50,7 @@ export const Navbar = ({ handleAppTheme }: Props) => {
               <Searchbar />
             </Section>
             <Section>
-              <ActionButtons handleAppTheme={handleAppTheme} />
+              <ActionButtons />
             </Section>
           </Wrapper>
         </Div>

@@ -56,3 +56,10 @@ export const ImageWrapper = styled.div`
   position: relative;
   width: 35px;
 `;
+
+export const Skeleton = styled.div`
+  border-radius: 50%;
+  min-height: 35px;
+  min-width: 35px;
+  background-color: ${props => props.theme.color_neutral_1};
+`;

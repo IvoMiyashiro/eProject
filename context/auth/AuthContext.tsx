@@ -2,6 +2,7 @@ import { createContext } from 'react';
 import { ICustomer } from 'interfaces';
 
 interface ContextProps {
+    isLoading: boolean;
     isLoggedIn: boolean;
     customer?: ICustomer;
 

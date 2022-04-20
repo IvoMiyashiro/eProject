@@ -8,11 +8,13 @@ import { AuthContext, authReducer } from './';
 import { signIn } from 'services/signIn';
 
 export interface AuthState {
+    isLoading: boolean;
     isLoggedIn: boolean;
     customer?: ICustomer;
 }
 
 const AUTH_INITIAL_STATE: AuthState = {
+  isLoading: true,
   isLoggedIn: false,
   customer: undefined,
 };
@@ -25,6 +27,10 @@ export const AuthProvider:FC = ({ children }) => {
   useEffect(() => {
     if ( status === 'authenticated' ) {
       dispatch({ type: '[Auth] - Signin', payload: data?.user as ICustomer });
+    } else if (status === 'loading') {
+      dispatch({ type: '[Auth] - Start Loading' });
+    } else if (status === 'unauthenticated') {
+      dispatch({ type: '[Auth] - Finish Loading' });
     }
   }, [ status, data ]);
 

@@ -1,23 +1,18 @@
 import { useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { DefaultTheme } from 'styled-components';
 
 import { AuthContext, CartContext, UiContext } from 'context';
 
 import { CartIcon, DarkModeIcon, UserIcon, BarsIcon } from 'components/icons';
 import { UserDropdown } from '../UserDropdown';
 
-import { Button, CartItemsCounter, LastButton, Div, ImageWrapper } from './styles';
+import { Button, CartItemsCounter, LastButton, Div, ImageWrapper, Skeleton } from './styles';
 
-interface Props {
-  handleAppTheme: (theme: DefaultTheme) => void;
-}
-
-export const ActionButtons = ({ handleAppTheme }: Props) => {
+export const ActionButtons = () => {
 
   const { toggleMenu, toggleCartMenu } = useContext(UiContext);
-  const { isLoggedIn, customer } = useContext(AuthContext);
+  const { isLoading, isLoggedIn, customer } = useContext(AuthContext);
   const { cart } = useContext(CartContext);
 
   return (
@@ -40,27 +35,29 @@ export const ActionButtons = ({ handleAppTheme }: Props) => {
         }
       </Button>
       {
-        isLoggedIn
-          ? (
-            <Div>
-              <ImageWrapper>
-                <Image
-                  src={customer!.profile_image || '/images/profile_image.png'}
-                  alt={customer!.name}
-                  layout="fill"
-                  objectFit="contain"
-                />
-              </ImageWrapper>
-              <UserDropdown image={customer!.profile_image} name={customer!.name} email={customer!.email} role={customer!.role}/>
-            </Div>
-          )
-          : (
-            <Link href="/auth/signin" passHref>
-              <Button>
-                <UserIcon width="23px" height="23px" />
-              </Button>
-            </Link>
-          )
+        isLoading
+          ? <Skeleton></Skeleton>
+          : isLoggedIn
+            ? (
+              <Div>
+                <ImageWrapper>
+                  <Image
+                    src={customer!.profile_image || '/images/profile_image.png'}
+                    alt={customer!.name}
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                </ImageWrapper>
+                <UserDropdown image={customer!.profile_image} name={customer!.name} email={customer!.email} role={customer!.role}/>
+              </Div>
+            )
+            : (
+              <Link href="/auth/signin" passHref>
+                <Button>
+                  <UserIcon width="23px" height="23px" />
+                </Button>
+              </Link>
+            )
       }
       <LastButton onClick={toggleMenu}>
         <BarsIcon width="35px" height="35px" />

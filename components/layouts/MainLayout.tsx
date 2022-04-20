@@ -18,7 +18,7 @@ export const MainLayout = ({ title, description, children }: Props) => {
         <meta name="description" content={description} />
       </Head>
 
-      <Navbar handleAppTheme={ null } />
+      <Navbar />
       <MobileMenu />
       <Cart />
       <Main>

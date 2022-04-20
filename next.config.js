@@ -5,7 +5,7 @@ const nextConfig = {
     BASE_URL: process.env.BASE_URL,
   },
   images: {
-    domains: ['c1.neweggimages.com'],
+    domains: ['c1.neweggimages.com', 'lh3.googleusercontent.com', 'avatars.githubusercontent.com'],
   },
 };
 

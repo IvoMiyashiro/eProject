@@ -20,3 +20,4 @@ export * from './InputControlled';
 export * from './ButtonProvider';
 export * from './SignupForm';
 export * from './SinginForm';
+export * from './CustomerCard';

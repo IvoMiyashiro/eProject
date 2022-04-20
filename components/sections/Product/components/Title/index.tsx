@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { bp } from 'styles';
 
 interface Props {
   brand: string;
@@ -26,4 +27,8 @@ const Span = styled.span`
 
 const H1 = styled.h1`
   color: ${props => props.theme.color_ui_text_main};
+
+  @media (max-width: ${bp.mobile}) {
+    font-size: 1.25rem;
+  }
 `;

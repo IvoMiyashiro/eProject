@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styled from 'styled-components';
+import { bp } from 'styles';
 
 interface Props {
   links: { name: string; link: string;}[]
@@ -46,6 +47,10 @@ export const A = styled.a`
 
   :hover {
     text-decoration: underline;
+  }
+
+  @media (max-width: ${bp.mobile}) {
+    max-width: 150px;
   }
 `;
 

@@ -66,3 +66,11 @@ export const ButtonWrapper = styled.div`
   margin-top: auto;
   height: 45px;
 `;
+
+export const CustomerCardWrapper = styled.div`
+  background-color: ${props => props.theme.color_primary_1};
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: auto;
+  padding: 0.5em;
+`;

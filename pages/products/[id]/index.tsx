@@ -3,9 +3,11 @@ import styled from 'styled-components';
 
 import { getProducts, getProductById, getProductSpecs } from 'services';
 
-import { IProduct , ISpecs } from 'interfaces';
 import { CatalogProvider } from 'context';
+import { IProduct , ISpecs } from 'interfaces';
 import { MainLayout, MapLinks, Product } from 'components';
+
+import { bp } from 'styles';
 
 interface Props {
   product: IProduct;
@@ -84,4 +86,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 export const Wrapper = styled.div`
   padding: 6em 0;
+
+  @media (max-width: ${bp.mobile}) {
+    padding: 3em 0;
+  }
 `;

@@ -1,3 +1,4 @@
+import { bp } from 'styles';
 import styled from 'styled-components';
 
 export const Div = styled.div`
@@ -7,6 +8,10 @@ export const Div = styled.div`
   0px 0px 17px rgba(0, 0, 0, 0.11);
   border-radius: 12px;
   padding: 2em;
+
+  @media (max-width: ${bp.mobile}) {
+    padding: 1em;
+  }
 `;
 
 export const MainInfo = styled.div`
@@ -14,9 +19,16 @@ export const MainInfo = styled.div`
   gap: 3em;
   position: relative;
   align-items: flex-start;
+  flex-wrap: nowrap;
+
+  @media (max-width: 1024px) {
+    align-items: center;
+    flex-direction: column;
+  }
 `;
 
-export const Wrapper = styled.div``;
+export const Wrapper = styled.div`
+`;
 
 export const Section = styled.section`
   display: flex;
@@ -32,4 +44,9 @@ export const ProductImageWrapper = styled.div`
   position: sticky;
   top: 90px;
 
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    position: relative;
+    top: 0;
+  }
 `;

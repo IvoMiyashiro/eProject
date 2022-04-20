@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 import Link from 'next/link';
 
-import { UiContext } from 'context';
-import { Logo, Button } from 'components/ui';
+import { AuthContext, UiContext } from 'context';
 import { Searchbar } from '../Searchbar';
+import { Logo, Button, CustomerCard } from 'components/ui';
+import { CartIcon, CraftIcon, DarkModeIcon, HomeIcon, InfoIcon, TagIcon } from 'components/icons';
 
-import { BlogIcon, CartIcon, CraftIcon, DarkModeIcon, HomeIcon, InfoIcon, TagIcon } from 'components/icons';
-import { Aside, Section, Ul, Li, P, Wrapper, ButtonWrapper } from './styles';
+import { Aside, Section, Ul, Li, P, Wrapper, ButtonWrapper, CustomerCardWrapper } from './styles';
 import { lightTheme } from 'styles';
 
 interface Props {
@@ -16,6 +16,7 @@ interface Props {
 export const AsideMobileMenu = ({ isMenuOpen }: Props) => {
 
   const { toggleCartMenu } = useContext(UiContext);
+  const { customer, isLoggedIn } = useContext(AuthContext);
 
   return (
     <Aside isOpen={isMenuOpen}>
@@ -64,14 +65,6 @@ export const AsideMobileMenu = ({ isMenuOpen }: Props) => {
               </Wrapper>
             </Link>
           </Li>
-          <Li>
-            <Link href="/home" passHref>
-              <Wrapper>
-                <BlogIcon width="30px" height="25px" />
-                <P>Blog</P>
-              </Wrapper>
-            </Link>
-          </Li>
         </Ul>
       </Section>
       <Section>
@@ -90,15 +83,30 @@ export const AsideMobileMenu = ({ isMenuOpen }: Props) => {
           </Li>
         </Ul>
       </Section>
-      <ButtonWrapper>
-        <Button
-          bgColor={lightTheme.color_primary_1}
-          textColor={lightTheme.color_ui_text_contrast}
-          bRadius="4px"
-        >
-          Signin
-        </Button>
-      </ButtonWrapper>
+      {
+        isLoggedIn
+          ? (
+            <CustomerCardWrapper>
+              <CustomerCard
+                image={customer!.profile_image}
+                email={customer!.email}
+                name={customer!.name}
+                role={customer!.role} 
+              />
+            </CustomerCardWrapper>
+          )
+          : (
+            <ButtonWrapper>
+              <Button
+                bgColor={lightTheme.color_primary_1}
+                textColor={lightTheme.color_ui_text_contrast}
+                bRadius="4px"
+              >
+              Signin
+              </Button>
+            </ButtonWrapper>
+          )
+      }
     </Aside>
   );
 };

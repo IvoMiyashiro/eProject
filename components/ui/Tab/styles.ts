@@ -1,3 +1,4 @@
+import { bp } from 'styles';
 import styled from 'styled-components';
 
 interface Styles {
@@ -43,5 +44,9 @@ export const Li = styled.li<Styles>`
 export const Wrapper = styled.div`
   border: 1px solid ${props => props.theme.color_neutral_0};
   padding: 2em;
+
+  @media (max-width: ${bp.mobile}) {
+    padding: 1em;
+  }
 `;
 

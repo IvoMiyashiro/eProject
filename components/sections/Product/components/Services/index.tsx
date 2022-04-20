@@ -39,7 +39,8 @@ const Ul = styled.ul`
 `;
 
 const Li = styled.li`
-  display: flex;
+  display: grid;
+  grid-template-columns: 30px 1fr;
   align-items: center;
   gap: 0.5em;
   color: ${props => props.theme.color_ui_ok_0};

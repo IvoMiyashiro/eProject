@@ -63,3 +63,10 @@ export const Skeleton = styled.div`
   min-width: 35px;
   background-color: ${props => props.theme.color_neutral_1};
 `;
+
+export const Section = styled.section`
+
+  @media (max-width: ${bp.tablet}) {
+    display: none;
+  }
+`;

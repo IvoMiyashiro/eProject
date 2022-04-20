@@ -7,7 +7,7 @@ import { AuthContext, CartContext, UiContext } from 'context';
 import { CartIcon, DarkModeIcon, UserIcon, BarsIcon } from 'components/icons';
 import { UserDropdown } from '../UserDropdown';
 
-import { Button, CartItemsCounter, LastButton, Div, ImageWrapper, Skeleton } from './styles';
+import { Button, CartItemsCounter, LastButton, Div, ImageWrapper, Skeleton, Section } from './styles';
 
 export const ActionButtons = () => {
 
@@ -34,31 +34,33 @@ export const ActionButtons = () => {
           </CartItemsCounter> 
         }
       </Button>
-      {
-        isLoading
-          ? <Skeleton></Skeleton>
-          : isLoggedIn
-            ? (
-              <Div>
-                <ImageWrapper>
-                  <Image
-                    src={customer!.profile_image || '/images/profile_image.png'}
-                    alt={customer!.name}
-                    layout="fill"
-                    objectFit="contain"
-                  />
-                </ImageWrapper>
-                <UserDropdown image={customer!.profile_image} name={customer!.name} email={customer!.email} role={customer!.role}/>
-              </Div>
-            )
-            : (
-              <Link href="/auth/signin" passHref>
-                <Button>
-                  <UserIcon width="23px" height="23px" />
-                </Button>
-              </Link>
-            )
-      }
+      <Section>
+        {
+          isLoading
+            ? <Skeleton></Skeleton>
+            : isLoggedIn
+              ? (
+                <Div>
+                  <ImageWrapper>
+                    <Image
+                      src={customer!.profile_image || '/images/profile_image.png'}
+                      alt={customer!.name}
+                      layout="fill"
+                      objectFit="contain"
+                    />
+                  </ImageWrapper>
+                  <UserDropdown image={customer!.profile_image} name={customer!.name} email={customer!.email} role={customer!.role}/>
+                </Div>
+              )
+              : (
+                <Link href="/auth/signin" passHref>
+                  <Button>
+                    <UserIcon width="23px" height="23px" />
+                  </Button>
+                </Link>
+              )
+        }
+      </Section>
       <LastButton onClick={toggleMenu}>
         <BarsIcon width="35px" height="35px" />
       </LastButton>

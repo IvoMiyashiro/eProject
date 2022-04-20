@@ -1,12 +1,12 @@
 import { useContext } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { AuthContext } from 'context';
 
 import { ArrowRightIcon } from 'components/icons'; 
 
-import { A, Div, Ul, Li, Span, Wrapper, ImageWrapper, Section, H2, P, Role, Dashboard } from './styles';
+import { A, Div, Ul, Li, Span, Dashboard } from './styles';
+import { CustomerCard } from 'components/ui/CustomerCard';
 
 interface Props {
   image: string;
@@ -23,21 +23,12 @@ export const UserDropdown = ({ image, email, name, role }: Props) => {
     <Div>
       <Ul>
         <Li>
-          <Wrapper>
-            <ImageWrapper>
-              <Image
-                src={image}
-                alt={name}
-                layout="fill"
-                objectFit="cover"
-              />
-            </ImageWrapper>
-            <Section>
-              <H2>{ name }</H2>
-              <Role>{ role }</Role>
-              <P>{ email }</P>
-            </Section>
-          </Wrapper>
+          <CustomerCard 
+            image={image}
+            email={email}
+            name={name}
+            role={role}
+          />
         </Li>
         <Li>
           <Link href="/profile" passHref>

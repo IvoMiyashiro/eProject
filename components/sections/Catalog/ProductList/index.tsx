@@ -5,6 +5,7 @@ import { CatalogContext } from 'context';
 import { ProductGridCard, ProductListCard, Spinner } from 'components/ui';
 
 import { ProductListAsGrid, ProductListAsList, ScrollSpinnerWrapper, SpinnerWrapper } from './styles';
+import { lightTheme } from 'styles';
 
 export const ProductList = () => {
 
@@ -24,7 +25,7 @@ export const ProductList = () => {
         isProductLoading
           ? (
             <SpinnerWrapper>
-              <Spinner />
+              <Spinner color={lightTheme.color_primary_2} />
             </SpinnerWrapper>
           )
           : (
@@ -32,7 +33,7 @@ export const ProductList = () => {
               dataLength={productList.length}
               next={() => loadProducts(offset, filters, false)}
               hasMore={productList.length < 12 ? false : haveMoreProducts}
-              loader={<ScrollSpinnerWrapper><Spinner /></ScrollSpinnerWrapper>}
+              loader={<ScrollSpinnerWrapper><Spinner color={lightTheme.color_primary_2} /></ScrollSpinnerWrapper>}
             >
               {
                 display === 'grid'

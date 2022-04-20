@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { bp } from 'styles';
+import { Div as Dropdown } from '../UserDropdown/styles';
 
 export const Button = styled.button`
   background-color: transparent;
@@ -37,4 +38,21 @@ export const CartItemsCounter = styled.div`
   position: absolute;
   right: -5px;
   top: -8px;
+`;
+
+export const Div = styled.div`
+  position: relative;
+
+  :hover ${Dropdown} {
+    display: block
+  }
+`;
+
+export const ImageWrapper = styled.div`
+  border-radius: 50%;
+  cursor: pointer;
+  height: 35px;
+  overflow: hidden;
+  position: relative;
+  width: 35px;
 `;

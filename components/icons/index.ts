@@ -31,3 +31,4 @@ export * from './Lock';
 export * from './Logo';
 export * from './Review';
 export * from './Logout';
+export * from './Category';

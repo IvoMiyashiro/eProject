@@ -67,11 +67,9 @@ export const UserDropdown = ({ image, email, name, role }: Props) => {
           </Dashboard>
         }
         <Li onClick={signout}>
-          <Link href="/profile" passHref>
-            <A>
-              <Span> Log out </Span>
-            </A>
-          </Link>
+          <A>
+            <Span> Log out </Span>
+          </A>
         </Li>
       </Ul>
     </Div>

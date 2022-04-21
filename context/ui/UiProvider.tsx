@@ -1,4 +1,5 @@
-import { FC, useReducer } from 'react';
+import { useRouter } from 'next/router';
+import { FC, useEffect, useReducer } from 'react';
 import { UiContext, uiReducer } from './';
 
 export interface UiState {
@@ -14,6 +15,11 @@ const UI_INIT_STATE: UiState = {
 export const UiProvider: FC = ({ children }) => {
 
   const [state, dispatch] = useReducer(uiReducer, UI_INIT_STATE);
+  const router = useRouter();
+
+  useEffect(() => {
+    closeMenu();
+  }, [router]);
 
   const toggleMenu = () => {
     dispatch({ type: '[UI] - ToggleMenu' });
@@ -21,6 +27,10 @@ export const UiProvider: FC = ({ children }) => {
 
   const toggleCartMenu = () => {
     dispatch({ type: '[UI] - ToggleCartMenu' });
+  };
+
+  const closeMenu = () => {
+    dispatch({ type: '[UI] - Close Menu' });
   };
 
   return (

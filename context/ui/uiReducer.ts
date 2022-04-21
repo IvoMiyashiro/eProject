@@ -3,6 +3,7 @@ import { UiState } from './';
 type UiActionType = 
  | { type: '[UI] - ToggleMenu' }
  | { type: '[UI] - ToggleCartMenu' }
+ | { type: '[UI] - Close Menu' }
 
 export const uiReducer = ( state: UiState, action: UiActionType ): UiState => {
 
@@ -17,7 +18,14 @@ export const uiReducer = ( state: UiState, action: UiActionType ): UiState => {
   case '[UI] - ToggleCartMenu':
     return {
       ...state,
-      isCartOpen: !state.isCartOpen
+      isCartOpen: !state.isCartOpen,
+      isMenuOpen: false
+    };
+
+  case '[UI] - Close Menu':
+    return {
+      ...state,
+      isMenuOpen: false
     };
 
   default:

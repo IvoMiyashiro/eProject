@@ -19,15 +19,13 @@ export const Navigation = ({ isVisible }: Props) => {
           </Link>
         </Li>
         <Li>
-          <Link href='/' passHref>
-            <Dropdown>
-              <Header>
-                <P>Categories</P>
-                <ArrowDownIcon width="20px" height="20px" />
-              </Header>
-              <DropdownMenu />
-            </Dropdown>
-          </Link>
+          <Dropdown>
+            <Header>
+              <P>Categories</P>
+              <ArrowDownIcon width="20px" height="20px" />
+            </Header>
+            <DropdownMenu />
+          </Dropdown>
         </Li>
         <Li>
           <Link href='/products' passHref>

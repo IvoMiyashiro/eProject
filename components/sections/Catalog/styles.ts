@@ -7,11 +7,8 @@ export const Div = styled.div`
   gap: 3em;
   align-items: flex-start;
 
-  @media (max-width: ${bp.desktop}) {
-    grid-template-columns: 1fr;
-  }
-
   @media (max-width: ${bp.tablet}) {
+    grid-template-columns: 1fr;
     gap: 1em;
   }
 `;

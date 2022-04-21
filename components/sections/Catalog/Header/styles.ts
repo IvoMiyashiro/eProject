@@ -42,7 +42,7 @@ export const Button = styled.button`
   background-color: transparent;
 
   :last-child {
-    @media (min-width: ${bp.desktop}) {
+    @media (min-width: ${bp.tablet}) {
       display: none;
     }
   }

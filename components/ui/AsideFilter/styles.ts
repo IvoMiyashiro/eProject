@@ -14,7 +14,7 @@ export const Aside = styled.aside`
   width: 100%;
   background-color: ${props => props.theme.color_ui_background};
 
-  @media (max-width: ${bp.desktop}) {
+  @media (max-width: ${bp.tablet}) {
     max-width: 285px;
     height: 550px;
     overflow-y: scroll;

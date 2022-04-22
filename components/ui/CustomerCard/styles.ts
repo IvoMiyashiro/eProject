@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
 `;
 
 export const ImageWrapper = styled.section`
-  border-radius: 4px;
+  border-radius: 50%;
   height: 50px;
   overflow: hidden;
   position: relative;
@@ -17,6 +17,7 @@ export const ImageWrapper = styled.section`
 export const H2 = styled.h2`
   color: ${props => props.theme.color_ui_text_contrast};
   font-size: 1rem;
+  white-space: nowrap;
 `;
 
 export const P = styled.p`

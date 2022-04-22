@@ -13,7 +13,7 @@ export const CustomerCard = ({ image, name, role, email }: Props) => {
     <Wrapper>
       <ImageWrapper>
         <Image
-          src={image}
+          src={!!image ? image : '/images/profile_image.png'}
           alt={name}
           layout="fill"
           objectFit="cover"

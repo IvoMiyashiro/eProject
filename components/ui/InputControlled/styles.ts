@@ -5,6 +5,11 @@ interface Props {
   error: boolean
 }
 
+export const InputWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
 export const Div = styled.div<Props>`
   border-radius: 6px;
   border: 2px solid ${props => 
@@ -49,6 +54,8 @@ export const Span = styled.span`
   color: ${props => props.theme.color_ui_danger};
   font-size: 0.8rem;
   margin-left: 1em;
+  position: absolute;
+  bottom: -18px;
 `;
 
 export const Label = styled.label<Props>`

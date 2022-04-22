@@ -15,7 +15,7 @@ import { useRouter } from 'next/router';
 
 interface IInputControl {
   value: string;
-  error: boolean;
+  hasError: boolean;
   errorMsj: string;
 }
 
@@ -25,7 +25,7 @@ export const SigninForm = () => {
   const router = useRouter();
   const INPUT_CONTROL_INIT_STATE = {
     value: '',
-    error: false,
+    hasError: false,
     errorMsj: ''
   };
   
@@ -37,10 +37,10 @@ export const SigninForm = () => {
   const [passwordInputControl, setPasswordInputControl] = useState<IInputControl>(INPUT_CONTROL_INIT_STATE);
 
   useEffect(() => {
-    if (!emailInputControl.error && !passwordInputControl.error) {
+    if (!emailInputControl.hasError && !passwordInputControl.hasError) {
       setValidForm(true);
     }
-  }, [emailInputControl.error, passwordInputControl.error]);
+  }, [emailInputControl.hasError, passwordInputControl.hasError]);
 
   const handleInputSubmit = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,7 +49,7 @@ export const SigninForm = () => {
     if (emailInputControl.value.length === 0) {
       setEmailInputControl({
         ...emailInputControl,
-        error: true,
+        hasError: true,
         errorMsj: '* Email must be filled.'
       });
       valid = false;
@@ -59,7 +59,7 @@ export const SigninForm = () => {
     if (passwordInputControl.value.length === 0) {
       setPasswordInputControl({
         ...passwordInputControl,
-        error: true,
+        hasError: true,
         errorMsj: '* Password must be filled.'
       });
       valid = false;
@@ -76,12 +76,12 @@ export const SigninForm = () => {
       if (message === 'Incorrect email or password.') {
         setEmailInputControl({
           ...emailInputControl,
-          error: true,
+          hasError: true,
           errorMsj: '*' + message
         });
         setPasswordInputControl({
           ...passwordInputControl,
-          error: true,
+          hasError: true,
           errorMsj: '*' + message
         });
       } else {
@@ -107,10 +107,10 @@ export const SigninForm = () => {
         <H1>Sign in</H1>
       </LogoWrapper>
       <Inputs
-        emailControl={emailInputControl}
-        passwordControl={passwordInputControl}
-        handleEmailControl={setEmailInputControl}
-        handlePasswordControl={setPasswordInputControl}
+        emailState={emailInputControl}
+        passwordState={passwordInputControl}
+        handleEmailState={setEmailInputControl}
+        handlePasswordState={setPasswordInputControl}
       />
       { !!errorMessage && errorMessage }
       <Section>

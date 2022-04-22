@@ -1,24 +1,32 @@
-import { ChangeEvent, useRef, useState } from 'react';
-import { Div, Wrapper, Input, Span, Icon, Label } from './styles';
+import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from 'react';
+import { Div, Wrapper, Input, Span, Label, InputWrapper } from './styles';
 
 interface Props {
   type: 'email' | 'password' | 'text';
   placeholder: string;
-  control: IInputControl;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onBlur: () => void;
-  onKeyUp: () => void;
+  state: {
+    value: string;
+    hasError: boolean;
+    errorMsj: string;
+  };
+  regEx?: RegExp;
+  optional?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  handleStateValue: Dispatch<SetStateAction<{ value: string; hasError: boolean; errorMsj: string;}>>
 }
 
-type IInputControl = {
-  value: string;
-  error: boolean;
-  errorMsj: string;
-}
+export const InputControlled = ({ type,
+  placeholder,
+  state,
+  regEx,
+  optional = false,
+  minLength,
+  maxLength,
+  handleStateValue,
+}: Props) => {
 
-export const InputControlled = ({ type, placeholder, control, onChange, onBlur, onKeyUp }: Props) => {
-
-  const { value, error, errorMsj } = control;
+  const { value, hasError, errorMsj } = state;
   const [isFocus, setFocus] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -26,28 +34,96 @@ export const InputControlled = ({ type, placeholder, control, onChange, onBlur, 
     inputRef.current?.focus();
   };
 
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    handleStateValue(prev => {
+      return {
+        ...prev,
+        value: e.target.value
+      };
+    });
+  };
+
+  const handleInputError = () => {
+
+    if (!optional) {
+      if (state.value.length === 0) {
+        return handleStateValue(prev => {
+          return {
+            ...prev,
+            hasError: true,
+            errorMsj: `* ${placeholder} must be filled.`
+          };
+        });
+      }
+    }
+
+    if (!!regEx) {
+      if (!regEx.test(state.value)) {
+        return handleStateValue(prev => {
+          return {
+            ...prev,
+            error: true,
+            errorMsj: `* ${placeholder} is not valid.`
+          };
+        });
+      }
+    }
+
+    if (!!minLength) {
+      if (state.value.length < minLength) {
+        return handleStateValue(prev => {
+          return {
+            ...prev,
+            hasError: true,
+            errorMsj: `* ${placeholder} must be greater than ${minLength + 1}.`
+          };
+        });
+      }
+    }
+
+    if (!!maxLength) {
+      if (state.value.length > maxLength) {
+        return handleStateValue(prev => {
+          return {
+            ...prev,
+            hasError: true,
+            errorMsj: `* ${placeholder} must be less than ${maxLength + 1}.`
+          };
+        });
+      }
+    }
+
+    handleStateValue(prev => {
+      return {
+        ...prev,
+        hasError: false,
+        errorMsj: ''
+      };
+    });
+  };
+
   return (
-    <div>
-      <Div isFocus={isFocus} onClick={handleFocusInput} error={error}>
+    <InputWrapper>
+      <Div isFocus={isFocus} onClick={handleFocusInput} error={hasError}>
         <Wrapper>
-          <Label isFocus={isFocus} error={error}>
+          <Label isFocus={isFocus} error={hasError}>
             { placeholder }
           </Label>
           <Input 
             type={type}
             value={value}
             ref={inputRef}
-            onChange={onChange}
+            onChange={handleInputChange}
             onFocus={() => setFocus(true)}
-            onBlur={() => {setFocus(false); onBlur();}}
-            onKeyUp={onKeyUp}
+            onBlur={() => {setFocus(false); handleInputError();}}
+            onKeyUp={handleInputError}
             autoComplete="none"
           />
         </Wrapper>
       </Div>
 
-      { error && <Span>{ errorMsj }</Span> }
-    </div>
+      { hasError && <Span>{ errorMsj }</Span> }
+    </InputWrapper>
   );
 };
 

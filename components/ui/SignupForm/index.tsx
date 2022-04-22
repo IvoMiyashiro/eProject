@@ -13,7 +13,7 @@ import { Form, H1, ButtonWrapper, LogoWrapper, LinkWrapper, P } from './styles';
 
 interface IInputControl {
   value: string;
-  error: boolean;
+  hasError: boolean;
   errorMsj: string;
 }
 
@@ -22,7 +22,7 @@ export const SignupForm = () => {
   const { signup } = useContext(AuthContext);
   const INPUT_CONTOL_INIT_STATE = {
     value: '',
-    error: false,
+    hasError: false,
     errorMsj: ''
   };
 
@@ -34,10 +34,10 @@ export const SignupForm = () => {
   const [passwordInputControl, setPasswordInputControl] = useState<IInputControl>(INPUT_CONTOL_INIT_STATE);
 
   useEffect(() => {
-    if (!fullNameInputControl.error && !emailInputControl.error && !passwordInputControl.error) {
+    if (!fullNameInputControl.hasError && !emailInputControl.hasError && !passwordInputControl.hasError) {
       setValidForm(true);
     }
-  }, [fullNameInputControl.error, emailInputControl.error, passwordInputControl.error]);
+  }, [fullNameInputControl.hasError, emailInputControl.hasError, passwordInputControl.hasError]);
 
   
   const handleInputSubmit = async(e: FormEvent<HTMLFormElement>) => {
@@ -47,7 +47,7 @@ export const SignupForm = () => {
     if (fullNameInputControl.value.length === 0) {
       setFullNameInputControl({
         ...fullNameInputControl,
-        error: true,
+        hasError: true,
         errorMsj: '* Name must be filled.'
       });
       valid = false;
@@ -57,7 +57,7 @@ export const SignupForm = () => {
     if (emailInputControl.value.length === 0) {
       setEmailInputControl({
         ...emailInputControl,
-        error: true,
+        hasError: true,
         errorMsj: '* Email must be filled.'
       });
       valid = false;
@@ -67,7 +67,7 @@ export const SignupForm = () => {
     if (passwordInputControl.value.length === 0) {
       setPasswordInputControl({
         ...passwordInputControl,
-        error: true,
+        hasError: true,
         errorMsj: '* Password must be filled.'
       });
       valid = false;
@@ -77,7 +77,7 @@ export const SignupForm = () => {
     if (passwordInputControl.value.length > 0 && passwordInputControl.value.length < 6) {
       setPasswordInputControl({
         ...passwordInputControl,
-        error: true,
+        hasError: true,
         errorMsj: '* Password length must be greater than 6.'
       });
       setValidForm(false);
@@ -93,7 +93,7 @@ export const SignupForm = () => {
       if (message === 'Email is already in use.') {
         setEmailInputControl({
           ...emailInputControl,
-          error: true,
+          hasError: true,
           errorMsj: '* ' + message
         });
       } else {
@@ -119,12 +119,12 @@ export const SignupForm = () => {
         <H1>Sign up</H1>
       </LogoWrapper>
       <Inputs
-        nameControl={fullNameInputControl}
-        emailControl={emailInputControl}
-        passwordControl={passwordInputControl}
-        handleNameControl={setFullNameInputControl}
-        handleEmailControl={setEmailInputControl}
-        handlePasswordControl={setPasswordInputControl}
+        fullNameState={fullNameInputControl}
+        emailState={emailInputControl}
+        passwordState={passwordInputControl}
+        handleNameState={setFullNameInputControl}
+        handleEmailState={setEmailInputControl}
+        handlePasswordState={setPasswordInputControl}
       />
       {
         !!errorMessage && '* ' + errorMessage

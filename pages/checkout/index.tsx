@@ -2,12 +2,12 @@ import type { GetServerSideProps, NextPage } from 'next';
 import { getSession } from 'next-auth/react';
 
 import { CheckoutLayout } from 'components/layouts';
-import { ShippingForm } from 'components/ui';
+import { CheckoutShippingForm } from 'components/ui';
 
 const CheckoutPage: NextPage = () => {
   return (
-    <CheckoutLayout title="Checkout">
-      <ShippingForm />
+    <CheckoutLayout title="Address">
+      <CheckoutShippingForm />
     </CheckoutLayout>
   );
 };

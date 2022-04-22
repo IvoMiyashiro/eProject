@@ -32,3 +32,4 @@ export * from './Logo';
 export * from './Review';
 export * from './Logout';
 export * from './Category';
+export * from './Shop';

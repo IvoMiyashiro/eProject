@@ -21,4 +21,8 @@ export * from './ButtonProvider';
 export * from './SignupForm';
 export * from './SinginForm';
 export * from './CustomerCard';
-export * from './ShippingForm';
+export * from './CheckoutShippingForm';
+export * from './CheckoutAddressForm';
+export * from './CheckoutSummary';
+export * from './CheckoutPaymentsForm';
+

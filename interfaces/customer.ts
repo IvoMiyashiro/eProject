@@ -9,7 +9,8 @@ export interface ICustomer {
 }
 
 export type Shipping_info = {
-  adress: string;
+  address_1: string;
+  address_2: string;
   zip: string;
   province: string;
   locality: string;

@@ -19,7 +19,9 @@ export const CheckoutLayout = ({ children, title }: Props) => {
       <Navbar justLogo={true} />
       <Div>
         <Section>
-          { children }
+          <Wrapper>
+            { children }
+          </Wrapper>
           <Info>
           </Info>
         </Section>
@@ -46,4 +48,8 @@ const Info = styled.div`
   height: 100vh;
   width: 400px;
   background-color: ${prosp => prosp.theme.color_neutral_1};
+`;
+
+const Wrapper = styled.div`
+  padding: 3em 0;
 `;

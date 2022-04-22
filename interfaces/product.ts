@@ -9,6 +9,7 @@ export interface IProduct {
   stock:          number;
   category:       CategoryList;
   brand:          BrandList;
+  labels:         string[];
   image_urls:     string[];
   created_at:     Date;
   updated_at:     Date;

@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { useRouter } from 'next/router';
 
 import { AuthContext } from 'context';
 
@@ -16,6 +17,7 @@ interface Props {
 export const AsideMobileMenu = ({ isMenuOpen }: Props) => {
 
   const { isLoggedIn } = useContext(AuthContext);
+  const router = useRouter();
 
   return (
     <Aside isOpen={isMenuOpen}>
@@ -38,7 +40,7 @@ export const AsideMobileMenu = ({ isMenuOpen }: Props) => {
                 textColor={lightTheme.color_ui_text_contrast}
                 bRadius="4px"
                 isLink={true}
-                href="/auth/signin"
+                href={`/auth/signin?p=${ router.asPath }`}
               >
               Signin
               </Button>

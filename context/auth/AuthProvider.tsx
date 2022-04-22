@@ -6,6 +6,7 @@ import { signUp } from 'services/signUp';
 import { ICustomer } from 'interfaces';
 import { AuthContext, authReducer } from './';
 import { signIn } from 'services/signIn';
+import { useRouter } from 'next/router';
 
 export interface AuthState {
     isLoading: boolean;
@@ -23,6 +24,7 @@ export const AuthProvider:FC = ({ children }) => {
 
   const [state, dispatch] = useReducer( authReducer, AUTH_INITIAL_STATE );
   const { data, status } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     if ( status === 'authenticated' ) {
@@ -46,6 +48,8 @@ export const AuthProvider:FC = ({ children }) => {
         payload: customer!
       });
 
+      const destination = router.query.p?.toString() || '/';
+      router.replace(destination);
       return { error: false };
     } catch (error) {
       console.log(error);
@@ -64,7 +68,10 @@ export const AuthProvider:FC = ({ children }) => {
         type: '[Auth] - Signin',
         payload: customer!
       });
-
+      
+      const destination = router.query.p?.toString() || '/';
+      console.log(destination);
+      router.replace(destination);
       return { error: false };
     } catch(error) {
       console.log(error);

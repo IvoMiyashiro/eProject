@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import { AuthContext, CartContext, UiContext } from 'context';
 
@@ -14,6 +15,7 @@ export const ActionButtons = () => {
   const { toggleMenu, toggleCartMenu } = useContext(UiContext);
   const { isLoading, isLoggedIn, customer } = useContext(AuthContext);
   const { cart } = useContext(CartContext);
+  const router = useRouter();
 
   return (
     <>          
@@ -53,7 +55,7 @@ export const ActionButtons = () => {
                 </Div>
               )
               : (
-                <Link href="/auth/signin" passHref>
+                <Link href={router.pathname !== '/' ? `/auth/signin?p=${ router.asPath }` : '/auth/signin'} passHref>
                   <Button>
                     <UserIcon width="23px" height="23px" />
                   </Button>

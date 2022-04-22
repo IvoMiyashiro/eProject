@@ -11,6 +11,7 @@ import { LogoIcon, Spinner } from 'components';
 
 import { lightTheme } from 'styles';
 import { Form, H1, Section, Wrapper, Label, Checkbox, A, ButtonWrapper, LogoWrapper, LinkWrapper, P } from './styles';
+import { useRouter } from 'next/router';
 
 interface IInputControl {
   value: string;
@@ -21,6 +22,7 @@ interface IInputControl {
 export const SigninForm = () => {
 
   const { signin } = useContext(AuthContext);
+  const router = useRouter();
   const INPUT_CONTROL_INIT_STATE = {
     value: '',
     error: false,
@@ -138,7 +140,7 @@ export const SigninForm = () => {
         </Button>
       </ButtonWrapper>
       <Providers />
-      <Link href={'/auth/signup'} passHref>
+      <Link href={router.query.p ? `/auth/signup?q=${ router.query.p }` : '/auth/signup'} passHref>
         <LinkWrapper>
           <P>Don&#8217;t have an account? Create a new one</P>
         </LinkWrapper>

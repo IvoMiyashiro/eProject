@@ -31,7 +31,7 @@ export const Providers = () => {
         <ButtonWrapper>
           <ProviderButton
             type="button"
-            logo="https://www.pngmart.com/files/16/official-Google-Logo-PNG-Image.png"
+            logo="https://pbs.twimg.com/profile_images/1311763847775125516/mvBRhlDs_400x400.jpg"
             bgColor='#4c8bf5'
             textColor='#fff'
             onClick={() => signIn(providers.google.id)}

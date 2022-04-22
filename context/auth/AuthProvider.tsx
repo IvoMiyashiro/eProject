@@ -47,7 +47,6 @@ export const AuthProvider:FC = ({ children }) => {
         type: '[Auth] - Signin',
         payload: customer!
       });
-
       const destination = router.query.p?.toString() || '/';
       router.replace(destination);
       return { error: false };

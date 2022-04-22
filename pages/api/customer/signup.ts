@@ -33,11 +33,10 @@ const postCustomer = async (req: NextApiRequest, res: NextApiResponse<Data>) => 
   try {
     const { rows } = await db.conn.query(query, values);
     const { name, email } = rows[0];
-    const token = await generateJWT(uid, name);
 
     return res.status(200).json({
       ok: true,
-      customer: { name, email, token }
+      customer: { name, email }
     });
 
   } catch (error: any) {

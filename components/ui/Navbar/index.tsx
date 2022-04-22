@@ -7,10 +7,10 @@ import { lightTheme } from 'styles';
 import { Div, Nav, NavWrapper, Section, Wrapper } from './styles';
 
 interface Props {
-  handleAppTheme: any;
+  justLogo?: boolean
 }
 
-export const Navbar = () => {
+export const Navbar = ({ justLogo = false }: Props) => {
 
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -47,14 +47,24 @@ export const Navbar = () => {
                 textColor="#ffffff"
                 logoColor={lightTheme.color_tertiary_0}
               />
-              <Searchbar />
+              {
+                !justLogo && <Searchbar />
+              }
             </Section>
-            <Section>
-              <ActionButtons />
-            </Section>
+            {
+              !justLogo
+              &&
+              <Section>
+                <ActionButtons />
+              </Section>
+            }
           </Wrapper>
         </Div>
-        <Navigation isVisible={show}/>
+        {
+          !justLogo
+          &&
+          <Navigation isVisible={show}/>
+        }
       </Nav>
     </NavWrapper>
   );

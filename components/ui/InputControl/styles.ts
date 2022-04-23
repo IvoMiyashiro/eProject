@@ -29,6 +29,7 @@ export const Div = styled.div<Props>`
   overflow: hidden;
   padding: 0.5em;
   cursor: text;
+  transition: 0.2s;
 `;
 
 export const Wrapper = styled.div`

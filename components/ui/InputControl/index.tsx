@@ -2,7 +2,7 @@ import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from 'react';
 import { Div, Wrapper, Input, Span, Label, InputWrapper } from './styles';
 
 interface Props {
-  type: 'email' | 'password' | 'text';
+  type: 'email' | 'password' | 'text' | 'tel';
   placeholder: string;
   state: {
     value: string;
@@ -16,7 +16,8 @@ interface Props {
   handleStateValue: Dispatch<SetStateAction<{ value: string; hasError: boolean; errorMsj: string;}>>
 }
 
-export const InputControlled = ({ type,
+export const InputControl = ({ 
+  type,
   placeholder,
   state,
   regEx,

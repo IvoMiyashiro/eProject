@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { emailRegEx } from 'utils';
 
-import { InputControlled } from 'components/ui';
+import { InputControl } from 'components/ui';
 
 interface Props {
   emailState: IInputControl;
@@ -27,14 +27,14 @@ export const Inputs = ({
 
   return (
     <InputsWrapper>
-      <InputControlled
+      <InputControl
         type="email"
         placeholder="Email"
         regEx={emailRegEx}
         state={emailState}
         handleStateValue={handleEmailState}
       />
-      <InputControlled
+      <InputControl
         type="password"
         placeholder="Password"
         state={passwordState}

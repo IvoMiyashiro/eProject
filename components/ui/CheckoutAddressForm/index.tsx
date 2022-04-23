@@ -1,7 +1,17 @@
-import { useState } from 'react';
-import { addressRegEx } from 'utils';
-import { InputControlled } from '../InputControlled';
+import { FormEvent, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+
+import { addressRegEx, provinces } from 'utils';
+
+import { InputControl, Button } from 'components';
+import { InputSelect } from '../InputSelect';
+
+import { lightTheme } from 'styles';
 import { Div, Form, H1 } from './styles';
+import { ButtonWrapper, P } from '../CheckoutShippingForm/styles';
+import { useLocalities } from 'hooks/useLocalities';
+import { InputPhoneNumber } from '../InputPhoneNumber';
+import { InputTextarea } from '../InputTextarea';
 
 export const CheckoutAddressForm = () => {
 
@@ -10,73 +20,142 @@ export const CheckoutAddressForm = () => {
     hasError: false,
     errorMsj: ''
   };
-
+  
+  const [isValidForm, setValidForm] = useState(false);
   const [addressInput, setAddressInput] = useState(INPUT_CONTROL_INIT_STATE);
-  const [secondAddressInput, setSecondAddressInput] = useState(INPUT_CONTROL_INIT_STATE);
   const [zipInput, setZipInput] = useState(INPUT_CONTROL_INIT_STATE);
   const [provinceSelect, setProvinceSelect] = useState(INPUT_CONTROL_INIT_STATE);
   const [localitySelect, setLocalitySelect] = useState(INPUT_CONTROL_INIT_STATE);
   const [phoneInput, setPhoneInput] = useState(INPUT_CONTROL_INIT_STATE);
+  const [altPhoneInput, setAltPhoneInput] = useState(INPUT_CONTROL_INIT_STATE);
   const [additionalInfo, setAdditionalInfo] = useState(INPUT_CONTROL_INIT_STATE);
+  const { localities } = useLocalities(provinceSelect.value);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!addressInput.hasError && !zipInput.hasError && !provinceSelect.hasError && !localitySelect.hasError && !phoneInput.hasError && !additionalInfo.hasError) {
+      setValidForm(true);
+    }
+  }, [addressInput.hasError, zipInput.hasError ,provinceSelect.hasError ,localitySelect.hasError ,phoneInput.hasError ,additionalInfo.hasError]);
+
+  const handleInputSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    let hasError = false;
+
+    if (addressInput.value.length === 0) {
+      setAddressInput({
+        ...addressInput,
+        hasError: true,
+        errorMsj: '* Address must be filled'
+      });
+      hasError = true;
+    }
+
+    if (zipInput.value.length === 0) {
+      setZipInput({
+        ...zipInput,
+        hasError: true,
+        errorMsj: '* Zip must be filled'
+      });
+      hasError = true;
+    }
+
+    if (provinceSelect.value.length === 0) {
+      setProvinceSelect({
+        ...provinceSelect,
+        hasError: true,
+        errorMsj: '* Province must be filled'
+      });
+      hasError = true;
+    }
+
+    if (localitySelect.value.length === 0) {
+      setLocalitySelect({
+        ...localitySelect,
+        hasError: true,
+        errorMsj: '* Locality must be filled'
+      });
+      hasError = true;
+    }
+
+    if (phoneInput.value.length === 0) {
+      setPhoneInput({
+        ...phoneInput,
+        hasError: true,
+        errorMsj: '* Phone must be filled'
+      });
+      hasError = true;
+    }
+
+    if (hasError) return setValidForm(false);
+    router.push('/checkout/payments');
+  };
 
   return (
-    <Form>
+    <Form onSubmit={handleInputSubmit}>
       <H1>Where do we deliver your package?</H1>
       <Div>
-        <InputControlled
+        <InputControl
           type="text"
-          placeholder="Main Address"
+          placeholder="Address"
           regEx={addressRegEx}
           state={addressInput}
           handleStateValue={setAddressInput}
         />
-        <InputControlled
-          type="text"
-          placeholder="Second Address (Optional)"
-          optional={true}
-          state={secondAddressInput}
-          handleStateValue={setSecondAddressInput}
-        />
-      </Div>
-      <Div>
-        <InputControlled
+        <InputControl
           type="text"
           placeholder="Zip Code"
           regEx={addressRegEx}
           state={zipInput}
           handleStateValue={setZipInput}
         />
-        <InputControlled
-          type="text"
-          placeholder="Province"
-          state={provinceSelect}
-          handleStateValue={setProvinceSelect}
-        />
       </Div>
       <Div>
-        <InputControlled
-          type="text"
+        <InputSelect 
+          placeholder="Province"
+          state={provinceSelect}
+          options={provinces.provincias.slice(0).reverse().map(province => province.iso_nombre).sort()}
+          handleStateValue={setProvinceSelect}
+        />
+        <InputSelect
           placeholder="Locality"
-          regEx={addressRegEx}
+          options={localities.sort()}
           state={localitySelect}
           handleStateValue={setLocalitySelect}
         />
-        <InputControlled
-          type="text"
+      </Div>
+      <Div>
+        <InputPhoneNumber
           placeholder="Phone Number"
           state={phoneInput}
           handleStateValue={setPhoneInput}
         />
+        <InputPhoneNumber
+          placeholder="Phone Number 2 (Optional)"
+          optional={true}
+          state={altPhoneInput}
+          handleStateValue={setAltPhoneInput}
+        />
       </Div>
       <Div>
-        <InputControlled
-          type="text"
-          placeholder="Additional Info"
+        <InputTextarea
+          placeholder="Additional Info (Optional)"
           optional={true}
           state={additionalInfo}
           handleStateValue={setAdditionalInfo}
         />
       </Div>
+      <ButtonWrapper>
+        <Button
+          textColor={lightTheme.color_ui_text_contrast}
+          bgColor={lightTheme.color_primary_0}
+          bRadius='4px'
+          disabled={!isValidForm}
+          type="submit"
+        >
+          <P>Confirm</P>
+        </Button>
+      </ButtonWrapper>
     </Form>
   );
 };

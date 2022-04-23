@@ -12,6 +12,6 @@ export const H1 = styled.h1`
 export const Div = styled.div`
   width: 100%;
   display: flex;
-  gap: 1em;
-  margin-bottom: 2.5em;
+  gap: 2em;
+  margin-bottom: 2em;
 `;

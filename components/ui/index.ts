@@ -16,7 +16,7 @@ export * from './MapLinks';
 export * from './RatingStars';
 export * from './Tab';
 export * from './Review';
-export * from './InputControlled';
+export * from './InputControl';
 export * from './ButtonProvider';
 export * from './SignupForm';
 export * from './SinginForm';

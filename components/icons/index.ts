@@ -36,3 +36,6 @@ export * from './Shop';
 export * from './Cash';
 export * from './CreaditCard';
 export * from './Bitcoin';
+export * from './Visa';
+export * from './AmericanExpress';
+export * from './MasterCard';

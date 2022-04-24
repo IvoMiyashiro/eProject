@@ -25,4 +25,6 @@ export * from './CheckoutShippingForm';
 export * from './CheckoutAddressForm';
 export * from './CheckoutSummary';
 export * from './CheckoutPaymentsForm';
+export * from './CheckoutCreditCardForm';
+export * from './InputNumber';
 

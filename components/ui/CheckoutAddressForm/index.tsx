@@ -6,7 +6,7 @@ import { addressRegEx, provinces } from 'utils';
 
 import { InputControl, Button } from 'components';
 import { InputSelect } from '../InputSelect';
-import { InputPhoneNumber } from '../InputNumber';
+import { InputNumber } from '../InputNumber';
 import { InputTextarea } from '../InputTextarea';
 
 import { lightTheme } from 'styles';
@@ -125,13 +125,13 @@ export const CheckoutAddressForm = () => {
         />
       </Div>
       <Div>
-        <InputPhoneNumber
+        <InputNumber
           placeholder="Phone Number"
           type="tel"
           state={phoneInput}
           handleStateValue={setPhoneInput}
         />
-        <InputPhoneNumber
+        <InputNumber
           placeholder="Phone Number 2 (Optional)"
           type="tel"
           optional={true}

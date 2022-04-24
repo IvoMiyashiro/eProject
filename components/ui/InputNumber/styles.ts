@@ -69,7 +69,7 @@ export const Label = styled.label<Props>`
         ? props.theme.color_primary_0
         : props.theme.color_ui_text_main
 };
-  cursor: text;
+  pointer-events: none;
 `;
 
 export const Section = styled.section`

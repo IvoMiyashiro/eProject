@@ -1,17 +1,17 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
+import { useLocalities } from 'hooks';
 import { addressRegEx, provinces } from 'utils';
 
 import { InputControl, Button } from 'components';
 import { InputSelect } from '../InputSelect';
+import { InputPhoneNumber } from '../InputNumber';
+import { InputTextarea } from '../InputTextarea';
 
 import { lightTheme } from 'styles';
 import { Div, Form, H1 } from './styles';
 import { ButtonWrapper, P } from '../CheckoutShippingForm/styles';
-import { useLocalities } from 'hooks/useLocalities';
-import { InputPhoneNumber } from '../InputPhoneNumber';
-import { InputTextarea } from '../InputTextarea';
 
 export const CheckoutAddressForm = () => {
 
@@ -127,11 +127,13 @@ export const CheckoutAddressForm = () => {
       <Div>
         <InputPhoneNumber
           placeholder="Phone Number"
+          type="tel"
           state={phoneInput}
           handleStateValue={setPhoneInput}
         />
         <InputPhoneNumber
           placeholder="Phone Number 2 (Optional)"
+          type="tel"
           optional={true}
           state={altPhoneInput}
           handleStateValue={setAltPhoneInput}

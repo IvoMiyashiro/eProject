@@ -18,8 +18,13 @@ export const CheckoutPaymentsForm = () => {
   
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const destination = nextStep === 'Ship to my home' ? '/address' : '/payments';
-    router.push('/checkout' + destination);
+    if (nextStep === '') return;
+    const destination = nextStep === 'Credit Card'
+      ? '/credit-card'
+      : (nextStep === 'Cash')
+        ? '/cash'
+        : '/bitcoin';
+    router.push('/checkout/payments' + destination);
   };
 
   return (

@@ -1,17 +1,17 @@
 import { FormEvent, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import { Button } from 'components';
 import { ShopIcon, TruckIcon } from 'components/icons';
 import { InputRadioCard } from '../InputRadioCard';
 
-import { Form, Div, H1, ButtonWrapper, P } from './styles';
 import { lightTheme } from 'styles';
-import { useRouter } from 'next/router';
+import { Form, Div, H1, ButtonWrapper, P } from './styles';
 
 export const CheckoutShippingForm = () => {
 
   const [shippingIRSelected, setShippingIRSelected] = useState(false);
-  const [takeAwayIRSelected, setTakeAwatIRSelected] = useState(false);
+  const [takeAwayIRSelected, setTakeAwayIRSelected] = useState(false);
   const [nextStep, setNextStep] = useState('');
   const router = useRouter();
   
@@ -32,7 +32,7 @@ export const CheckoutShippingForm = () => {
           hisValue={shippingIRSelected}
           price="Free"
           handleHisValue={setShippingIRSelected}
-          handleOtherValue={setTakeAwatIRSelected}
+          handleOtherValues={[setTakeAwayIRSelected]}
           handleNextStep={setNextStep}
         />
         <InputRadioCard
@@ -41,8 +41,8 @@ export const CheckoutShippingForm = () => {
           icon={<ShopIcon width="25px" heigh="25px" />}
           hisValue={takeAwayIRSelected}
           price="Free"
-          handleHisValue={setTakeAwatIRSelected}
-          handleOtherValue={setShippingIRSelected}
+          handleHisValue={setTakeAwayIRSelected}
+          handleOtherValues={[setShippingIRSelected]}
           handleNextStep={setNextStep}
         />
       </Div>

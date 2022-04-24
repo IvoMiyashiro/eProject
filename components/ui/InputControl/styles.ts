@@ -12,7 +12,7 @@ export const InputWrapper = styled.div`
 
 export const Div = styled.div<Props>`
   border-radius: 6px;
-  border: 2px solid ${props => 
+  border: 2px solid ${props =>  
     props.error 
       ? props.theme.color_ui_danger 
       : props.isFocus
@@ -46,9 +46,10 @@ export const Icon = styled.div`
   
 export const Input = styled.input`
   border: none;
-  outline: none;
-  font-size: 0.9rem;
   background-color: transparent;
+  font-family: 'Inter';
+  font-size: 0.9rem;
+  outline: none;
 `;
   
 export const Span = styled.span`

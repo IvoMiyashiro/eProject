@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { Dispatch, SetStateAction, useRef } from 'react';
 import { Label, Div, Input, P, Wrapper, Span } from './styles';
 
 interface Props {
@@ -7,9 +7,9 @@ interface Props {
   icon: any;
   hisValue: boolean;
   price: string;
-  handleHisValue: (value: boolean) => void;
-  handleOtherValue: (value: boolean) => void;
-  handleNextStep: (value: string) => void;
+  handleHisValue: Dispatch<SetStateAction<boolean>>;
+  handleOtherValues: Dispatch<SetStateAction<boolean>>[];
+  handleNextStep: (value: string) => void ;
 }
 
 export const InputRadioCard = ({
@@ -19,7 +19,7 @@ export const InputRadioCard = ({
   hisValue,
   price,
   handleHisValue,
-  handleOtherValue,
+  handleOtherValues,
   handleNextStep
 }: Props) => {
 
@@ -28,11 +28,15 @@ export const InputRadioCard = ({
   const handleClick = () => {
     handleNextStep(value);
     if (inputRef.current?.checked) {
-      handleOtherValue(false);
+      handleOtherValues.map(func => {
+        func(false);
+      });
       return handleHisValue(true);
     }
 
-    handleOtherValue(true);
+    handleOtherValues.map(func => {
+      func(true);
+    });
     handleHisValue(false);
   };
 

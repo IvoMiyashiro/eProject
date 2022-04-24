@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { v4 as uuidv4 } from 'uuid';
 
 import { db } from 'database';
-import { generateJWT, saltPassword } from 'helpers';
+import { saltPassword } from 'helpers';
 
 type Data = { ok: boolean, message?: string, customer?: any }
 

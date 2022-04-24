@@ -33,3 +33,6 @@ export * from './Review';
 export * from './Logout';
 export * from './Category';
 export * from './Shop';
+export * from './Cash';
+export * from './CreaditCard';
+export * from './Bitcoin';

@@ -1,6 +1,7 @@
 import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from 'react';
 import { creditCardDateRegEx, dniRegEx, visaNumberRegEx } from 'utils';
-import { Div, Wrapper, Input, Span, Label, InputWrapper, Section, P } from './styles';
+import { Div, Wrapper, Input, Span, Label, InputWrapper} from '../InputControl/styles';
+import { Section, P } from './styles';
 
 interface Props {
   type: 'tel' | 'dni' | 'credit-card' | 'num' | 'date';
@@ -15,6 +16,7 @@ interface Props {
   minLength?: number;
   maxLength?: number;
   handleStateValue: Dispatch<SetStateAction<{ value: string; hasError: boolean; errorMsj: string;}>>
+  handleFocus?: Dispatch<SetStateAction<boolean>>;
 }
 
 export const InputNumber = ({
@@ -26,6 +28,7 @@ export const InputNumber = ({
   minLength,
   maxLength = Number.POSITIVE_INFINITY,
   handleStateValue,
+  handleFocus
 }: Props) => {
 
   const { value, hasError, errorMsj } = state;
@@ -34,6 +37,7 @@ export const InputNumber = ({
 
   const handleFocusInput = () => {
     inputRef.current?.focus();
+    if (handleFocus) handleFocus(true);
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +56,7 @@ export const InputNumber = ({
               : 11;
 
     if (value.length === newMaxLength) return;
-    console.log(e.target.validity.valid);
+
     if (!(e.target.validity.valid || value === '.' || value === '/' || value === ' ')) return;
 
     if (type === 'tel') {
@@ -196,8 +200,8 @@ export const InputNumber = ({
               value={value}
               ref={inputRef}
               onChange={handleInputChange}
-              onFocus={() => setFocus(true)}
-              onBlur={() => {setFocus(false); handleInputError();}}
+              onFocus={() => {setFocus(true); handleFocus && handleFocus(true);}}
+              onBlur={() => {setFocus(false); handleInputError(); handleFocus && handleFocus(false);}}
               onKeyDownCapture={handleOnKeyDown}
               onKeyUp={handleInputError}
               autoComplete="none"

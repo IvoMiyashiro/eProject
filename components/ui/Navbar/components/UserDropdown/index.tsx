@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { AuthContext } from 'context';
 
 import { ArrowRightIcon } from 'components/icons'; 
+import { CustomerCard } from 'components/ui';
 
 import { A, Div, Ul, Li, Span, Dashboard } from './styles';
-import { CustomerCard } from 'components/ui/CustomerCard';
 
 interface Props {
   image: string;

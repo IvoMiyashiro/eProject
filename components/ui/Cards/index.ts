@@ -1,5 +1,5 @@
 export * from './CustomerCard';
-export * from './ProductCartCard';
-export * from './ProductListCard';
-export * from './ProductGridCard';
+export { default as ProductCartCard } from './ProductCartCard';
+export { default as ProductGridCard } from './ProductGridCard';
+export { default as ProductListCard } from './ProductListCard';
 export * from './ProductSearchCard';

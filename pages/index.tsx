@@ -1,7 +1,9 @@
 import type { NextPage } from 'next';
 import styled from 'styled-components';
 
-import { Button, MainLayout, ArrowRightIcon, GithubIcon } from 'components';
+import { MainLayout } from 'components/layouts';
+import { ArrowRightIcon, GithubIcon } from 'components/icons';
+import { Button } from 'components/ui';
 
 import { lightTheme } from 'styles';
 

@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import { CartContext } from 'context';
 import { IProduct } from 'interfaces';
-import { Rating } from '../RatingStars';
+import { Rating } from 'components/ui';
 import { CartIcon, CheckIcon, TrashIcon } from 'components/icons';
 
 import { AddToCartButton, IsInCartButton, RemoveFromCartButton, Div, H2, ImageWrapper, Header, InfoWrapper, Price, P, Span, Brand, Section, ImageContainer } from './styles';

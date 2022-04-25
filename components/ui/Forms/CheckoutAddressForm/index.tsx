@@ -4,10 +4,8 @@ import { useRouter } from 'next/router';
 import { useLocalities } from 'hooks';
 import { addressRegEx, provinces } from 'utils';
 
-import { InputControl, Button } from 'components';
-import { InputSelect } from '../InputSelect';
-import { InputNumber } from '../InputNumber';
-import { InputTextarea } from '../InputTextarea';
+import { Button } from 'components/ui';
+import { InputControl, InputSelect, InputNumber, InputTextarea } from 'components/ui/Inputs';
 
 import { lightTheme } from 'styles';
 import { Div, Form, H1 } from './styles';

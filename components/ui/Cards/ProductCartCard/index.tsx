@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import { IProductCart } from 'interfaces';
 import { CartContext } from 'context';
-import { Counter } from '../Counter';
+import { Counter } from 'components/ui';
 import { TrashIcon } from 'components/icons';
 
 import { Button, Div, H3, ImageContainer, ImageWrapper, P, PriceWrapper, Section, Span, Wrapper } from './styles';

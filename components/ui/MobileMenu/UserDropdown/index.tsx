@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import Link from 'next/link';
 
 import { AuthContext } from 'context';
-import { CustomerCard } from 'components/ui';
+import { CustomerCard } from 'components/ui/';
 import { ArrowRightIcon } from 'components/icons';
 
 import { Div, Ul, Li, CustomerCardWrapper, A, Span, Dashboard } from './styles';

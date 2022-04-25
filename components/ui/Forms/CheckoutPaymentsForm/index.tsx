@@ -1,9 +1,8 @@
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { Button } from 'components/ui';
 import { CashIcon, CreditCard, Bitcoin } from 'components/icons';
-import { InputRadioCard } from '../InputRadioCard';
+import { Button, InputRadioCard } from 'components/ui';
 
 import { lightTheme } from 'styles';
 import { Form, Div, H1, ButtonWrapper, P } from './styles';

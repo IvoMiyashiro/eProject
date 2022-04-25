@@ -22,6 +22,7 @@ export const CheckoutCreditCardForm = () => {
   const [expMonth, setExpMonth] = useState(INPUT_CONTROL_INIT_STATE);
   const [cvc, setCvc] = useState(INPUT_CONTROL_INIT_STATE);
   const [dni, setDni] = useState(INPUT_CONTROL_INIT_STATE);
+  const [isCvcFocus, setCvcFocus] = useState(false);
 
   return (
     <Form>
@@ -32,6 +33,7 @@ export const CheckoutCreditCardForm = () => {
           cardNumber={cardNumber.value}
           expMonth={expMonth.value}
           cvc={cvc.value}
+          isCvcFocus={isCvcFocus}
         />
       </Wrapper>
       <Div>
@@ -46,6 +48,7 @@ export const CheckoutCreditCardForm = () => {
           handleExpMonthValue={setExpMonth}
           handleCvcValue={setCvc}
           handleDniValue={setDni}
+          handleCvcFocus={setCvcFocus}
         />
       </Div>
       <ButtonWrapper>

@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
-import { VisaIcon, MasterCardIcon, AmericanExpressIcon } from 'components/icons';
-import { AmericanWrapper, Div, LogoPlaceholder, LogoPlaceholderWrapper, LogoWrapper, MasterWrapper, P, Span, VisaWrapper, Wrapper } from './styles';
+import { CreditCardLogo } from './CreditCardLogo';
+import { Div, P, Span, Wrapper, Front, Back } from './styles';
 
 interface Props {
   cardholderName: string;
   cardNumber: string;
   expMonth: string;
   cvc: string;
+  isCvcFocus: boolean;
 }
 
-export const CreditCard = ({ cardholderName, cardNumber, expMonth, cvc }: Props) => {
+export const CreditCard = ({ cardholderName, cardNumber, expMonth, cvc, isCvcFocus }: Props) => {
 
   const [cardStyle, setCardStyle] = useState<'visa' | 'master' | 'american' | ''>('');
 
@@ -32,61 +33,33 @@ export const CreditCard = ({ cardholderName, cardNumber, expMonth, cvc }: Props)
   }, [cardStyle, cardNumber]);
 
   return (
-    <Div type={cardStyle}>
-      <Wrapper>
-        <LogoWrapper>
+    <Div type={cardStyle} isCvcFocus={isCvcFocus}>
+      <Front>
+        <Wrapper>
+          <CreditCardLogo type={cardStyle}/>
+        </Wrapper>
+        <Wrapper>
+          { cardStyle === 'american' && <P>***</P>}
+        </Wrapper>
+        <Wrapper>
+          <Span type={cardStyle}>{ cardNumber }</Span>
+        </Wrapper>
+        <Wrapper>
           {
-            cardStyle === '' 
-            && 
-            <LogoPlaceholderWrapper>
-              <LogoPlaceholder />
-            </LogoPlaceholderWrapper>
-          }
-          {
-            cardStyle === 'visa'
-            &&
-            <VisaWrapper>
-              <VisaIcon width="80px" height="80px" />
-            </VisaWrapper>
-          }
-          {
-            cardStyle === 'master'
-            &&
-            <MasterWrapper>
-              <MasterCardIcon width="60px" height="60px" />
-            </MasterWrapper>
-          }
-          {
-            cardStyle === 'american'
-            &&
-            <AmericanWrapper>
-              <AmericanExpressIcon width="80px" height="80px" />
-            </AmericanWrapper>
-          }
-        </LogoWrapper>
-      </Wrapper>
-      <Wrapper>
-        { cardStyle === 'american' && <P>***</P>}
-      </Wrapper>
-      <Wrapper>
-        {
-          (cardStyle === 'master' || cardStyle === 'visa')
-          &&
-          <Span>{ cardNumber }</Span>
-        }
-      </Wrapper>
-      <Wrapper>
-        {
-          (cardStyle === 'master' || cardStyle === 'visa')
+            (cardStyle === 'master' || cardStyle === 'visa')
           &&
           <P>{ cardholderName }</P>
-        }
-        {
-          (cardStyle === 'master' || cardStyle === 'visa')
+          }
+          {
+            (cardStyle === 'master' || cardStyle === 'visa')
           &&
           <P>{ expMonth }</P>
-        }
-      </Wrapper>
+          }
+        </Wrapper>
+      </Front>
+      <Back>
+
+      </Back>
     </Div>
   );
 };

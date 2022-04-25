@@ -2,11 +2,10 @@ import styled from 'styled-components';
 
 interface Style {
   type: 'visa' | 'master' | 'american' | '';
+  isCvcFocus?: boolean;
 }
 
 export const Div = styled.div<Style>`
-  height: 150px;
-  width: 306px;
   background-color: ${
   props => ((props.type === '')
     ? props.theme.color_neutral_1
@@ -16,9 +15,13 @@ export const Div = styled.div<Style>`
         ? '#384CA7'
         : '#86A99B')
 };
-  border-radius: 4px;
-  padding: 1em;
+  border-radius: 8px;
+  height: 150px;
+  position: relative;
   transition: 0.4s;
+  width: 306px;
+  transform-style: preserve-3d;
+  ${props => props.isCvcFocus ? 'transform: rotateY(180deg)' : ''};
 `;
 
 export const Wrapper = styled.div`
@@ -28,37 +31,17 @@ export const Wrapper = styled.div`
     height: 25px;
   }
 
+  :nth-child(3) {
+    padding-left: 1em;
+  }
+
   :nth-child(4) {
     display: flex;
     justify-content: space-between;
     margin-top: 0.5em;
+    height: 25px;
+    padding: 0 1em;
   }
-`;
-
-export const LogoWrapper = styled.div`
-  height: 50px;
-`;
-
-export const VisaWrapper = styled.div`
-  position: absolute;
-  top: -25px;
-  left: -5px;
-`;
-
-export const MasterWrapper = styled.div`
-  position: absolute;
-  top: -7px;
-  left: 0px;
-`;
-
-export const AmericanWrapper = styled.div``;
-
-export const LogoPlaceholderWrapper = styled.div``;
-
-export const LogoPlaceholder = styled.div`
-  width: 60px;
-  height: 40px;
-  background-color: ${props => props.theme.color_neutral_0};
 `;
 
 export const P = styled.p`
@@ -67,9 +50,26 @@ export const P = styled.p`
   color: ${props => props.theme.color_ui_background};
 `;
 
-export const Span = styled.span`
+export const Span = styled.span<Style>`
   font-size: 1rem;
-  color: ${props => props.theme.color_ui_background};
+  color: ${props => props.type === '' ? props.theme.color_ui_text_main : props.theme.color_ui_background};
   font-family: 'Inter';
   letter-spacing: 0.1em;
+`;
+
+const commun = `
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+`;
+
+export const Front = styled.div`
+  ${commun};
+`;
+
+export const Back = styled.div`
+  ${commun};
+  transform: rotateY(180deg);
 `;

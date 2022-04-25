@@ -40,7 +40,7 @@ export const SignupForm = () => {
   }, [fullNameInputControl.hasError, emailInputControl.hasError, passwordInputControl.hasError]);
 
   
-  const handleInputSubmit = async(e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let valid = true;
 
@@ -109,7 +109,7 @@ export const SignupForm = () => {
   };
 
   return (
-    <Form onSubmit={handleInputSubmit}>
+    <Form onSubmit={handleSubmit}>
       <LogoWrapper>
         <Link href="/" passHref>
           <LinkWrapper>

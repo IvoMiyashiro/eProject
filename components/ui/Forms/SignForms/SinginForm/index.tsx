@@ -1,17 +1,17 @@
 import { FormEvent, useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
-import { signIn, getProviders } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
 
 import { AuthContext } from 'context';
 
-import { Button } from '../';
+import { Button, Spinner } from 'components/ui';
+import { LogoIcon } from 'components/icons';
 import { Inputs } from './Inputs';
 import { Providers } from './Providers';
-import { LogoIcon, Spinner } from 'components';
 
 import { lightTheme } from 'styles';
 import { Form, H1, Section, Wrapper, Label, Checkbox, A, ButtonWrapper, LogoWrapper, LinkWrapper, P } from './styles';
-import { useRouter } from 'next/router';
 
 interface IInputControl {
   value: string;
@@ -28,7 +28,6 @@ export const SigninForm = () => {
     hasError: false,
     errorMsj: ''
   };
-  
 
   const [errorMessage, setErrorMessage] = useState('');
   const [isValidForm, setValidForm] = useState(false);
@@ -42,7 +41,7 @@ export const SigninForm = () => {
     }
   }, [emailInputControl.hasError, passwordInputControl.hasError]);
 
-  const handleInputSubmit = async(e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let valid = true;
 
@@ -97,7 +96,7 @@ export const SigninForm = () => {
   };
 
   return (
-    <Form onSubmit={handleInputSubmit}>
+    <Form onSubmit={handleSubmit}>
       <LogoWrapper>
         <Link href="/" passHref>
           <LinkWrapper>

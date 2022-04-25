@@ -7,16 +7,19 @@ export const H1 = styled.h1`
   margin-bottom: 1em;
 `;
 
-export const Div = styled.div``;
-
-export const Wrapper = styled.div`
-  margin-bottom: 2em;
-`;
-
-
 export const ButtonWrapper = styled.div`
   width: 150px;
   margin-left: auto;
   height: 40px;
-  margin-top: 2em;
+  margin-top: 1.5em;
+`;
+
+export const P = styled.p`
+  font-size: 0.9rem;
+`;
+
+export const Div = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
 `;

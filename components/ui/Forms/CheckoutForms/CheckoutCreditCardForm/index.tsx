@@ -5,7 +5,8 @@ import { CreditCard } from './CreditCard';
 import { Inputs } from './Inputs';
 
 import { lightTheme } from 'styles';
-import { Div, ButtonWrapper, Form, H1, Wrapper } from './styles';
+import { Div, Wrapper } from './styles';
+import { Form, H1, ButtonWrapper } from '../styles';
 
 export const CheckoutCreditCardForm = () => {
 

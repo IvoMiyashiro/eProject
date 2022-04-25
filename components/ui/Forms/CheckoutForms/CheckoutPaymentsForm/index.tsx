@@ -5,7 +5,7 @@ import { CashIcon, CreditCard, Bitcoin } from 'components/icons';
 import { Button, InputRadioCard } from 'components/ui';
 
 import { lightTheme } from 'styles';
-import { Form, Div, H1, ButtonWrapper, P } from './styles';
+import { Form, Div, H1, ButtonWrapper, P } from '../styles';
 
 export const CheckoutPaymentsForm = () => {
 

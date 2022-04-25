@@ -8,8 +8,8 @@ import { Button } from 'components/ui';
 import { InputControl, InputSelect, InputNumber, InputTextarea } from 'components/ui/Inputs';
 
 import { lightTheme } from 'styles';
-import { Div, Form, H1 } from './styles';
-import { ButtonWrapper, P } from '../CheckoutShippingForm/styles';
+import { Div } from './styles';
+import { ButtonWrapper, P, Form, H1 } from '../styles';
 
 export const CheckoutAddressForm = () => {
 

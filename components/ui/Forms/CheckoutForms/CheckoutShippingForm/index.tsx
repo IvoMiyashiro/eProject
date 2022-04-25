@@ -5,7 +5,7 @@ import { ShopIcon, TruckIcon } from 'components/icons';
 import { Button, InputRadioCard } from 'components';
 
 import { lightTheme } from 'styles';
-import { Form, Div, H1, ButtonWrapper, P } from './styles';
+import { Form, Div, H1, ButtonWrapper, P } from '../styles';
 
 export const CheckoutShippingForm = () => {
 

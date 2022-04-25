@@ -13,6 +13,7 @@ interface Props {
   handleExpMonthValue: Dispatch<SetStateAction<{ value: string; hasError: boolean; errorMsj: string; }>>
   handleCvcValue: Dispatch<SetStateAction<{ value: string; hasError: boolean; errorMsj: string; }>>
   handleDniValue: Dispatch<SetStateAction<{ value: string; hasError: boolean; errorMsj: string; }>>
+  handleCvcFocus: Dispatch<SetStateAction<boolean>>
 }
 
 type State = {
@@ -32,6 +33,7 @@ export const Inputs = ({
   handleExpMonthValue,
   handleCvcValue,
   handleDniValue,
+  handleCvcFocus
 }: Props) => {
   
   return (
@@ -62,6 +64,7 @@ export const Inputs = ({
           maxLength={4}
           placeholder='CVC'
           state={cvc}
+          handleFocus={handleCvcFocus}
           handleStateValue={handleCvcValue}
         />
       </Wrapper>

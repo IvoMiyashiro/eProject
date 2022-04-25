@@ -1,5 +1,6 @@
 import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from 'react';
-import { Div, Wrapper, TextArea, Span, Label, InputWrapper } from './styles';
+import { Div, Wrapper, Span, Label, InputWrapper } from '../InputControl/styles';
+import { TextArea } from './styles';
 
 interface Props {
   placeholder: string;

@@ -1,9 +1,10 @@
 import { Dispatch, SetStateAction, useRef, useState } from 'react';
-import { Label, Div, Input, P, Wrapper, Span, IconWrapper } from './styles';
+import { Label, Div, Input, P, Wrapper, Span, IconWrapper, TextWrapper, Text } from './styles';
 
 interface Props {
   name: string;
   value: string;
+  text?: string;
   icon: any;
   hisValue: boolean;
   price: string;
@@ -14,6 +15,7 @@ interface Props {
 
 export const InputRadioCard = ({
   name,
+  text,
   value,
   icon,
   hisValue,
@@ -62,7 +64,12 @@ export const InputRadioCard = ({
           <IconWrapper>
             { icon }
           </IconWrapper>
-          <P>{ value }</P>
+          <TextWrapper>
+            <P>{ value }</P>
+            {
+              text && <Text>{ text }</Text>
+            }
+          </TextWrapper>
         </Wrapper>
       </Div>
       <Span>

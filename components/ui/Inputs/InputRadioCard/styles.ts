@@ -56,4 +56,15 @@ export const IconWrapper = styled.div`
 
 export const Input = styled.input``;
 
+export const TextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const P = styled.p``;
+
+export const Text = styled.p`
+    font-size: 0.8rem;
+    color: ${props => props.theme.color_neutral_2};
+`;
+

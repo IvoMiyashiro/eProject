@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface Style {
-  type: 'visa' | 'master' | 'american' | '';
+  type: 'visa' | 'master' | '';
   isCvcFocus?: boolean;
 }
 
@@ -28,41 +28,37 @@ export const Wrapper = styled.div`
   position: relative;
 
   :nth-child(2) {
-    height: 25px;
+    margin-top: 1em;
   }
 
+  :nth-child(2),
   :nth-child(3) {
-    padding-left: 1em;
-  }
-
-  :nth-child(4) {
     display: flex;
+    height: 35px;
     justify-content: space-between;
-    margin-top: 0.5em;
-    height: 25px;
     padding: 0 1em;
   }
 `;
 
 export const P = styled.p`
-  font-size: 0.9rem;
-  font-family: 'Inter';
   color: ${props => props.theme.color_ui_background};
+  font-family: 'Inter';
+  font-size: 0.9rem;
 `;
 
 export const Span = styled.span<Style>`
-  font-size: 1rem;
   color: ${props => props.type === '' ? props.theme.color_ui_text_main : props.theme.color_ui_background};
   font-family: 'Inter';
+  font-size: 1rem;
   letter-spacing: 0.1em;
 `;
 
 const commun = `
-  position: absolute;
-  width: 100%;
-  height: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  height: 100%;
+  position: absolute;
+  width: 100%;
 `;
 
 export const Front = styled.div`
@@ -71,5 +67,42 @@ export const Front = styled.div`
 
 export const Back = styled.div`
   ${commun};
+  overflow: hidden;
   transform: rotateY(180deg);
+`;
+
+export const Bar = styled.div`
+  background-color: ${props => props.theme.color_ui_text_main};
+  height: 40px;
+  margin-top: 1.25em;
+  width: 100%;
+`;
+
+export const Section = styled.section`
+  display: flex;
+  align-items: center;
+  margin-top: 1em;
+  padding: 0 0.75em;
+  width: 100%;
+`;
+
+export const LineWrapper = styled.div`
+  width: 100%;
+`;
+
+export const Line = styled.div<Style>`
+  background-color: ${props => props.type !== '' ? props.theme.color_ui_text_contrast : props.theme.color_neutral_2};
+  height: 2px;
+  margin-top: 0.1em;
+  width: 100%;
+`;
+
+export const CVCWrapper = styled.div<Style>`
+  align-items: center;
+  background-color: ${props => props.type !== '' ? props.theme.color_ui_text_contrast : props.theme.color_neutral_2};
+  display: flex;
+  height: 30px;
+  justify-content: center;
+  width: 70px;
+  font-family: 'Inter';
 `;

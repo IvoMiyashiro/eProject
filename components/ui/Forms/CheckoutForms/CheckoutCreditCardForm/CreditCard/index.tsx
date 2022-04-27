@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { CreditCardLogo } from './CreditCardLogo';
-import { Div, P, Span, Wrapper, Front, Back } from './styles';
+import { Div, P, Span, Wrapper, Front, Back, Bar, Section, Line, CVCWrapper, LineWrapper } from './styles';
 
 interface Props {
   cardholderName: string;
@@ -12,7 +12,7 @@ interface Props {
 
 export const CreditCard = ({ cardholderName, cardNumber, expMonth, cvc, isCvcFocus }: Props) => {
 
-  const [cardStyle, setCardStyle] = useState<'visa' | 'master' | 'american' | ''>('');
+  const [cardStyle, setCardStyle] = useState<'visa' | 'master' | ''>('');
 
   useEffect(() => {
     if (!(cardNumber.length > 7)) {
@@ -26,10 +26,6 @@ export const CreditCard = ({ cardholderName, cardNumber, expMonth, cvc, isCvcFoc
     if (cardNumber.charAt(0) === '5' && cardNumber.length > 7) {
       return setCardStyle('master');
     }
-
-    if (cardNumber.charAt(0) === '5' && cardNumber.length > 7) {
-      return setCardStyle('american');
-    }
   }, [cardStyle, cardNumber]);
 
   return (
@@ -37,9 +33,6 @@ export const CreditCard = ({ cardholderName, cardNumber, expMonth, cvc, isCvcFoc
       <Front>
         <Wrapper>
           <CreditCardLogo type={cardStyle}/>
-        </Wrapper>
-        <Wrapper>
-          { cardStyle === 'american' && <P>***</P>}
         </Wrapper>
         <Wrapper>
           <Span type={cardStyle}>{ cardNumber }</Span>
@@ -58,7 +51,22 @@ export const CreditCard = ({ cardholderName, cardNumber, expMonth, cvc, isCvcFoc
         </Wrapper>
       </Front>
       <Back>
-
+        <Bar />
+        <Section>
+          <LineWrapper>
+            <Line type={cardStyle}/>
+            <Line type={cardStyle}/>
+            <Line type={cardStyle}/>
+            <Line type={cardStyle}/>
+            <Line type={cardStyle}/>
+            <Line type={cardStyle}/>
+            <Line type={cardStyle}/>
+            <Line type={cardStyle}/>
+          </LineWrapper>
+          <CVCWrapper type={cardStyle}>
+            { cvc }
+          </CVCWrapper>
+        </Section>
       </Back>
     </Div>
   );

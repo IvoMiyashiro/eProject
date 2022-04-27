@@ -6,7 +6,7 @@ import { CheckoutShippingForm } from 'components/ui';
 
 const CheckoutPage: NextPage = () => {
   return (
-    <CheckoutLayout title="Address">
+    <CheckoutLayout title="Checkout">
       <CheckoutShippingForm />
     </CheckoutLayout>
   );

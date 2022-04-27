@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from 'react';
-import { creditCardDateRegEx, dniRegEx, visaNumberRegEx } from 'utils';
+import { creditCardDateRegEx, dniRegEx, masterNumberRegEx, visaNumberRegEx } from 'utils';
 import { Div, Wrapper, Input, Span, Label, InputWrapper} from '../InputControl/styles';
 import { Section, P } from './styles';
 
@@ -135,7 +135,9 @@ export const InputNumber = ({
   const handleInputError = () => {
 
     if (type === 'credit-card') {
-      if (!(visaNumberRegEx.test(state.value.replace(/\s/g, '')))) {
+      const value = state.value.replace(/\s/g, '');
+      console.log(value);
+      if (!(visaNumberRegEx.test(value) || (masterNumberRegEx.test(value)))) {
         return handleStateValue(prev => ({
           ...prev,
           hasError: true,

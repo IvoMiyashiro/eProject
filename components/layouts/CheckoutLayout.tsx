@@ -33,6 +33,7 @@ export const CheckoutLayout = ({ children, title }: Props) => {
 const Div = styled.div`
   min-height: 100vh;
   width: 100%;
+  margin-top: -72px;
 `;
 
 const Section = styled.div`
@@ -51,5 +52,6 @@ const Info = styled.div`
 `;
 
 const Wrapper = styled.div`
-  padding: 3em 0;
+  padding-top: 7em;
+  padding-bottom: 2em;
 `;

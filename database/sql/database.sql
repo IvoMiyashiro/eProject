@@ -114,11 +114,3 @@ CREATE TABLE IF NOT EXISTS review (
 ALTER TABLE IF EXISTS review ADD CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE;
 
 /* Review */
-
-/* Customer */
-
-CREATE TABLE IF NOT EXISTS customer (
-  
-)
-
-/* Customer */

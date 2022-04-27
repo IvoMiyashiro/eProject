@@ -2,10 +2,12 @@ import styled from 'styled-components';
 
 interface Styles {
   isSelected: boolean;
+  isHover: boolean;
 }
 
 export const Label = styled.label<Styles>`
   align-items: center;
+  background-color: ${props => props.isHover ? props.theme.color_neutral_1 : 'transparent'};
   border-left: 4px solid ${props => props.isSelected ? props.theme.color_primary_2 : 'transparent'};
   border-radius: 4px;
   display: flex;
@@ -28,6 +30,10 @@ export const Div = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 1em;
+
+  :nth-child(2) {
+    margin-left: 0.5em;
+  }
 `;
 
 export const Wrapper = styled.div`
@@ -39,6 +45,13 @@ export const Wrapper = styled.div`
 export const Span = styled.span`
   color: ${props => props.theme.color_ui_ok_0};
   margin-left: auto;
+`;
+
+export const IconWrapper = styled.div`
+  background-color: ${props => props.theme.color_neutral_1};
+  padding: 0.6em 0.7em;
+  border-radius: 100%;
+  color: ${props => props.theme.color_primary_0};
 `;
 
 export const Input = styled.input``;

@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useRef } from 'react';
-import { Label, Div, Input, P, Wrapper, Span } from './styles';
+import { Dispatch, SetStateAction, useRef, useState } from 'react';
+import { Label, Div, Input, P, Wrapper, Span, IconWrapper } from './styles';
 
 interface Props {
   name: string;
@@ -24,6 +24,7 @@ export const InputRadioCard = ({
 }: Props) => {
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isHover, setHover] = useState(false);
 
   const handleClick = () => {
     handleNextStep(value);
@@ -41,7 +42,13 @@ export const InputRadioCard = ({
   };
 
   return (
-    <Label isSelected={hisValue} onClick={handleClick}>
+    <Label
+      isSelected={hisValue}
+      isHover={isHover}
+      onMouseOver={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onClick={handleClick}
+    >
       <Div>
         <Input 
           type="radio"
@@ -52,7 +59,9 @@ export const InputRadioCard = ({
       </Div>
       <Div>
         <Wrapper>
-          { icon }
+          <IconWrapper>
+            { icon }
+          </IconWrapper>
           <P>{ value }</P>
         </Wrapper>
       </Div>

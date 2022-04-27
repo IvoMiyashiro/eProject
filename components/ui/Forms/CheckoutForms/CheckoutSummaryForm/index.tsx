@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const CheckoutSummary = () => {
+export const CheckoutSummaryForm = () => {
   return (
     <div>CheckoutSummary</div>
   );

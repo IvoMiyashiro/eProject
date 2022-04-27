@@ -2,13 +2,14 @@ import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { ShopIcon, TruckIcon } from 'components/icons';
-import { Button, InputRadioCard } from 'components';
+import { InputRadioCard } from 'components';
 
-import { lightTheme } from 'styles';
-import { Form, Div, H1, ButtonWrapper, P } from '../styles';
+import { Form, Div, H1 } from '../styles';
+import { ButtonSection } from '../Button';
 
 export const CheckoutShippingForm = () => {
 
+  const [isLoading, setLoading] = useState(false);
   const [shippingIRSelected, setShippingIRSelected] = useState(false);
   const [takeAwayIRSelected, setTakeAwayIRSelected] = useState(false);
   const [nextStep, setNextStep] = useState('');
@@ -16,6 +17,7 @@ export const CheckoutShippingForm = () => {
   
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     const destination = nextStep === 'Ship to my home' ? '/address' : '/payments';
     router.push('/checkout' + destination);
   };
@@ -45,17 +47,10 @@ export const CheckoutShippingForm = () => {
           handleNextStep={setNextStep}
         />
       </Div>
-      <ButtonWrapper>
-        <Button
-          textColor={lightTheme.color_ui_text_contrast}
-          bgColor={lightTheme.color_primary_0}
-          bRadius='4px'
-          disabled={!nextStep}
-          type="submit"
-        >
-          <P>Confirm</P>
-        </Button>
-      </ButtonWrapper>
+      <ButtonSection 
+        disabled={!nextStep}
+        isLoading={isLoading}
+      />
     </Form>
   );
 };

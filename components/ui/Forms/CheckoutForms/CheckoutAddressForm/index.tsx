@@ -4,12 +4,11 @@ import { useRouter } from 'next/router';
 import { useLocalities } from 'hooks';
 import { addressRegEx, provinces } from 'utils';
 
-import { Button } from 'components/ui';
 import { InputControl, InputSelect, InputNumber, InputTextarea } from 'components/ui/Inputs';
 
-import { lightTheme } from 'styles';
 import { Div } from './styles';
-import { ButtonWrapper, P, Form, H1 } from '../styles';
+import { Form, H1 } from '../styles';
+import { ButtonSection } from '../Button';
 
 export const CheckoutAddressForm = () => {
 
@@ -19,6 +18,7 @@ export const CheckoutAddressForm = () => {
     errorMsj: ''
   };
   
+  const [isLoading, setLoading] = useState(false);
   const [isValidForm, setValidForm] = useState(false);
   const [addressInput, setAddressInput] = useState(INPUT_CONTROL_INIT_STATE);
   const [zipInput, setZipInput] = useState(INPUT_CONTROL_INIT_STATE);
@@ -36,7 +36,7 @@ export const CheckoutAddressForm = () => {
     }
   }, [addressInput.hasError, zipInput.hasError ,provinceSelect.hasError ,localitySelect.hasError ,phoneInput.hasError ,additionalInfo.hasError]);
 
-  const handleInputSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let hasError = false;
 
@@ -86,11 +86,12 @@ export const CheckoutAddressForm = () => {
     }
 
     if (hasError) return setValidForm(false);
+    setLoading(true);
     router.push('/checkout/payments');
   };
 
   return (
-    <Form onSubmit={handleInputSubmit}>
+    <Form onSubmit={handleSubmit}>
       <H1>Where do we deliver your package?</H1>
       <Div>
         <InputControl
@@ -145,17 +146,10 @@ export const CheckoutAddressForm = () => {
           handleStateValue={setAdditionalInfo}
         />
       </Div>
-      <ButtonWrapper>
-        <Button
-          textColor={lightTheme.color_ui_text_contrast}
-          bgColor={lightTheme.color_primary_0}
-          bRadius='4px'
-          disabled={!isValidForm}
-          type="submit"
-        >
-          <P>Confirm</P>
-        </Button>
-      </ButtonWrapper>
+      <ButtonSection 
+        isLoading={isLoading}
+        disabled={!isValidForm}
+      />
     </Form>
   );
 };

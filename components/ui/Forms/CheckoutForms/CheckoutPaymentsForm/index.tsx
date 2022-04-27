@@ -2,13 +2,14 @@ import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { CashIcon, CreditCard, Bitcoin } from 'components/icons';
-import { Button, InputRadioCard } from 'components/ui';
+import { InputRadioCard } from 'components/ui';
+import { ButtonSection } from '../Button';
 
-import { lightTheme } from 'styles';
-import { Form, Div, H1, ButtonWrapper, P } from '../styles';
+import { Form, Div, H1 } from '../styles';
 
 export const CheckoutPaymentsForm = () => {
 
+  const [isLoading, setLoading] = useState(false);
   const [cashMethod, setCashMethod] = useState(false);
   const [creditCardMethod, setCreditCardMethod] = useState(false);
   const [bitconMethod, setBitcoinMethod] = useState(false);
@@ -17,6 +18,7 @@ export const CheckoutPaymentsForm = () => {
   
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     if (nextStep === '') return;
     const destination = nextStep === 'Credit Card'
       ? '/credit-card'
@@ -61,17 +63,10 @@ export const CheckoutPaymentsForm = () => {
           handleNextStep={setNextStep}
         />
       </Div>
-      <ButtonWrapper>
-        <Button
-          textColor={lightTheme.color_ui_text_contrast}
-          bgColor={lightTheme.color_primary_0}
-          bRadius='4px'
-          disabled={!nextStep}
-          type="submit"
-        >
-          <P>Confirm</P>
-        </Button>
-      </ButtonWrapper>
+      <ButtonSection 
+        disabled={!nextStep}
+        isLoading={isLoading}
+      />
     </Form>
   );
 };

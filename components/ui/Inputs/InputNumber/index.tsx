@@ -50,15 +50,13 @@ export const InputNumber = ({
         : (type === 'credit-card') 
           ? 20
           : (type === 'tel')
-            ? 12
+            ? 13
             : (type == 'date')
               ? 6
               : 11;
-
     if (value.length === newMaxLength) return;
-
-    if (!(e.target.validity.valid || value === '.' || value === '/' || value === ' ')) return;
-
+    if (!(e.target.validity.valid || value === '.' || value === '/' || value === ' ' || value === '-')) return;
+              
     if (type === 'tel') {
       if (value.length === 2) {
         return handleStateValue(prev => {
@@ -207,7 +205,7 @@ export const InputNumber = ({
               onKeyDownCapture={handleOnKeyDown}
               onKeyUp={handleInputError}
               autoComplete="none"
-              pattern="[0-9 ./]+"
+              pattern="[0-9 ./-]+"
             />
           </Section>
         </Wrapper>

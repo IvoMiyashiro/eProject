@@ -2,6 +2,7 @@ import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from 'react';
 import { Div, Wrapper, Input, Span, Label, InputWrapper } from './styles';
 
 interface Props {
+  id: string;
   type: 'email' | 'password' | 'text' | 'tel';
   placeholder: string;
   state: {
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export const InputControl = ({ 
+  id = '',
   type,
   placeholder,
   state,
@@ -110,7 +112,8 @@ export const InputControl = ({
           <Label isFocus={isFocus} error={hasError}>
             { placeholder }
           </Label>
-          <Input 
+          <Input
+            id={id}
             type={type}
             value={value}
             ref={inputRef}

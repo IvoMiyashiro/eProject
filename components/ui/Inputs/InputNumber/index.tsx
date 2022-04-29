@@ -4,6 +4,7 @@ import { Div, Wrapper, Input, Span, Label, InputWrapper} from '../InputControl/s
 import { Section, P } from './styles';
 
 interface Props {
+  id?: string;
   type: 'tel' | 'dni' | 'credit-card' | 'num' | 'date';
   placeholder: string;
   state: {
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export const InputNumber = ({
+  id = '',
   type,
   placeholder,
   state,
@@ -134,7 +136,6 @@ export const InputNumber = ({
 
     if (type === 'credit-card') {
       const value = state.value.replace(/\s/g, '');
-      console.log(value);
       if (!(visaNumberRegEx.test(value) || (masterNumberRegEx.test(value)))) {
         return handleStateValue(prev => ({
           ...prev,
@@ -195,6 +196,7 @@ export const InputNumber = ({
               type === 'tel' && <P>+54</P>
             }
             <Input
+              id={id}
               type="text"
               name={type}
               value={value}

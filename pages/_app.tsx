@@ -3,7 +3,7 @@ import { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import { DefaultTheme, ThemeProvider } from 'styled-components';
 
-import { UiProvider, CartProvider, AuthProvider } from 'context';
+import { UiProvider, CartProvider, AuthProvider, CheckoutProvider } from 'context';
 
 import GlobalStyle from 'styles/global';
 import { lightTheme } from 'styles';
@@ -18,8 +18,10 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         <UiProvider>
           <ThemeProvider theme={appTheme}>
             <CartProvider>
-              <Component {...pageProps} />
-              <GlobalStyle />
+              <CheckoutProvider>
+                <Component {...pageProps} />
+                <GlobalStyle />
+              </CheckoutProvider>
             </CartProvider>
           </ThemeProvider>
         </UiProvider>

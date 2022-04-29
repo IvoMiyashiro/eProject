@@ -69,7 +69,6 @@ export const AuthProvider:FC = ({ children }) => {
       });
       
       const destination = router.query.p?.toString() || '/';
-      console.log(destination);
       router.replace(destination);
       return { error: false };
     } catch(error) {

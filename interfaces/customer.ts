@@ -3,17 +3,17 @@ export interface ICustomer {
   name: string;
   email: string;
   profile_image: string;
-  shipping_info?: Shipping_info;
+  address?: Address;
   token: string;
   role: 'admin' | 'client';
 }
 
-export type Shipping_info = {
-  address_1: string;
-  address_2: string;
+export type Address = {
+  address: string;
   zip: string;
   province: string;
   locality: string;
-  phone_number: string;
+  phone_num_1: string,
+  phone_num_2: string,
   additional_info: string;
 }

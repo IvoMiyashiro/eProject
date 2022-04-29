@@ -1,24 +1,51 @@
-import { FC, useReducer } from 'react';
+import { FC, useEffect, useReducer } from 'react';
 
+import { Address } from 'interfaces';
 import { CheckoutContext, checkoutReducer } from './';
+import { useRouter } from 'next/router';
 
 export interface CheckoutState { 
-  step: 1 | 2 | 3;
+  shippingMethod: 'delivery' | 'pick up' | '' | undefined;
+  address: Address | undefined
 }
 
 const CHECKOUT_INIT_STATE: CheckoutState = { 
-  step: 1
+  shippingMethod: undefined,
+  address: undefined
 };
 
 export const CheckoutProvider: FC = ({ children }) => {
 
   const [state, dispatch] = useReducer(checkoutReducer, CHECKOUT_INIT_STATE);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.pathname === '/checkout') {
+      return dispatch({ type: '[CHECKOUT] - Reset' });
+    }
+  }, [router.pathname]);
+
+  const setShippingMethod = (method: string) => {
+    if (method === 'delivery') {
+      return dispatch({ type: '[CHECKOUT] - Delivery' });
+    }
+
+    if (method === 'pick up') {
+      return dispatch({ type: '[CHECKOUT] - Pick Up' });
+    }
+  };
+
+  const setAddressInfo = (data: Address) => {
+    dispatch({ type: '[CHECKOUT] - Load Address', payload: data });
+  };
 
   return (
     <CheckoutContext.Provider value={{
       ...state,
  
       // Methods
+      setShippingMethod,
+      setAddressInfo
     }}>
       { children }
     </CheckoutContext.Provider>

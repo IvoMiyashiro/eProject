@@ -34,7 +34,7 @@ export * from './Logout';
 export * from './Category';
 export * from './Shop';
 export * from './Cash';
-export * from './CreaditCard';
+export * from './CreditCard';
 export * from './Bitcoin';
 export * from './Visa';
 export * from './AmericanExpress';

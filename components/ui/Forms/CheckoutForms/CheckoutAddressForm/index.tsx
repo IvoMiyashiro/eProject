@@ -1,14 +1,15 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { useLocalities } from 'hooks';
 import { addressRegEx, provinces } from 'utils';
 
+import { CheckoutContext } from 'context';
 import { InputControl, InputSelect, InputNumber, InputTextarea } from 'components/ui/Inputs';
+import { ButtonSection } from '../Button';
 
 import { Div } from './styles';
 import { Form, H1 } from '../styles';
-import { ButtonSection } from '../Button';
 
 export const CheckoutAddressForm = () => {
 
@@ -18,6 +19,7 @@ export const CheckoutAddressForm = () => {
     errorMsj: ''
   };
   
+  const { setAddressInfo } = useContext(CheckoutContext);
   const [isLoading, setLoading] = useState(false);
   const [isValidForm, setValidForm] = useState(false);
   const [addressInput, setAddressInput] = useState(INPUT_CONTROL_INIT_STATE);
@@ -87,6 +89,16 @@ export const CheckoutAddressForm = () => {
 
     if (hasError) return setValidForm(false);
     setLoading(true);
+
+    setAddressInfo({
+      address: addressInput.value,
+      zip: zipInput.value,
+      province: provinceSelect.value,
+      locality: localitySelect.value,
+      phone_num_1: phoneInput.value,
+      phone_num_2: altPhoneInput.value,
+      additional_info: additionalInfo.value,
+    });
     router.push('/checkout/payments');
   };
 

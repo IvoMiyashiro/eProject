@@ -2,11 +2,11 @@ import { FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 
-import { CashIcon, CreditCard, Bitcoin } from 'components/icons';
+import { CashIcon, CreditCard } from 'components/icons';
 import { InputRadioCard } from 'components/ui';
 import { ButtonSection } from '../Button';
 
-import { Form, Div, H1 } from '../styles';
+import { Form, Div, H1, Wrapper as ErrorWrapper, Span } from '../styles';
 
 export const CheckoutPaymentsForm = () => {
 
@@ -15,18 +15,18 @@ export const CheckoutPaymentsForm = () => {
   const [creditCardMethod, setCreditCardMethod] = useState(false);
   const [visaTestCard, setVisaTestCard] = useState(false);
   const [masterTestCard, setMasterTest] = useState(false);
-  const [nextStep, setNextStep] = useState('');
+  const [formError, setFormError] = useState(false);
+  const [inputRadioValue, setInputRadioValue] = useState('');
   const router = useRouter();
   
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (inputRadioValue === '') return setFormError(true);
+    setFormError(false);
+
     setLoading(true);
-    if (nextStep === '') return;
-    const destination = nextStep === 'Add new card'
-      ? '/credit-card'
-      : (nextStep === 'Cash')
-        ? '/cash'
-        : '/bitcoin';
+    const destination = (inputRadioValue === 'add-new-card') ? '/credit-card' : '/cash';
     router.push('/checkout/payments' + destination);
   };
 
@@ -38,55 +38,62 @@ export const CheckoutPaymentsForm = () => {
           <H2>With credit or debit</H2>
           <InputRadioCard
             name="radio-group"
-            value="Visa testing credit card"
+            title="Visa testing credit card"
+            value="visa"
             text='This card allow you to test the payment process'
             icon={<CreditCard width="25px" heigh="25px" />}
             hisValue={visaTestCard}
             price=""
+            onChange={setInputRadioValue}
             handleHisValue={setVisaTestCard}
             handleOtherValues={[setCashMethod, setMasterTest, setCreditCardMethod]}
-            handleNextStep={setNextStep}
           />
           <InputRadioCard
             name="radio-group"
-            value="Mastercard testing credit card"
+            title="Master testing credit card"
+            value="master"
             text='This card allow you to test the payment process'
             icon={<CreditCard width="25px" heigh="25px" />}
             hisValue={masterTestCard}
             price=""
+            onChange={setInputRadioValue}
             handleHisValue={setMasterTest}
             handleOtherValues={[setCashMethod, setVisaTestCard, setCreditCardMethod]}
-            handleNextStep={setNextStep}
           />
           <InputRadioCard
             name="radio-group"
-            value="Add new card"
+            title="Add new card"
+            value="add-new-card"
             icon={<CreditCard width="25px" heigh="25px" />}
             hisValue={creditCardMethod}
             price=""
+            onChange={setInputRadioValue}
             handleHisValue={setCreditCardMethod}
             handleOtherValues={[setCashMethod, setVisaTestCard, setMasterTest]}
-            handleNextStep={setNextStep}
           />
         </Wrapper>
         <Wrapper>
           <H2>With cash</H2>
           <InputRadioCard
             name="radio-group"
-            value="Cash"
+            title="Cash"
+            value="cash"
             icon={<CashIcon width="25px" heigh="25px" />}
             hisValue={cashMethod}
             price=""
+            onChange={setInputRadioValue}
             handleHisValue={setCashMethod}
             handleOtherValues={[setCreditCardMethod]}
-            handleNextStep={setNextStep}
           />
         </Wrapper>
       </Div>
-      <ButtonSection 
-        disabled={!nextStep}
-        isLoading={isLoading}
-      />
+      <ErrorWrapper>
+        <Span>{ formError && '* You must select one option.'}</Span>
+        <ButtonSection 
+          disabled={!!!inputRadioValue}
+          isLoading={isLoading}
+        />
+      </ErrorWrapper>
     </Form>
   );
 };

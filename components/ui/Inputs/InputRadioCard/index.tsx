@@ -4,32 +4,34 @@ import { Label, Div, Input, P, Wrapper, Span, IconWrapper, TextWrapper, Text } f
 interface Props {
   name: string;
   value: string;
+  title?: string;
   text?: string;
   icon: any;
   hisValue: boolean;
   price: string;
+  onChange: (value: string) => void ;
   handleHisValue: Dispatch<SetStateAction<boolean>>;
   handleOtherValues: Dispatch<SetStateAction<boolean>>[];
-  handleNextStep: (value: string) => void ;
 }
 
 export const InputRadioCard = ({
   name,
+  title,
   text,
   value,
   icon,
   hisValue,
   price,
+  onChange,
   handleHisValue,
   handleOtherValues,
-  handleNextStep
 }: Props) => {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [isHover, setHover] = useState(false);
 
   const handleClick = () => {
-    handleNextStep(value);
+    onChange(value);
     if (inputRef.current?.checked) {
       handleOtherValues.map(func => {
         func(false);
@@ -65,7 +67,7 @@ export const InputRadioCard = ({
             { icon }
           </IconWrapper>
           <TextWrapper>
-            <P>{ value }</P>
+            <P>{ title }</P>
             {
               text && <Text>{ text }</Text>
             }

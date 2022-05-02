@@ -5,6 +5,8 @@ import { lightTheme } from 'styles';
 import { Div, Label, Input, Wrapper, Section, Ul, Li, IconWrapper, Span } from './styles';
 
 interface Props {
+  id?: string;
+  name?: string;
   state: {
     value: string;
     hasError: boolean;
@@ -15,7 +17,14 @@ interface Props {
   handleStateValue: Dispatch<SetStateAction<{ value: string; hasError: boolean; errorMsj: string; }>>
 }
 
-export const InputSelect = ({ state, placeholder, options, handleStateValue }: Props) => {
+export const InputSelect = ({
+  id = '',
+  name= '',
+  state,
+  placeholder,
+  options,
+  handleStateValue
+}: Props) => {
   
   const { value, hasError, errorMsj } = state;
   const [hasFocus, setHasFocus] = useState(false);
@@ -55,6 +64,9 @@ export const InputSelect = ({ state, placeholder, options, handleStateValue }: P
 
   return (
     <Div ref={inputRef}>
+      <select hidden name={name} id={id} value={state.value} onChange={() => {}}>
+        <option value={state.value}></option>
+      </select>
       <Section isFocus={isFocus} onClick={handleFocusInput} error={hasError}>
         <Label isFocus={isFocus} error={hasError}>{ placeholder }</Label>
         <Wrapper>

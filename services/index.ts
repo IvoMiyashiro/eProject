@@ -7,3 +7,4 @@ export * from './getProductReviews';
 export * from './searchProduct';
 export * from './signUp';
 export * from './signIn';
+export * from './postMercadoPagoPayment';

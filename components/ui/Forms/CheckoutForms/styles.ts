@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const Form = styled.form``;
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+`;
 
 export const H1 = styled.h1`
   font-size: 1.5rem;

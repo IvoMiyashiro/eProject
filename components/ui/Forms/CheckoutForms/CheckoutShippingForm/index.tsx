@@ -1,11 +1,10 @@
 import { FormEvent, useContext, useState } from 'react';
-import styled from 'styled-components';
 import { useRouter } from 'next/router';
 
 import { CheckoutContext } from 'context';
 import { ShopIcon, TruckIcon } from 'components/icons';
 import { InputRadioCard } from 'components/ui';
-import { ButtonSection } from '../Button';
+import { ButtonSection } from '../ButtonSection';
 
 import { Form, Div, H1, Span, Wrapper } from '../styles';
 

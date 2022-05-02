@@ -6,7 +6,7 @@ import { addressRegEx, provinces } from 'utils';
 
 import { CheckoutContext } from 'context';
 import { InputControl, InputSelect, InputNumber, InputTextarea } from 'components/ui/Inputs';
-import { ButtonSection } from '../Button';
+import { ButtonSection } from '../ButtonSection';
 
 import { Div } from './styles';
 import { Form, H1 } from '../styles';

@@ -1,37 +1,30 @@
-import { FormEvent, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
+
+import { useMercadoPago } from 'hooks';
 
 import { CashIcon, CreditCard } from 'components/icons';
-import { InputRadioCard } from 'components/ui';
-import { ButtonSection } from '../Button';
+import { InputRadioCard, LinkCard } from 'components/ui';
+import { ButtonSection } from '../ButtonSection';
+import { MercadoPagoForm } from '../MercadoPagoForm';
 
 import { Form, Div, H1, Wrapper as ErrorWrapper, Span } from '../styles';
 
 export const CheckoutPaymentsForm = () => {
 
   const [isLoading, setLoading] = useState(false);
-  const [cashMethod, setCashMethod] = useState(false);
-  const [creditCardMethod, setCreditCardMethod] = useState(false);
   const [visaTestCard, setVisaTestCard] = useState(false);
   const [masterTestCard, setMasterTest] = useState(false);
   const [formError, setFormError] = useState(false);
-  const [inputRadioValue, setInputRadioValue] = useState('');
-  const router = useRouter();
-  
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const [inputRadioValue, setInputRadioValue] = useState<'master' | 'visa' | string>('');
+  const { resultPayment } = useMercadoPago();
 
-    if (inputRadioValue === '') return setFormError(true);
-    setFormError(false);
-
-    setLoading(true);
-    const destination = (inputRadioValue === 'add-new-card') ? '/credit-card' : '/cash';
-    router.push('/checkout/payments' + destination);
-  };
+  useEffect(() => {
+    console.log(resultPayment?.status);
+  }, [resultPayment]);
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form id="form-checkout">
       <H1>How are you going to pay?</H1>
       <Div>
         <Wrapper>
@@ -46,7 +39,7 @@ export const CheckoutPaymentsForm = () => {
             price=""
             onChange={setInputRadioValue}
             handleHisValue={setVisaTestCard}
-            handleOtherValues={[setCashMethod, setMasterTest, setCreditCardMethod]}
+            handleOtherValues={[setMasterTest]}
           />
           <InputRadioCard
             name="radio-group"
@@ -58,42 +51,31 @@ export const CheckoutPaymentsForm = () => {
             price=""
             onChange={setInputRadioValue}
             handleHisValue={setMasterTest}
-            handleOtherValues={[setCashMethod, setVisaTestCard, setCreditCardMethod]}
+            handleOtherValues={[setVisaTestCard]}
           />
-          <InputRadioCard
-            name="radio-group"
+          <LinkCard
             title="Add new card"
-            value="add-new-card"
             icon={<CreditCard width="25px" heigh="25px" />}
-            hisValue={creditCardMethod}
-            price=""
-            onChange={setInputRadioValue}
-            handleHisValue={setCreditCardMethod}
-            handleOtherValues={[setCashMethod, setVisaTestCard, setMasterTest]}
+            href="/checkout/payments/credit-card"
           />
         </Wrapper>
         <Wrapper>
           <H2>With cash</H2>
-          <InputRadioCard
-            name="radio-group"
+          <LinkCard
             title="Cash"
-            value="cash"
             icon={<CashIcon width="25px" heigh="25px" />}
-            hisValue={cashMethod}
-            price=""
-            onChange={setInputRadioValue}
-            handleHisValue={setCashMethod}
-            handleOtherValues={[setCreditCardMethod]}
+            href="/checkout/payments/cash"
           />
         </Wrapper>
       </Div>
       <ErrorWrapper>
         <Span>{ formError && '* You must select one option.'}</Span>
-        <ButtonSection 
+        <ButtonSection
           disabled={!!!inputRadioValue}
           isLoading={isLoading}
         />
       </ErrorWrapper>
+      <MercadoPagoForm visaCardSelected={visaTestCard}/>
     </Form>
   );
 };

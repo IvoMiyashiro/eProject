@@ -95,7 +95,7 @@ export const InputNumber = ({
         return handleStateValue(prev => {
           return {
             ...prev,
-            value: value + '.'
+            value: value + ''
           };
         });
       }

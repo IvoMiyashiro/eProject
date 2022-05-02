@@ -2,7 +2,7 @@ import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from 'react';
 import { Div, Wrapper, Input, Span, Label, InputWrapper } from './styles';
 
 interface Props {
-  id: string;
+  id?: string;
   type: 'email' | 'password' | 'text' | 'tel';
   placeholder: string;
   state: {

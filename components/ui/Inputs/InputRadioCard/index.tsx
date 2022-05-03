@@ -8,7 +8,7 @@ interface Props {
   text?: string;
   icon: any;
   hisValue: boolean;
-  price: string;
+  price?: string;
   onChange: (value: string) => void ;
   handleHisValue: Dispatch<SetStateAction<boolean>>;
   handleOtherValues: Dispatch<SetStateAction<boolean>>[];

@@ -55,7 +55,7 @@ export const InputNumber = ({
             ? 13
             : (type == 'date')
               ? 6
-              : 11;
+              : 9;
     if (value.length === newMaxLength) return;
     if (!(e.target.validity.valid || value === '.' || value === '/' || value === ' ' || value === '-')) return;
               

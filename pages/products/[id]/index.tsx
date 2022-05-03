@@ -5,7 +5,9 @@ import { getProducts, getProductById, getProductSpecs } from 'services';
 
 import { CatalogProvider } from 'context';
 import { IProduct , ISpecs } from 'interfaces';
-import { MainLayout, MapLinks, Product } from 'components';
+import { MainLayout } from 'components/layouts';
+import { Product } from 'components/sections';
+import { MapLinks } from 'components/ui';
 
 import { bp } from 'styles';
 

@@ -1,0 +1,15 @@
+{
+    "id": 1116916190,
+    "nickname": "TESTHZQFG1RV",
+    "password": "qatest7047",
+    "site_status": "active",
+    "email": "test_user_73549284@testuser.com"
+}
+
+{
+    "id": 1116941721,
+    "nickname": "TESTNM1T4OYJ",
+    "password": "qatest3843",
+    "site_status": "active",
+    "email": "test_user_23916154@testuser.com"
+}

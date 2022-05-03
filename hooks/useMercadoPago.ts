@@ -1,28 +1,41 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import { useScript } from 'hooks';
-import { postMercadoPagoPayment } from 'services';
+import { mercadoPagoPayment } from 'services';
+import { CartContext } from 'context';
+import { useRouter } from 'next/router';
 
 interface Response {
   resultPayment: {
     id: number;
     status: string;
     status_detail: string; 
-  } | undefined
+  } | undefined;
+  hasError: boolean;
 }
 
-export const useMercadoPago = (): Response => {
-  const [resultPayment, setResultPayment] = useState(undefined);
+export const useMercadoPago = (setLoading: (value: boolean) => void): Response => {
 
+  const [resultPayment, setResultPayment] = useState(undefined);
+  const [hasError, setError] = useState(false);
+  const [productsIDs, setProductsIDs] = useState<string[] | []>([]);
+  const { cart, orderTotalPrice } = useContext(CartContext);
   const { MercadoPago }: any = useScript(
     'https://sdk.mercadopago.com/js/v2',
     'MercadoPago'
   );
+  const router = useRouter();
+
+  useEffect(() => {
+    cart.map(product => {
+      setProductsIDs(prev => ([...prev, product.id]));
+    });
+  }, [cart]);
 
   useEffect(() => {
     if (MercadoPago) {
       const mp = new MercadoPago(process.env.MERCADO_PAGO_PUBLIC_KEY);
       const cardForm = mp.cardForm({
-        amount: '1000',
+        amount: orderTotalPrice.toString(),
         autoMount: true,
         form:  {
           id: 'form-checkout',
@@ -68,24 +81,39 @@ export const useMercadoPago = (): Response => {
         },
         callbacks: {
           onFormMounted: (error: any) => {
-            if (error)
+            if (error) {
+              setLoading(false);
               return console.warn(
                 'Form Mounted handling error: ',
                 error
               );
+            }
           },
 
           onSubmit: async (e: FormEvent) => {
-            const result = await postMercadoPagoPayment(e, cardForm.getCardFormData());
-            setResultPayment(result);
+            e.preventDefault();
+            const { status } = await mercadoPagoPayment(cardForm.getCardFormData(), productsIDs);
+            setResultPayment(status);
           },
           onFetching: (resource: any) => {
-            console.log('Fetching resource: ', resource);
+            if (resource === 'cardToken') setLoading(true);
           },
         },
       });
     }
-  }, [MercadoPago]);
+  }, [MercadoPago, productsIDs, orderTotalPrice, setLoading]);
 
-  return { resultPayment };
+  useEffect(() => {
+    if (resultPayment === 'rejected') {
+      setLoading(false);
+      return setError(true);
+    };
+
+    if (resultPayment === 'approved') router.push('/checkout/success');
+  }, [resultPayment, router, setLoading]);
+
+  return { 
+    resultPayment,
+    hasError
+  };
 };

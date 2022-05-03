@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import { useMercadoPago } from 'hooks';
@@ -15,13 +15,8 @@ export const CheckoutPaymentsForm = () => {
   const [isLoading, setLoading] = useState(false);
   const [visaTestCard, setVisaTestCard] = useState(false);
   const [masterTestCard, setMasterTest] = useState(false);
-  const [formError, setFormError] = useState(false);
   const [inputRadioValue, setInputRadioValue] = useState<'master' | 'visa' | string>('');
-  const { resultPayment } = useMercadoPago();
-
-  useEffect(() => {
-    console.log(resultPayment?.status);
-  }, [resultPayment]);
+  const { hasError } = useMercadoPago(setLoading);
 
   return (
     <Form id="form-checkout">
@@ -36,7 +31,6 @@ export const CheckoutPaymentsForm = () => {
             text='This card allow you to test the payment process'
             icon={<CreditCard width="25px" heigh="25px" />}
             hisValue={visaTestCard}
-            price=""
             onChange={setInputRadioValue}
             handleHisValue={setVisaTestCard}
             handleOtherValues={[setMasterTest]}
@@ -48,7 +42,6 @@ export const CheckoutPaymentsForm = () => {
             text='This card allow you to test the payment process'
             icon={<CreditCard width="25px" heigh="25px" />}
             hisValue={masterTestCard}
-            price=""
             onChange={setInputRadioValue}
             handleHisValue={setMasterTest}
             handleOtherValues={[setVisaTestCard]}
@@ -69,7 +62,7 @@ export const CheckoutPaymentsForm = () => {
         </Wrapper>
       </Div>
       <ErrorWrapper>
-        <Span>{ formError && '* You must select one option.'}</Span>
+        <Span>{ hasError && '* Payment not approved.'}</Span>
         <ButtonSection
           disabled={!!!inputRadioValue}
           isLoading={isLoading}
@@ -83,8 +76,9 @@ export const CheckoutPaymentsForm = () => {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1em;
+  gap: 1.5em;
 `;
+
 const H2 = styled.h2`
   font-size: 0.9rem;
 `;

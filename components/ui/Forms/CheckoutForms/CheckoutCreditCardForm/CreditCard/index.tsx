@@ -6,11 +6,12 @@ interface Props {
   cardholderName: string;
   cardNumber: string;
   expMonth: string;
+  expYear: string;
   cvc: string;
   isCvcFocus: boolean;
 }
 
-export const CreditCard = ({ cardholderName, cardNumber, expMonth, cvc, isCvcFocus }: Props) => {
+export const CreditCard = ({ cardholderName, cardNumber, expMonth, expYear, cvc, isCvcFocus }: Props) => {
 
   const [cardStyle, setCardStyle] = useState<'visa' | 'master' | ''>('');
 
@@ -46,7 +47,7 @@ export const CreditCard = ({ cardholderName, cardNumber, expMonth, cvc, isCvcFoc
           {
             (cardStyle === 'master' || cardStyle === 'visa')
           &&
-          <P>{ expMonth }</P>
+          <P>{ expMonth !== '' ? expMonth : '**' }/{ expYear !== '' ? expYear : '**'  }</P>
           }
         </Wrapper>
       </Front>

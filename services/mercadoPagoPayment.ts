@@ -1,8 +1,5 @@
-import { FormEvent } from 'react';
-
-export const postMercadoPagoPayment = async (e: FormEvent, data: any) => {
-  e.preventDefault();
-
+export const mercadoPagoPayment = async (data: any, productsIDs: string[] = []) => {
+  
   const {
     payment_method_id,
     issuer_id,
@@ -26,7 +23,7 @@ export const postMercadoPagoPayment = async (e: FormEvent, data: any) => {
         payment_method_id,
         transaction_amount: Number(amount),
         installments: Number(installments),
-        description: '',
+        description: JSON.stringify(productsIDs),
         payer: {
           email,
           identification: {

@@ -50,14 +50,14 @@ export const Inputs = ({
         <InputNumber
           id="form-checkout__cardNumber"
           type="credit-card"
-          placeholder='Credit Card Number'
+          placeholder='Card Number'
           state={cardNumber}
           handleStateValue={handleCardNumberValue}
         />
         <InputControl
           id="form-checkout__cardholderName"
           type='text'
-          placeholder='Cardholder Name'
+          placeholder='Holder Name'
           state={cardholderName}
           handleStateValue={handleCardholderNameValue}
         />

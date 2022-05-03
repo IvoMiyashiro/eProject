@@ -14,7 +14,7 @@ export const ButtonSection = ({ isLoading, disabled }: Props) => {
         textColor={lightTheme.color_ui_text_contrast}
         bgColor={lightTheme.color_primary_0}
         bRadius='4px'
-        disabled={disabled}
+        disabled={disabled || isLoading}
         type="submit"
       >
         {
@@ -31,7 +31,6 @@ export const Div = styled.div`
   width: 150px;
   margin-left: auto;
   height: 40px;
-  margin-top: 1.5em;
 `;
 
 export const P = styled.p`

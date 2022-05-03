@@ -17,14 +17,13 @@ export const CheckoutShippingForm = () => {
   const [shippingIRSelected, setShippingIRSelected] = useState(false);
   const [takeAwayIRSelected, setTakeAwayIRSelected] = useState(false);
   const router = useRouter();
-  
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setShippingMethod(inputRadioValue);
     if (inputRadioValue === '' || inputRadioValue === undefined) return setFormError(true);
     setFormError(false);
-
     setLoading(true);
     const destination = (inputRadioValue === 'delivery') ? '/address' : '/payments';
     router.push('/checkout' + destination);

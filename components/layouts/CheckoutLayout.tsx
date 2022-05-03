@@ -3,9 +3,10 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import styled from 'styled-components';
 
-import { CheckoutContext } from 'context';
-import { Navbar, Spinner } from 'components/ui';
+import { CartContext, CheckoutContext } from 'context';
+import { Navbar, ProductCheckoutCard, Spinner } from 'components/ui';
 import { lightTheme } from 'styles';
+import { Li, P, H3 } from 'components/ui/Cart/AsideCartMenu/ProductList/styles';
 
 interface Props {
   children: ReactNode;
@@ -14,6 +15,7 @@ interface Props {
 
 export const CheckoutLayout = ({ children, title }: Props) => {
 
+  const { cart, orderPrice, orderDiscount, orderTotalPrice } = useContext(CartContext);
   const { shippingMethod } = useContext(CheckoutContext);
   const router = useRouter();
   const pathname = router.pathname;
@@ -45,6 +47,38 @@ export const CheckoutLayout = ({ children, title }: Props) => {
             }
           </Wrapper>
           <Info>
+            <ProductsWrapper>
+              {
+                cart.map(({ id, image_urls, title, discount_price, quantity }) => {
+                  return ( 
+                    <ProductCheckoutCard 
+                      key={id}
+                      id={id}
+                      imageUrl={image_urls[0]}
+                      title={title}
+                      price={discount_price}
+                      quantity={quantity}
+                    />
+                  );
+                })
+              }
+            </ProductsWrapper>
+            <PriceWrapper>
+              <Ul>
+                <Li>
+                  <P>Order Price</P>
+                  <P>$ { orderPrice }</P>
+                </Li>
+                <Li>
+                  <P>Discount</P>
+                  <P>-$ { orderDiscount }</P>
+                </Li>
+                <Li>
+                  <H3>Total</H3>
+                  <H3>$ { orderTotalPrice }</H3>
+                </Li>
+              </Ul>
+            </PriceWrapper>
           </Info>
         </Section>
       </Div>
@@ -71,9 +105,28 @@ const Info = styled.div`
   height: 100vh;
   width: 400px;
   background-color: ${prosp => prosp.theme.color_neutral_1};
+  padding: 0 1.5em;
+  padding-top: 7em;
+  padding-bottom: 2em;
 `;
 
 const Wrapper = styled.div`
   padding-top: 7em;
   padding-bottom: 2em;
+`;
+
+const ProductsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+`;
+
+const PriceWrapper = styled.div`
+  margin-top: 2em;
+`;
+
+const Ul = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
 `;

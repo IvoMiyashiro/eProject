@@ -99,6 +99,10 @@ export const CartProvider: FC = ({ children }) => {
     dispatch({ type: '[CART] - UPDATE PRODUCT CART QUANTITY', payload: newCartArr });
   };
 
+  const resetCart = () => {
+    dispatch({ type: '[CART] - RESET CART' });
+  };
+
   return (
     <CartContext.Provider value={{
       ...state,
@@ -106,7 +110,8 @@ export const CartProvider: FC = ({ children }) => {
       // Methods
       addToCart,
       removeFromCart,
-      updateProductQuantity
+      updateProductQuantity,
+      resetCart
     }}>
       { children }
     </CartContext.Provider>

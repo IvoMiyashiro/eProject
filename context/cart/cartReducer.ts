@@ -14,6 +14,7 @@ type CartActionType =
         orderTotalPrice: number;
       }
     }
+  | { type: '[CART] - RESET CART' }
 ;
 
 export const cartReducer = (state: CartState, action: CartActionType): CartState => {
@@ -51,6 +52,14 @@ export const cartReducer = (state: CartState, action: CartActionType): CartState
     return {
       ...state,
       ...action.payload
+    };
+  
+  case '[CART] - RESET CART':
+    return {
+      cart: [],
+      orderPrice: 0,
+      orderDiscount: 0,
+      orderTotalPrice: 0,
     };
 
   default:

@@ -4,6 +4,12 @@ export const ProductsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1em;
+  overflow-y: scroll;
+  height: 100%;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const PriceWrapper = styled.div`
@@ -17,12 +23,16 @@ export const Ul = styled.ul`
 `;
 
 export const Div = styled.div`
-height: 100vh;
-width: 400px;
-background-color: ${prosp => prosp.theme.color_neutral_1};
-padding: 0 1.5em;
-padding-top: 7em;
-padding-bottom: 2em;
+  background-color: ${prosp => prosp.theme.color_neutral_1};
+  display: grid;
+  height: 100vh;
+  margin-left: auto;
+  padding: 0 1.5em;
+  padding-bottom: 2em;
+  padding-top: 7em;
+  position: sticky;
+  top: 0;
+  width: 100%;
 `;
 
 export const EmptyCart = styled.div`

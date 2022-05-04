@@ -7,12 +7,13 @@ export const Div = styled.div`
 `;
 
 export const Section = styled.div`
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 0 2em;
   display: grid;
-  grid-template-columns: 1fr minmax(400px, 500px);
   gap: 2em;
+  grid-template-columns: 1fr 400px;
+  justify-items: space-between;
+  margin: 0 auto;
+  max-width: 1240px;
+  padding: 0 2em;
 `;
 
 export const Wrapper = styled.div`

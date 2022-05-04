@@ -114,3 +114,34 @@ CREATE TABLE IF NOT EXISTS review (
 ALTER TABLE IF EXISTS review ADD CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE;
 
 /* Review */
+
+/* Order */
+
+CREATE TYPE shipping_methods AS ENUM('delivery', 'pick up');
+CREATE TYPE shipping_status AS ENUM('pending', 'delivered', 'canceled');
+CREATE TYPE payment_status AS ENUM('pending', 'paid', 'canceled');
+
+CREATE TABLE IF NOT EXISTS order_info (
+  id SERIAL PRIMARY KEY,
+  customer_id VARCHAR(100),
+  shipping_address VARCHAR(2048),
+  shipping_method shipping_methods,
+  shipping_status shipping_status NOT NULL DEFAULT 'pending',
+  payment_status payment_status,
+  products_id VARCHAR(100)[],
+  total_paid INT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_customer_id
+  FOREIGN KEY(customer_id)
+  REFERENCES customer(id)
+  ON DELETE CASCADE
+);
+
+CREATE SEQUENCE order_id
+START 1000
+INCREMENT 1
+MINVALUE 1000
+OWNED BY order_info.id;
+
+/* Order */

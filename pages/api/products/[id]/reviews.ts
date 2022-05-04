@@ -22,7 +22,7 @@ const getReviews = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   
   const { id, limit, offset } = req.query;
 
-  let query = 'SELECT review.*, customer.username, customer.profile_image FROM review INNER JOIN customer ON customer.id = review.customer_id WHERE product_id = ($1) LIMIT ($2) OFFSET ($3)';
+  let query = 'SELECT review.*, customer.name, customer.profile_image FROM review INNER JOIN customer ON customer.id = review.customer_id WHERE product_id = ($1) LIMIT ($2) OFFSET ($3)';
   let value = [id, limit, offset];
 
   try {

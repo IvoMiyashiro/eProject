@@ -1,8 +1,10 @@
 import { FormEvent, useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+
 import { useScript } from 'hooks';
 import { mercadoPagoPayment } from 'services';
-import { CartContext } from 'context';
-import { useRouter } from 'next/router';
+import { AuthContext, CartContext, CheckoutContext } from 'context';
+import Cookies from 'js-cookie';
 
 interface Response {
   resultPayment: {
@@ -18,7 +20,9 @@ export const useMercadoPago = (setLoading: (value: boolean) => void): Response =
   const [resultPayment, setResultPayment] = useState(undefined);
   const [hasError, setError] = useState(false);
   const [productsIDs, setProductsIDs] = useState<string[] | []>([]);
-  const { cart, orderTotalPrice } = useContext(CartContext);
+  const { cart, orderTotalPrice, resetCart } = useContext(CartContext);
+  const { shippingMethod, address, resetCheckout } = useContext(CheckoutContext);
+  const { customer } = useContext(AuthContext);
   const { MercadoPago }: any = useScript(
     'https://sdk.mercadopago.com/js/v2',
     'MercadoPago'
@@ -92,7 +96,8 @@ export const useMercadoPago = (setLoading: (value: boolean) => void): Response =
 
           onSubmit: async (e: FormEvent) => {
             e.preventDefault();
-            const { status } = await mercadoPagoPayment(cardForm.getCardFormData(), productsIDs);
+            const orderData = { shippingMethod, address, productsIDs, uid: customer?.id };
+            const { status } = await mercadoPagoPayment(cardForm.getCardFormData(), orderData);
             setResultPayment(status);
           },
           onFetching: (resource: any) => {
@@ -101,7 +106,7 @@ export const useMercadoPago = (setLoading: (value: boolean) => void): Response =
         },
       });
     }
-  }, [MercadoPago, productsIDs, orderTotalPrice, setLoading]);
+  }, [MercadoPago, productsIDs, orderTotalPrice, shippingMethod, address, customer, setLoading]);
 
   useEffect(() => {
     if (resultPayment === 'rejected') {
@@ -109,8 +114,12 @@ export const useMercadoPago = (setLoading: (value: boolean) => void): Response =
       return setError(true);
     };
 
-    if (resultPayment === 'approved') router.push('/checkout/success');
-  }, [resultPayment, router, setLoading]);
+    if (resultPayment === 'approved') {
+      Cookies.set('CART', '[]');
+      resetCart();
+      router.replace('/checkout/success');
+    }
+  }, [resultPayment, router, setLoading, resetCheckout, resetCart]);
 
   return { 
     resultPayment,

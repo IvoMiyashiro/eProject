@@ -8,6 +8,7 @@ import { Header } from './Header';
 import { Pagination } from './Pagination';
 
 import { SpinnerWrapper, Div } from './styles';
+import { lightTheme } from 'styles';
 
 interface Props {
   product_id: string;
@@ -34,7 +35,7 @@ export const Reviews = ({ product_id }: Props) => {
       />
       {
         isLoading
-          ? <SpinnerWrapper><Spinner /></SpinnerWrapper>
+          ? <SpinnerWrapper><Spinner color={lightTheme.color_primary_0}/></SpinnerWrapper>
           : (
             reviews?.length === 0
               ? (

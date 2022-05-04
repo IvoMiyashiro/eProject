@@ -8,6 +8,7 @@ interface ContextProps {
   //Methods
   setShippingMethod: (method: string) => void;
   setAddressInfo: (data: Address) => void;
+  resetCheckout: () => void;
 }
 
 export const CheckoutContext = createContext({} as ContextProps);

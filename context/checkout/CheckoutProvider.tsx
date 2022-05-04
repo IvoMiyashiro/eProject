@@ -21,7 +21,7 @@ export const CheckoutProvider: FC = ({ children }) => {
 
   useEffect(() => {
     if (router.pathname === '/checkout') {
-      return dispatch({ type: '[CHECKOUT] - Reset' });
+      return resetCheckout();
     }
   }, [router.pathname]);
 
@@ -39,13 +39,18 @@ export const CheckoutProvider: FC = ({ children }) => {
     dispatch({ type: '[CHECKOUT] - Load Address', payload: data });
   };
 
+  const resetCheckout = () => {
+    dispatch({ type: '[CHECKOUT] - Reset' });
+  };
+
   return (
     <CheckoutContext.Provider value={{
       ...state,
  
       // Methods
       setShippingMethod,
-      setAddressInfo
+      setAddressInfo,
+      resetCheckout
     }}>
       { children }
     </CheckoutContext.Provider>

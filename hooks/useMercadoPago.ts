@@ -1,10 +1,10 @@
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 
 import { useScript } from 'hooks';
 import { mercadoPagoPayment } from 'services';
 import { AuthContext, CartContext, CheckoutContext } from 'context';
-import Cookies from 'js-cookie';
 
 interface Response {
   resultPayment: {
@@ -18,6 +18,7 @@ interface Response {
 export const useMercadoPago = (setLoading: (value: boolean) => void): Response => {
 
   const [resultPayment, setResultPayment] = useState(undefined);
+  const [orderID, setOrderID] = useState('');
   const [hasError, setError] = useState(false);
   const [productsIDs, setProductsIDs] = useState<string[] | []>([]);
   const { cart, orderTotalPrice, resetCart } = useContext(CartContext);
@@ -41,7 +42,7 @@ export const useMercadoPago = (setLoading: (value: boolean) => void): Response =
       const cardForm = mp.cardForm({
         amount: orderTotalPrice.toString(),
         autoMount: true,
-        form:  {
+        form: {
           id: 'form-checkout',
           cardholderName: {
             id: 'form-checkout__cardholderName',
@@ -97,8 +98,9 @@ export const useMercadoPago = (setLoading: (value: boolean) => void): Response =
           onSubmit: async (e: FormEvent) => {
             e.preventDefault();
             const orderData = { shippingMethod, address, productsIDs, uid: customer?.id };
-            const { status } = await mercadoPagoPayment(cardForm.getCardFormData(), orderData);
+            const { status, order_id } = await mercadoPagoPayment(cardForm.getCardFormData(), orderData);
             setResultPayment(status);
+            setOrderID(order_id);
           },
           onFetching: (resource: any) => {
             if (resource === 'cardToken') setLoading(true);
@@ -106,7 +108,8 @@ export const useMercadoPago = (setLoading: (value: boolean) => void): Response =
         },
       });
     }
-  }, [MercadoPago, productsIDs, orderTotalPrice, shippingMethod, address, customer, setLoading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [MercadoPago, productsIDs, orderTotalPrice, shippingMethod, address, customer]);
 
   useEffect(() => {
     if (resultPayment === 'rejected') {
@@ -117,9 +120,10 @@ export const useMercadoPago = (setLoading: (value: boolean) => void): Response =
     if (resultPayment === 'approved') {
       Cookies.set('CART', '[]');
       resetCart();
-      router.replace('/checkout/success');
+      router.replace(`/checkout/success?order=${orderID}`);
     }
-  }, [resultPayment, router, setLoading, resetCheckout, resetCart]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resultPayment, router, orderID, resetCheckout, resetCart]);
 
   return { 
     resultPayment,

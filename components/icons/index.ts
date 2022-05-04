@@ -39,3 +39,4 @@ export * from './Bitcoin';
 export * from './Visa';
 export * from './AmericanExpress';
 export * from './MasterCard';
+export * from './Purchase';

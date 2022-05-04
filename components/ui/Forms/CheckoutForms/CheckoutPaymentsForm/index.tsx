@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { useMercadoPago } from 'hooks';
 
-import { CashIcon, CreditCard } from 'components/icons';
+import { CreditCard } from 'components/icons';
 import { InputRadioCard, LinkCard } from 'components/ui';
 import { ButtonSection } from '../ButtonSection';
 import { MercadoPagoForm } from '../MercadoPagoForm';
@@ -50,14 +50,6 @@ export const CheckoutPaymentsForm = () => {
             title="Add new card"
             icon={<CreditCard width="25px" heigh="25px" />}
             href="/checkout/payments/credit-card"
-          />
-        </Wrapper>
-        <Wrapper>
-          <H2>With cash</H2>
-          <LinkCard
-            title="Cash"
-            icon={<CashIcon width="25px" heigh="25px" />}
-            href="/checkout/payments/cash"
           />
         </Wrapper>
       </Div>

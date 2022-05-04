@@ -1,4 +1,13 @@
-export const mercadoPagoPayment = async (data: any, productsIDs: string[] = []) => {
+import { Address, ICustomer } from 'interfaces';
+
+interface OrderData {
+  shippingMethod: '' | 'delivery' | 'pick up' | undefined;
+  address: Address | undefined;
+  productsIDs: string[] | [];
+  uid: string | undefined;
+}
+
+export const mercadoPagoPayment = async (data: any, orderData: OrderData) => {
   
   const {
     payment_method_id,
@@ -10,6 +19,8 @@ export const mercadoPagoPayment = async (data: any, productsIDs: string[] = []) 
     identificationNumber,
     identificationType,
   } = data;
+
+  const { shippingMethod, address, productsIDs, uid } = orderData;
   
   try {
     const resp = await fetch('/api/process_payment', {
@@ -23,7 +34,12 @@ export const mercadoPagoPayment = async (data: any, productsIDs: string[] = []) 
         payment_method_id,
         transaction_amount: Number(amount),
         installments: Number(installments),
-        description: JSON.stringify(productsIDs),
+        description: JSON.stringify({
+          productsIDs,
+          shippingMethod,
+          address,
+          uid
+        }),
         payer: {
           email,
           identification: {

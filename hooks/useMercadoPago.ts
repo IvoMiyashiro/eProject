@@ -20,7 +20,7 @@ export const useMercadoPago = (setLoading: (value: boolean) => void): Response =
   const [resultPayment, setResultPayment] = useState(undefined);
   const [orderID, setOrderID] = useState('');
   const [hasError, setError] = useState(false);
-  const [productsIDs, setProductsIDs] = useState<string[] | []>([]);
+  const [productCartData, setProductCardData] = useState<{id: string; quantity: number}[] | []>([]);
   const { cart, orderTotalPrice, resetCart } = useContext(CartContext);
   const { shippingMethod, address, resetCheckout } = useContext(CheckoutContext);
   const { customer } = useContext(AuthContext);
@@ -32,7 +32,13 @@ export const useMercadoPago = (setLoading: (value: boolean) => void): Response =
 
   useEffect(() => {
     cart.map(product => {
-      setProductsIDs(prev => ([...prev, product.id]));
+      setProductCardData(prev => ([
+        ...prev,
+        {
+          id: product.id,
+          quantity: product.quantity
+        }
+      ]));
     });
   }, [cart]);
 
@@ -97,7 +103,7 @@ export const useMercadoPago = (setLoading: (value: boolean) => void): Response =
 
           onSubmit: async (e: FormEvent) => {
             e.preventDefault();
-            const orderData = { shippingMethod, address, productsIDs, uid: customer?.id };
+            const orderData = { shippingMethod, address, productCartData, uid: customer?.id };
             const { status, order_id } = await mercadoPagoPayment(cardForm.getCardFormData(), orderData);
             setResultPayment(status);
             setOrderID(order_id);
@@ -109,7 +115,7 @@ export const useMercadoPago = (setLoading: (value: boolean) => void): Response =
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [MercadoPago, productsIDs, orderTotalPrice, shippingMethod, address, customer]);
+  }, [MercadoPago, productCartData, orderTotalPrice, shippingMethod, address, customer]);
 
   useEffect(() => {
     if (resultPayment === 'rejected') {
@@ -123,7 +129,7 @@ export const useMercadoPago = (setLoading: (value: boolean) => void): Response =
       router.replace(`/checkout/success?order=${orderID}`);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resultPayment, router, orderID, resetCheckout, resetCart]);
+  }, [resultPayment, router, orderID]);
 
   return { 
     resultPayment,

@@ -50,13 +50,39 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 }
 
+const checkDBPrice = async (req: NextApiRequest, res: NextApiResponse<Data>): Promise<any> => {
+  
+  let totalPrice = 0;
+  const { productCartData } = JSON.parse(req.body.description);
+  const productsIDs = productCartData.map(({ id }: any) => id);
+
+  const query = 'SELECT id, discount_price FROM product WHERE id = ANY ($1)';
+  const values = [productsIDs];
+
+  try {
+    const { rows } = await db.conn.query(query, values);
+
+    rows.map(({ id, discount_price }: any) => {
+      productCartData.map(({ id: cartID, quantity }: any) => {
+        if (id === cartID) return totalPrice += discount_price * quantity;
+      });
+    });
+
+    return totalPrice;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const createOrder = async (req: NextApiRequest, res: NextApiResponse<Data>, totalPrice: number) => {
   
-  const { productsIDs, address, shippingMethod, uid } = JSON.parse(req.body.description);
+  const { productCartData, address, shippingMethod, uid } = JSON.parse(req.body.description);
+  const productsIDs = productCartData.map(({ id }: any) => id);
 
   const query = 'INSERT INTO order_info (id, shipping_method, shipping_address, payment_status, products_id, total_paid, customer_id) VALUES (nextval(\'order_id\'),$1, $2, $3, $4, $5, $6) RETURNING *';
   const values = [shippingMethod, address, 'paid', productsIDs, totalPrice, uid];
-  await updateStock(productsIDs);
+  await updateStock(productCartData);
+
   try {
     const { rows } = await db.conn.query(query, values);
 
@@ -66,30 +92,16 @@ const createOrder = async (req: NextApiRequest, res: NextApiResponse<Data>, tota
   }
 };
 
-const updateStock = async (productsIDs: string[]) => {
+const updateStock = async (productCartData: {id: string; quantity: number}[]) => {
 
-  productsIDs.map(id => {
-    const query = 'UPDATE product SET product.stock = product.stock -  WHERE c.member_id = ?';
+  productCartData.map(async ({id, quantity}) => {
+    const query = 'UPDATE product SET stock = (stock - ($1)) WHERE id = ($2)';
+    const values = [quantity, id];
+
+    try {
+      await db.conn.query(query, values);
+    } catch (error) {
+      console.log(error);
+    }
   });
-};
-
-const checkDBPrice = async (req: NextApiRequest, res: NextApiResponse<Data>): Promise<any> => {
-  
-  let totalPrice = 0;
-  const { productsIDs } = JSON.parse(req.body.description);
-
-  const query = 'SELECT discount_price FROM product WHERE id = ANY ($1)';
-  const values = [productsIDs];
-
-  try {
-    const { rows } = await db.conn.query(query, values);
-
-    rows.map(({ discount_price }: any) => {
-      totalPrice += discount_price;
-    });
-
-    return totalPrice;
-  } catch (error) {
-    console.log(error);
-  }
 };

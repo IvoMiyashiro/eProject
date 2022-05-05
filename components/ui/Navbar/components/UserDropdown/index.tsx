@@ -31,7 +31,7 @@ export const UserDropdown = ({ image, email, name, role }: Props) => {
           />
         </Li>
         <Li>
-          <Link href="/profile" passHref>
+          <Link href="/orders" passHref>
             <A>
               <Span> My Orders </Span>
               <ArrowRightIcon width="22px" height="22px" color="#fff" />
@@ -39,7 +39,7 @@ export const UserDropdown = ({ image, email, name, role }: Props) => {
           </Link>
         </Li>
         <Li>
-          <Link href="/profile" passHref>
+          <Link href="/reviews" passHref>
             <A>
               <Span> My Reviews </Span>
               <ArrowRightIcon width="22px" height="22px" color="#fff" />
@@ -58,7 +58,7 @@ export const UserDropdown = ({ image, email, name, role }: Props) => {
           role === 'admin'
           &&
           <Dashboard>
-            <Link href="/profile" passHref>
+            <Link href="/dashboard" passHref>
               <A>
                 <Span> Dashboard </Span>
                 <ArrowRightIcon width="22px" height="22px" color="#fff" />

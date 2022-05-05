@@ -16,7 +16,7 @@ export const UserDropdown = () => {
     <Div>
       <Ul isOpen={isOpen}>
         <Li>
-          <Link href="/profile" passHref>
+          <Link href="/orders" passHref>
             <A>
               <Span> My Orders </Span>
               <ArrowRightIcon width="22px" height="22px" color="#fff" />
@@ -24,7 +24,7 @@ export const UserDropdown = () => {
           </Link>
         </Li>
         <Li>
-          <Link href="/profile" passHref>
+          <Link href="/reviews" passHref>
             <A>
               <Span> My Reviews </Span>
               <ArrowRightIcon width="22px" height="22px" color="#fff" />

@@ -9,8 +9,8 @@ interface Props {
   query: any[]
 }
 
+// TODO: Fijarse para que puse el query en las props
 const ProductsPage: NextPage<Props> = ({ query }) => {
-
   return (
     <CatalogProvider>
       <MainLayout title="eProject | Our Products" description="">

@@ -5,3 +5,4 @@ export { default as ProductListCard } from './ProductListCard';
 export * from './ProductSearchCard';
 export * from './LinkCard';
 export * from './ProductCheckoutCard';
+export * from './SideInfoCard';

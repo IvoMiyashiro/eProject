@@ -40,3 +40,4 @@ export * from './Visa';
 export * from './AmericanExpress';
 export * from './MasterCard';
 export * from './Purchase';
+export * from './Lamp';

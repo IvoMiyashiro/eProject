@@ -18,3 +18,5 @@ export * from './Inputs';
 export * from './Forms';
 export * from './Counter';
 export * from './RatingStars';
+export * from './Tables';
+export * from './Searchbar';

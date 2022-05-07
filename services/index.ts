@@ -8,3 +8,4 @@ export * from './searchProduct';
 export * from './signUp';
 export * from './signIn';
 export * from './mercadoPagoPayment';
+export * from './getUserOrders';

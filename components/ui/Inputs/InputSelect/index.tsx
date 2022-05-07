@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { ArrowDownIcon } from 'components/icons';
 
 import { lightTheme } from 'styles';
@@ -30,7 +30,6 @@ export const InputSelect = ({
   const [hasFocus, setHasFocus] = useState(false);
   const [isFocus, setFocus] = useState(false);
   const [isOpen, setOpen] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!hasFocus) return;
@@ -63,7 +62,7 @@ export const InputSelect = ({
   };
 
   return (
-    <Div ref={inputRef}>
+    <Div>
       <select hidden name={name} id={id} value={state.value} onChange={() => {}}>
         <option value={state.value}></option>
       </select>

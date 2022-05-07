@@ -41,3 +41,4 @@ export * from './AmericanExpress';
 export * from './MasterCard';
 export * from './Purchase';
 export * from './Lamp';
+export * from './Eye';

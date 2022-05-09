@@ -4,7 +4,7 @@ import { bp } from 'styles';
 export const Div = styled.div`
   display: grid;
   grid-template-columns: 275px 1fr;
-  gap: 3em;
+  gap: 1em;
   align-items: flex-start;
 
   @media (max-width: ${bp.tablet}) {
@@ -14,10 +14,17 @@ export const Div = styled.div`
 `;
 
 export const Wrapper = styled.div`
+
   :first-child {
     @media (max-width: ${bp.tablet}) {
       display: none;
     }
+  }
+
+  :last-child {
+    overflow-x: auto;
+    padding: 0 2em;
+    padding-bottom: 2em;
   }
 `;
 

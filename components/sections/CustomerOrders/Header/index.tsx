@@ -1,8 +1,15 @@
+import { Dispatch, SetStateAction } from 'react';
+
 import { EyeIcon } from 'components/icons';
 import { Searchbar, InputSelectIcon } from 'components/ui';
+
 import { Div, Section } from './styles';
 
-export const Header = () => {
+interface Props {
+  handleLimitPage: Dispatch<SetStateAction<number>>
+}
+
+export const Header = ({ handleLimitPage }: Props) => {
   return (
     <Div>
       <Section>
@@ -14,8 +21,9 @@ export const Header = () => {
       </Section>
       <InputSelectIcon 
         icon={EyeIcon}
-        name="orders-length-view"
+        name="orders-limit"
         values={['10', '15', '20', '25']}
+        onChange={handleLimitPage}
       />
     </Div>
   );

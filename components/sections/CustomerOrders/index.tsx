@@ -28,7 +28,7 @@ export const CustomerOrders = () => {
     setCurrentPage(pageNumber);
     setOffset(newOffset);
   };
-
+  console.log(limitPageSize);
   return (
     <>
       <MapLinks links={links}/>
@@ -40,7 +40,7 @@ export const CustomerOrders = () => {
           />
         </Wrapper>
         <Wrapper>
-          <Header />
+          <Header handleLimitPage={setLimitPageSize} /> 
           <CustomerOrdesTable
             orders={orders}
             isLoading={isLoading}

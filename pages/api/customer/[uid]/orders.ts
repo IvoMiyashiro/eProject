@@ -31,16 +31,20 @@ const getOrders = async (req: NextApiRequest, res: NextApiResponse) => {
     });
   }
 
-  const query = 'SELECT * FROM order_info WHERE customer_id = $1';
+  const limit = req.query.limit === 'undefined' ? 'NULL' : req.query.limit;
+  const offset = req.query.offset === 'undefined' ? 'NULL' : req.query.offset;
+
+  let query = `SELECT * FROM order_info WHERE customer_id = $1 LIMIT ${ limit } OFFSET ${ offset }`;
   const value = [uid];
 
   try {
-    
     const { rows } = await db.conn.query(query, value);
+    const { rows: ordersLength } = await db.conn.query('SELECT COUNT(*) FROM order_info');
 
     return res.status(200).json({
       ok: true,
-      orders: rows
+      orders: rows,
+      totalOrders: ordersLength[0].count
     });
 
   } catch (error) {

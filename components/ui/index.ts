@@ -21,3 +21,4 @@ export * from './RatingStars';
 export * from './Tables';
 export * from './Searchbar';
 export * from './Labels';
+export * from './Pagination';

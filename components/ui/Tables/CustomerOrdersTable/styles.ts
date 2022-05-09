@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
 export const Table = styled.table`
-  width: 100%;
-  margin-top: 2em;
   border-spacing:0;
   box-shadow:
   0px 0px 1.4px rgba(0, 0, 0, 0.011),
@@ -11,13 +9,11 @@ export const Table = styled.table`
   0px 0px 11.4px rgba(0, 0, 0, 0.024),
   0px 0px 21.3px rgba(0, 0, 0, 0.029),
   0px 0px 51px rgba(0, 0, 0, 0.04);
-  border-radius: 8px;
-  overflow: auto;
   border-collapse: collapse;
-
-  tr:first-child {
-    
-  }
+  border-radius: 8px;
+  margin-top: 2em;
+  overflow: auto;
+  width: 100%;
 `;
 
 export const THead = styled.thead`

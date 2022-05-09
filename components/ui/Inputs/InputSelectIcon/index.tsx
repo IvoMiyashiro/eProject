@@ -1,4 +1,4 @@
-import { MouseEvent, useRef, useState } from 'react';
+import { Dispatch, MouseEvent, SetStateAction, useRef, useState } from 'react';
 import { Closer, Div, InputWrapper, Section, Input, Ul, Li, Wrapper } from './styles';
 
 interface Props {
@@ -6,9 +6,10 @@ interface Props {
   values: string[];
   name: string;
   id?: string;
+  onChange: any;
 }
 
-export const InputSelectIcon = ({ icon: Icon, values, name, id }: Props) => {
+export const InputSelectIcon = ({ icon: Icon, values, name, id, onChange }: Props) => {
 
   const [inputValue, setInputValue] = useState(values[0]);
   const [isFocus, setFocus] = useState(false);
@@ -48,7 +49,7 @@ export const InputSelectIcon = ({ icon: Icon, values, name, id }: Props) => {
             values.map((value, i) => (
               <Li 
                 key={i}
-                onClick={() => setInputValue(value)}
+                onClick={() => {setInputValue(value); onChange(value);}}
               >
                 { value }
               </Li>

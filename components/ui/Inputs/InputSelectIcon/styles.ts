@@ -5,7 +5,7 @@ interface Styles {
 }
 
 export const Closer = styled.div`
-  width: 100vw;
+  width: 97vw;
   position: absolute;
   height: 100vh;
   top: 0;

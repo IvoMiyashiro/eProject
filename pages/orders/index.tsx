@@ -2,9 +2,9 @@ import type { NextPage } from 'next';
 import styled from 'styled-components';
 
 import { MainLayout } from 'components/layouts';
-import { UserOrders } from 'components/sections';
+import { CustomerOrders } from 'components/sections';
 
-const UserOrdersPage: NextPage = () => {
+const CustomerOrdersPage: NextPage = () => {
   return (
     <>
       <MainLayout title="eProject | My Orders" description="">
@@ -15,14 +15,14 @@ const UserOrdersPage: NextPage = () => {
               <Underline />
             </Wrapper>
           </Section>
-          <UserOrders />
+          <CustomerOrders />
         </Div>
       </MainLayout>
     </>
   );
 };
 
-export default UserOrdersPage;
+export default CustomerOrdersPage;
 
 const Div = styled.div`
   padding: 7em 0;

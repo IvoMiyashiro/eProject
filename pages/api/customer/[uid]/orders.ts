@@ -34,7 +34,7 @@ const getOrders = async (req: NextApiRequest, res: NextApiResponse) => {
   const limit = req.query.limit === 'undefined' ? 'NULL' : req.query.limit;
   const offset = req.query.offset === 'undefined' ? 'NULL' : req.query.offset;
 
-  let query = `SELECT * FROM order_info WHERE customer_id = $1 LIMIT ${ limit } OFFSET ${ offset }`;
+  let query = `SELECT * FROM order_info WHERE customer_id = $1 ORDER BY created_at DESC LIMIT ${ limit } OFFSET ${ offset }`;
   const value = [uid];
 
   try {

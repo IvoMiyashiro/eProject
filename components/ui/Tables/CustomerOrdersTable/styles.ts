@@ -12,7 +12,7 @@ export const Table = styled.table`
   0px 0px 21.3px rgba(0, 0, 0, 0.029),
   0px 0px 51px rgba(0, 0, 0, 0.04);
   border-radius: 8px;
-  overflow: hidden;
+  overflow: auto;
   border-collapse: collapse;
 
   tr:first-child {
@@ -30,22 +30,22 @@ export const Tr = styled.tr`
 `;
 
 export const Th = styled.th`
-  text-align: left;
   font-weight: 600;
   height: 50px;
   padding: 0 1em;
+  text-align: left;
+  white-space: nowrap;
 
   :first-child {
     width: 100px; 
   }
 `;
 
-export const TBody = styled.tbody`
-
-`;
+export const TBody = styled.tbody``;
 
 export const Td = styled.td`
   font-size: 0.9rem;
   height: 50px;
   padding: 0 1.2em;
+  white-space: nowrap;
 `;

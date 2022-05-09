@@ -1,1 +1,1 @@
-export * from './UserOrdersTable';
+export * from './CustomerOrdersTable';

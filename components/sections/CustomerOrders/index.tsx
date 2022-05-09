@@ -7,7 +7,7 @@ import { Header } from './Header';
 import { Div, Wrapper } from '../Catalog/styles';
 import { P, PaginationWrapper } from './styles';
 
-export const UserOrders = () => {
+export const CustomerOrders = () => {
 
   const [limitPageSize, setLimitPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);

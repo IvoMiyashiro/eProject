@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { getUserOrders } from 'services';
+import { getCustomerOrders } from 'services';
 import { IOrders } from 'interfaces';
 import { AuthContext } from 'context';
 
@@ -21,7 +21,7 @@ export const useCustomerOrders = (
     };
 
     if (customer === undefined) return; 
-    getUserOrders(customer.id, filters).then(resp => {
+    getCustomerOrders(customer.id, filters).then(resp => {
       setOrders(resp?.orders || []);
       setTotalOrders(resp?.totalOrders || 0);
       setLoading(false);

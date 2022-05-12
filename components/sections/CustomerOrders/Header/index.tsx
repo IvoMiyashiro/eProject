@@ -1,22 +1,23 @@
 import { Dispatch, SetStateAction } from 'react';
 
 import { EyeIcon } from 'components/icons';
-import { Searchbar, InputSelectIcon } from 'components/ui';
+import { InputSelectIcon } from 'components/ui';
+import { Searchbar } from '../Searchbar';
 
 import { Div, Section } from './styles';
 
 interface Props {
-  handleLimitPage: Dispatch<SetStateAction<number>>
+  handleLimitPage: Dispatch<SetStateAction<number>>;
+  handleSearchOrders: Dispatch<SetStateAction<string>>;
 }
 
-export const Header = ({ handleLimitPage }: Props) => {
+export const Header = ({ handleLimitPage, handleSearchOrders }: Props) => {
   return (
     <Div>
       <Section>
-        <Searchbar 
+        <Searchbar
           placeholder="Type an order number..."
-          buttonChildren="Search"
-          border
+          handleSearchOrders={handleSearchOrders}
         />
       </Section>
       <InputSelectIcon 

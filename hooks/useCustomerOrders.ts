@@ -5,7 +5,8 @@ import { AuthContext } from 'context';
 
 export const useCustomerOrders = (
   limit: number | undefined = undefined,
-  offset: number | undefined = undefined
+  offset: number | undefined = undefined,
+  searchOrder: string,
 ) => {
 
   const { customer } = useContext(AuthContext);
@@ -17,7 +18,8 @@ export const useCustomerOrders = (
     setLoading(true);
     const filters = {
       limit,
-      offset
+      offset,
+      searchOrder
     };
 
     if (customer === undefined) return; 
@@ -26,7 +28,7 @@ export const useCustomerOrders = (
       setTotalOrders(resp?.totalOrders || 0);
       setLoading(false);
     }); 
-  }, [customer, limit, offset]);
+  }, [customer, limit, offset, searchOrder]);
 
   return {
     orders,

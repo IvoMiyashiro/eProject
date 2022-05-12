@@ -4,7 +4,7 @@ import { IOrders } from 'interfaces';
 import { StatusLabels } from 'components/ui';
 import { TableSkeleton } from '../TableSkeleton';
 
-import { Table, TBody, Td, Th, THead, Tr } from './styles';
+import { Div, Table, TBody, Td, Th, THead, Tr } from './styles';
 
 interface Props {
   orders: IOrders[];
@@ -12,9 +12,8 @@ interface Props {
 }
 
 export const CustomerOrdesTable = ({ orders, isLoading }: Props) => {
-
   return (
-    <>
+    <Div>
       <Table>
         <THead>
           <Tr>
@@ -54,6 +53,6 @@ export const CustomerOrdesTable = ({ orders, isLoading }: Props) => {
           }
         </TBody>
       </Table>
-    </>
+    </Div>
   );
 };

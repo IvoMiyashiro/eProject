@@ -41,9 +41,7 @@ export const Searchbar = ({
   };
 
   const handleVisibility = () => {
-    if (!isHover) {
-      setFocus(false);
-    }
+    if (!isHover) setFocus(false);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {

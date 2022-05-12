@@ -4,15 +4,20 @@ import { useCustomerOrders } from 'hooks';
 import { MapLinks, SideInfoCard, CustomerOrdesTable, Pagination } from 'components/ui';
 import { Header } from './Header';
 
-import { Div, Wrapper } from '../Catalog/styles';
-import { P, PaginationWrapper } from './styles';
+import { Wrapper } from '../Catalog/styles';
+import { Div, P, PaginationWrapper, Section, TextWrapper } from './styles';
 
 export const CustomerOrders = () => {
 
   const [limitPageSize, setLimitPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchOrder, setSearchOrder] = useState('');
   const [offset, setOffset] = useState(0);
-  const { orders, totalOrders, isLoading } = useCustomerOrders(limitPageSize, offset);
+  const { orders, totalOrders, isLoading } = useCustomerOrders(
+    limitPageSize,
+    offset,
+    searchOrder
+  );
 
   const links = [{
     name: 'Home',
@@ -28,7 +33,7 @@ export const CustomerOrders = () => {
     setCurrentPage(pageNumber);
     setOffset(newOffset);
   };
-  console.log(limitPageSize);
+
   return (
     <>
       <MapLinks links={links}/>
@@ -39,12 +44,24 @@ export const CustomerOrders = () => {
             content="In this section you can see all the information about your orders, like shipping status, payment status and more."
           />
         </Wrapper>
-        <Wrapper>
-          <Header handleLimitPage={setLimitPageSize} /> 
+        <Section>
+          <Header
+            handleSearchOrders={setSearchOrder}
+            handleLimitPage={setLimitPageSize}
+          /> 
           <CustomerOrdesTable
             orders={orders}
             isLoading={isLoading}
           />
+          {
+            (orders.length === 0 && isLoading !== true)
+            &&
+            <TextWrapper>
+              <P>
+                 We did not find the order #{ searchOrder } 
+              </P>
+            </TextWrapper>
+          }
           <PaginationWrapper>
             <P>
               Orders: { offset === 0 ? 1 : offset } - { currentPage * limitPageSize > totalOrders ? totalOrders :  currentPage * limitPageSize } of { totalOrders }
@@ -56,7 +73,7 @@ export const CustomerOrders = () => {
               onPageChange={handlePageClick}
             />
           </PaginationWrapper>
-        </Wrapper>
+        </Section>
       </Div>
     </>
   );

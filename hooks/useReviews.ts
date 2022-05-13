@@ -3,13 +3,13 @@ import { IReviews } from 'interfaces';
 
 interface Return {
   reviews: IReviews[] | null;
-  totalLenReviews: number;
+  totalReviews: number;
   isLoading: boolean;
 }
 
 export const useReviews = (product_id: string, limit: number = 5,offset: number = 0): Return => {
   const [reviews, setReviews] = useState(null);
-  const [totalLenReviews, setTotalLenReviews] = useState(0);
+  const [totalReviews, setTotalReviews] = useState(0);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,14 +18,14 @@ export const useReviews = (product_id: string, limit: number = 5,offset: number 
       .then(resp => resp.json())
       .then(({ reviews, totalLength }) => {
         setReviews(reviews);
-        setTotalLenReviews(totalLength);
+        setTotalReviews(totalLength);
         setLoading(false);
       });
   }, [product_id, offset, limit]);
   
   return {
     reviews: reviews ? reviews : null,
-    totalLenReviews,
+    totalReviews,
     isLoading
   };
 };

@@ -10,6 +10,7 @@ interface Props {
   bRadius?: string;
   height?: string;
   href?: string;
+  as?: string;
   isLink?: boolean;
   width?: string;
   fontSize?: string;
@@ -21,6 +22,7 @@ interface Props {
 export const Button = ({ 
   isLink = false,
   href = '',
+  as = href,
   children,
   textColor,
   bgColor,
@@ -37,7 +39,7 @@ export const Button = ({
       {
         isLink
           ? (
-            <Link href={href} passHref>
+            <Link href={href} as={as} passHref>
               <ButtonWrapper color={textColor} bgColor={bgColor} bRadius={bRadius} width={width} height={height} fontSize={fontSize} disabled={disabled}>
                 { children }
               </ButtonWrapper>

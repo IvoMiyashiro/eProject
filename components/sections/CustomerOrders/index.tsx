@@ -58,7 +58,7 @@ export const CustomerOrders = () => {
             &&
             <TextWrapper>
               <P>
-                 We did not find the order #{ searchOrder } 
+                We did not find the order #{ searchOrder } 
               </P>
             </TextWrapper>
           }

@@ -2,36 +2,27 @@ import { FormEvent, useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 
+import { INPUT_CONTOL_INIT_STATE } from 'helpers/input_control_init_state';
 import { AuthContext } from 'context';
 
+import { LogoIcon } from 'components/icons';
+import { Button, Spinner } from 'components/ui';
 import { Providers } from './Providers';
 import { Inputs } from './Inputs';
-import { LogoIcon, Button, Spinner } from 'components';
 
 import { lightTheme } from 'styles';
 import { Form, H1, ButtonWrapper, LogoWrapper, LinkWrapper, P } from './styles';
 
-interface IInputControl {
-  value: string;
-  hasError: boolean;
-  errorMsj: string;
-}
-
 export const SignupForm = () => {
   
   const { signup } = useContext(AuthContext);
-  const INPUT_CONTOL_INIT_STATE = {
-    value: '',
-    hasError: false,
-    errorMsj: ''
-  };
 
   const [errorMessage, setErrorMessage] = useState('');
   const [isValidForm, setValidForm] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const [fullNameInputControl, setFullNameInputControl] = useState<IInputControl>(INPUT_CONTOL_INIT_STATE);
-  const [emailInputControl, setEmailInputControl] = useState<IInputControl>(INPUT_CONTOL_INIT_STATE);
-  const [passwordInputControl, setPasswordInputControl] = useState<IInputControl>(INPUT_CONTOL_INIT_STATE);
+  const [fullNameInputControl, setFullNameInputControl] = useState(INPUT_CONTOL_INIT_STATE);
+  const [emailInputControl, setEmailInputControl] = useState(INPUT_CONTOL_INIT_STATE);
+  const [passwordInputControl, setPasswordInputControl] = useState(INPUT_CONTOL_INIT_STATE);
 
   useEffect(() => {
     if (!fullNameInputControl.hasError && !emailInputControl.hasError && !passwordInputControl.hasError) {

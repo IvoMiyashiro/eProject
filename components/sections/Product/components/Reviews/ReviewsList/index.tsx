@@ -1,30 +1,14 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled from 'styled-components';
-
 import { IReviews } from 'interfaces';
 import { Review } from 'components/ui';
 
-interface Props { 
-  reviews: IReviews[];
-  offset: number;
-  totalLenReviews: number;
-  limit: number;
-  handlePageCount: Dispatch<SetStateAction<number>>
-}
+interface Props { reviews: IReviews[]; }
 
-export const ReviewsList = ({ reviews, offset, totalLenReviews, limit, handlePageCount }: Props) => {
-
-  const [currentItems, setCurrentItems] = useState<IReviews[] | null>(null);
-
-  useEffect(() => {
-    setCurrentItems(reviews);
-    handlePageCount(Math.ceil(totalLenReviews / limit));
-  }, [offset, reviews, totalLenReviews, limit, handlePageCount]);
-
+export const ReviewsList = ({ reviews }: Props) => {
   return (
     <Div>
       {
-        currentItems?.map(review => {
+        reviews?.map(review => {
           return <Review key={review.id} review={review} />;
         })
       }

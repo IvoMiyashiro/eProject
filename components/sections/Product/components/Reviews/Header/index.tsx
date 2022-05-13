@@ -1,21 +1,33 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useContext } from 'react';
 
-import { EditIcon } from 'components/icons';
-import { Button } from 'components/ui';
+import { useRouter } from 'next/router';
+
+import { EditIcon, EyeIcon } from 'components/icons';
+import { Button, InputSelectIcon } from 'components/ui';
 
 import { lightTheme } from 'styles';
-import { Div, Wrapper, Span, View, Text, Select, Option, P } from './styles';
+import { Div, Wrapper, Span, P } from './styles';
+import { AuthContext } from 'context';
 
 interface Props {
+  product_id: string;
   totalLenReviews: number;
-  itemsPerPage: number;
+  handleReviewModalOpen: Dispatch<SetStateAction<boolean>>;
   handleItemsPerPage: Dispatch<SetStateAction<number>>;
 }
 
-export const Header = ({ totalLenReviews, itemsPerPage, handleItemsPerPage }: Props) => {
+export const Header = ({ product_id, totalLenReviews, handleItemsPerPage, handleReviewModalOpen }: Props) => {
+
+  const { isLoggedIn } = useContext(AuthContext);
+  const router = useRouter();
 
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     handleItemsPerPage(Number(e.target.value));
+  };
+
+  const handleWriteReview = () => {
+    if (isLoggedIn) return handleReviewModalOpen(true);
+    router.push(`/auth/signin?p=/products/${product_id}`);
   };
 
   return (
@@ -23,24 +35,23 @@ export const Header = ({ totalLenReviews, itemsPerPage, handleItemsPerPage }: Pr
       <Wrapper>
         <Button
           width="150px"
-          height="30px"
+          height="39px"
           bgColor={lightTheme.color_primary_2}
           bRadius="4px"
           textColor="white"
+          onClick={handleWriteReview}
         >
           <>
             <EditIcon width="22px" height="22px" />
             <Span>Write a review</Span>
           </>
         </Button>
-        <View>
-          <Text>View: </Text>
-          <Select value={itemsPerPage} onChange={handleSelectChange}>
-            <Option value={5}>5</Option>
-            <Option value={10}>10</Option>
-            <Option value={15}>15</Option>
-          </Select>
-        </View>
+        <InputSelectIcon
+          icon={EyeIcon}
+          values={['5', '10', '15']}
+          name=""
+          onChange={handleSelectChange}
+        />
       </Wrapper>
       <P>{ !!totalLenReviews ? totalLenReviews : '0' } reviews found</P>
     </Div>

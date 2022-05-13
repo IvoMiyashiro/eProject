@@ -31,7 +31,7 @@ const getProductById = async (req: NextApiRequest, res: NextApiResponse<Data>) =
 
     return res.status(200).json({
       ok: true,
-      product: rows
+      product: rows[0]
     });
 
   } catch (error) {

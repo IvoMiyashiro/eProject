@@ -2,51 +2,67 @@ import { useState } from 'react';
 
 import { useReviews } from 'hooks';
 
-import { Spinner } from 'components/ui';
+import { Modal, Pagination, Spinner, ReviewForm } from 'components/ui';
 import { ReviewsList } from './ReviewsList';
 import { Header } from './Header';
-import { Pagination } from './Pagination';
 
 import { SpinnerWrapper, Div } from './styles';
 import { lightTheme } from 'styles';
 
-interface Props {
-  product_id: string;
-}
+interface Props { product_id: string; }
 
 export const Reviews = ({ product_id }: Props) => {
 
-  const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
-  const [limit, setLimit] = useState(5);
-  const { reviews, isLoading, totalLenReviews } = useReviews(product_id, limit, itemOffset);
+  const [offset, setOffset] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limitPageSize, setLimitPageSize] = useState(10);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const { reviews, isLoading, totalReviews } = useReviews(product_id, limitPageSize, offset);
 
-  const handlePageClick = (e: any) => {
-    const newOffset = (e.selected * limit) % totalLenReviews;
-    setItemOffset(newOffset);
+  const handlePageClick = (pageNumber: number) => {
+    if (isLoading) return;
+    const newOffset = ((pageNumber - 1) * limitPageSize) % totalReviews;
+    setCurrentPage(pageNumber);
+    setOffset(newOffset);
   };
 
   return (
-    <div>
-      <Header
-        totalLenReviews={totalLenReviews}
-        itemsPerPage={limit}
-        handleItemsPerPage={setLimit}
-      />
+    <>
+      <div>
+        <Header
+          product_id={product_id}
+          totalLenReviews={totalReviews}
+          handleReviewModalOpen={setModalOpen}
+          handleItemsPerPage={setLimitPageSize}
+        />
+        {
+          isLoading
+            ? <SpinnerWrapper><Spinner color={lightTheme.color_primary_0}/></SpinnerWrapper>
+            : (
+              reviews?.length === 0
+                ? (
+                  <Div>
+                    This product don&apos;t have any reviews yet.
+                  </Div>
+                )
+                : <ReviewsList reviews={reviews!} />
+            )
+        }
+        <Pagination currentPage={currentPage} pageSize={limitPageSize} totalCount={totalReviews} onPageChange={handlePageClick} />
+      </div>
       {
-        isLoading
-          ? <SpinnerWrapper><Spinner color={lightTheme.color_primary_0}/></SpinnerWrapper>
-          : (
-            reviews?.length === 0
-              ? (
-                <Div>
-                  This product don&apos;t have any reviews yet.
-                </Div>
-              )
-              : <ReviewsList reviews={reviews!} offset={itemOffset} handlePageCount={setPageCount} totalLenReviews={totalLenReviews} limit={limit}/>
-          )
+        isModalOpen
+        &&
+        <Modal
+          align="center"
+          justify="center"
+          handleCloseChildren={() => setModalOpen(false)}
+        >
+          <ReviewForm
+            product_id={product_id}
+          />  
+        </Modal>
       }
-      <Pagination limit={limit} pageCount={pageCount} handlePageClick={handlePageClick} />
-    </div>
+    </>
   );
 };

@@ -6,3 +6,4 @@ export * from './useMercadoPago';
 export * from './useNavbar';
 export * from './useCustomerOrders';
 export * from './usePagination';
+export * from './useProduct';

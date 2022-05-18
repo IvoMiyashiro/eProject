@@ -1,8 +1,10 @@
-import { IProduct } from 'interfaces';
-import { Title, Services, Price, Buttons, Keypoints, Specs, Reviews } from './components';
-import { Tab, ProductImagesCarrousel, Rating } from 'components/ui';
+import { useRating, useReviews } from 'hooks';
 
-import { Div, Wrapper, Section, MainInfo, TabSection, ProductImageWrapper } from './styles';
+import { IProduct } from 'interfaces';
+import { Tab, ProductImagesCarrousel, Rating } from 'components/ui';
+import { Title, Services, Price, Buttons, Keypoints, Specs, Reviews } from './components';
+
+import { Div, Wrapper, Section, MainInfo, TabSection, ProductImageWrapper, RatingWrapper, Span } from './styles';
 
 interface Props {
   product: IProduct;
@@ -15,6 +17,7 @@ export const Product = ({ product, specs }: Props) => {
     <Specs key={0} specs={specs} />,
     <Reviews key={1} product_id={product.id} />
   ];
+  const { rating, totalLength } = useRating(product.id);
 
   return (
     <Div>
@@ -25,7 +28,14 @@ export const Product = ({ product, specs }: Props) => {
         <Wrapper>
           <Section>
             <Title brand={ product.brand } title={ product.title } />
-            <Rating rating={ 5 }/>
+            {
+              !!rating 
+              &&
+              <RatingWrapper>
+                <Rating rating={ rating } size="18px" />
+                <Span>({ totalLength })</Span>
+              </RatingWrapper>
+            }
             <Services />
             <Price price={ product.price } discount_price={ product.discount_price } />
             <Buttons product={ product } />

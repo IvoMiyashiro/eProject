@@ -9,3 +9,4 @@ export * from './signUp';
 export * from './signIn';
 export * from './mercadoPagoPayment';
 export * from './getCustomerOrders';
+export * from './createReview';

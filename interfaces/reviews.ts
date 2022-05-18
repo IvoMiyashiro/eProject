@@ -10,6 +10,6 @@ export interface IReviews {
   created_at: Date;
   likes: number;
   dislikes: number;
-  username?: string;
+  name?: string;
   profile_image?: string;
 }

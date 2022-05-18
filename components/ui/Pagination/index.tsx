@@ -1,8 +1,12 @@
-import styled from 'styled-components';
-import { usePagination, DOTS } from 'hooks/usePagination';
+import { usePagination, DOTS } from 'hooks';
 import { ArrowLeftIcon, ArrowRightIcon } from 'components/icons';
 
+import { Div, P, Ul, Li, Span } from './styles';
+
 interface Props {
+  offset: number;
+  limit: number;
+  name: string;
   totalCount: number;
   siblingCount?: number;
   currentPage: number;
@@ -11,6 +15,9 @@ interface Props {
 }
 
 export const Pagination = ({
+  offset,
+  limit,
+  name,
   totalCount,
   siblingCount = 1,
   currentPage,
@@ -33,57 +40,39 @@ export const Pagination = ({
   let lastPage = paginationRange[paginationRange.length - 1];
 
   return (
-    <Ul>
-      {
-        currentPage !== 1
+    <Div>
+      <P>
+        { name }: { (offset === 0) ? 1 : offset } - { (currentPage * limit > totalCount) ? totalCount :  currentPage * limit } of { totalCount }
+      </P>
+      <Ul>
+        {
+          currentPage !== 1
         &&
         <Li onClick={onPrevious}>
           <ArrowLeftIcon width="20px" height="20px" />
         </Li>
-      }
-      {
-        paginationRange.map((pageNumber, i) => {
-          if (pageNumber === DOTS) return <li>&#8230;</li>;
-          return (
-            <Li 
-              key={i} 
-              onClick={(e: any) => onPageChange(Number(e.target.innerHTML))}
-            >
-              <Span isActive={i === (currentPage - 1)} >{pageNumber}</Span>
-            </Li>
-          );
-        })
-      }
-      {
-        currentPage !== lastPage
+        }
+        {
+          paginationRange.map((pageNumber, i) => {
+            if (pageNumber === DOTS) return <li>&#8230;</li>;
+            return (
+              <Li 
+                key={i} 
+                onClick={(e: any) => onPageChange(Number(e.target.innerHTML))}
+              >
+                <Span isActive={i === (currentPage - 1)} >{pageNumber}</Span>
+              </Li>
+            );
+          })
+        }
+        {
+          currentPage !== lastPage
         &&
         <Li onClick={onNext}>
           <ArrowRightIcon width="20px" height="20px" />
         </Li>
-      }
-    </Ul>
+        }
+      </Ul>
+    </Div>
   );
 };
-
-interface Styles {
-  isActive: boolean
-}
-
-const Ul = styled.ul`
-  align-items: center;
-  display: flex;
-  gap: 1em;
-  list-style: none;
-`;
-  
-const Li = styled.li`
-  cursor: pointer;
-  height: 20px;
-`;
-
-const Span = styled.span<Styles>`
-  background-color: ${props => props.isActive ? props.theme.color_primary_2 : 'transparent'};
-  border-radius: 4px;
-  color: ${props => props.isActive ? 'white' : props.theme.color_ui_text_main};
-  padding: 0.25em 0.65em;
-`;

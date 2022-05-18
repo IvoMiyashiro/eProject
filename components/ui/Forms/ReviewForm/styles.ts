@@ -35,3 +35,20 @@ export const ButtonWrapper = styled.div`
   margin: 1.5em;
   margin-left: auto;
 `;
+
+export const Section = styled.section`
+  position: relative;
+`;
+
+export const H2 = styled.h2`
+  font-size: 1.15rem;
+  margin-bottom: 0.5em;
+`;
+
+export const Span = styled.span`
+  color: ${props => props.theme.color_ui_danger};
+  font-size: 0.8rem;
+  margin-left: 1em;
+  position: absolute;
+  bottom: -18px;
+`;

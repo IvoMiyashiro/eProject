@@ -1,36 +1,43 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 
 import { useProduct } from 'hooks';
 
+import { createReview } from 'services';
 import { INPUT_CONTOL_INIT_STATE } from 'helpers/input_control_init_state';
 
-import { Spinner, InputTextarea, Button } from 'components/ui';
+import { AuthContext } from 'context';
+import { Spinner, InputTextarea, Button, RatingStarsFiller } from 'components/ui';
 import { Header } from './Header';
 
 import { lightTheme } from 'styles';
-import { ButtonWrapper, Div, Form, SpinnerWrapper } from './styles';
+import { ButtonWrapper, Div, Form, H2, Section, Span, SpinnerWrapper } from './styles';
 
-interface Props { product_id: string; }
+interface Props { product_id: string; handleModalOpen: (value: boolean) => void }
 
-export const ReviewForm = ({ product_id }: Props) => {
+export const ReviewForm = ({ product_id, handleModalOpen }: Props) => {
 
+  const { customer } = useContext(AuthContext);
   const { product, isLoading } = useProduct(product_id);
 
+  const [isSubmitLoading, setSubmitLoading] = useState(false);
   const [isValidForm, setValidForm] = useState(false);
+  const [isRatingSelected, setRatingSelected] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [ratingError, setRatingError] = useState('');
   const [prosInputControl, setProsInputControl] = useState(INPUT_CONTOL_INIT_STATE);
   const [consInputControl, setConsInputControl] = useState(INPUT_CONTOL_INIT_STATE);
   const [overallInputControl, setOverallInputControl] = useState(INPUT_CONTOL_INIT_STATE);
   
   useEffect(() => {
-    if (!prosInputControl.hasError && !consInputControl.hasError && !overallInputControl.hasError) {
+    if (!prosInputControl.hasError && !consInputControl.hasError && !overallInputControl.hasError && ratingError === '') {
       setValidForm(true);
     }
-  }, [prosInputControl.hasError, consInputControl.hasError, overallInputControl.hasError]);
+  }, [prosInputControl.hasError, consInputControl.hasError, overallInputControl.hasError, ratingError]);
 
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let valid = false;
+    let valid = true;
     
     if (prosInputControl.value.length === 0) {
       setProsInputControl({
@@ -62,7 +69,25 @@ export const ReviewForm = ({ product_id }: Props) => {
       setValidForm(false);
     }
 
+    if (rating === 0) {
+      setRatingError('* Rating must be selected.');
+      valid = false;
+      setValidForm(false);
+    }
+
     if (!valid) return;
+
+    setSubmitLoading(true);
+    await createReview(
+      product_id,
+      customer!.id,
+      rating,
+      prosInputControl.value,
+      consInputControl.value,
+      overallInputControl.value
+    );
+    setSubmitLoading(false);
+    handleModalOpen(false);
   };
 
   return (
@@ -86,6 +111,17 @@ export const ReviewForm = ({ product_id }: Props) => {
                 title={product!.title}
               />
               <Div>
+                <Section>
+                  <H2>Select a rating</H2>
+                  <RatingStarsFiller
+                    rating={rating}
+                    isRatingSelected={isRatingSelected}
+                    handleRating={setRating}
+                    handleRatingSelected={setRatingSelected}
+                    handleRatingError={setRatingError}
+                  />
+                  <Span>{ ratingError }</Span>
+                </Section>
                 <InputTextarea
                   placeholder="Pros"
                   state={prosInputControl}
@@ -110,7 +146,11 @@ export const ReviewForm = ({ product_id }: Props) => {
                   type="submit"
                   disabled={isValidForm ? false : true}
                 >
-                  Confirm
+                  {
+                    isSubmitLoading
+                      ? <Spinner size="16px" color={lightTheme.color_ui_text_contrast} />
+                      : 'Confirm'
+                  }
                 </Button>
               </ButtonWrapper>
             </>

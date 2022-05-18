@@ -11,7 +11,7 @@ interface Props {
 
 export const Customer = ({ username, profileImg }: Props) => {
 
-  const USER_PROFILE_IMAGE = profileImg !== '' ? profileImg : '/images/profile_image.png';
+  const USER_PROFILE_IMAGE = profileImg !== null ? profileImg : '/images/profile_image.png';
 
   return (
 
@@ -35,6 +35,5 @@ export const Customer = ({ username, profileImg }: Props) => {
         </Section>
       </Wrapper>
     </Div>
-
   );
 };

@@ -60,6 +60,7 @@ export const Reviews = ({ product_id }: Props) => {
         >
           <ReviewForm
             product_id={product_id}
+            handleModalOpen={setModalOpen}
           />  
         </Modal>
       }

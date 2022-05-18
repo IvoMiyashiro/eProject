@@ -8,8 +8,6 @@ export interface IReviews {
   cons: string;
   overall: string;
   created_at: Date;
-  likes: number;
-  dislikes: number;
   name?: string;
   profile_image?: string;
 }

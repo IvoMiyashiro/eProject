@@ -22,10 +22,6 @@ export const Review = ({ review }: Props) => {
           rating={ review.rating }
           title={ review.title } 
         />
-        <LikeDislikeButtons 
-          likes={ review.likes }
-          dislikes={ review.dislikes }
-        />
       </Wrapper>
     </Div>
   );

@@ -11,7 +11,7 @@ export const Review = ({ review }: Props) => {
   return (
     <Div>
       <Wrapper>
-        <Customer username={ review.username! } profileImg={ review.profile_image! } />
+        <Customer username={ review.name! } profileImg={ review.profile_image! } />
       </Wrapper>
       <Wrapper>
         <ReviewInfo

@@ -95,16 +95,16 @@ CREATE TABLE IF NOT EXISTS customer (
 
 CREATE TABLE IF NOT EXISTS review (
   id VARCHAR(100) NOT NULL UNIQUE PRIMARY KEY,
-  customer_id VARCHAR(100),
-  product_id VARCHAR(100),
-  rating INT,
-  title VARCHAR(100),
-  pros TEXT,
-  cons TEXT,
-  overall TEXT,
-  likes INT,
-  dislikes INT,
-  created_at DATE,
+  customer_id VARCHAR(100) NOT NULL,
+  product_id VARCHAR(100) NOT NULL,
+  rating INT NOT NULL DEFAULT 1,
+  title VARCHAR(100) NOT NULL DEFAULT '',
+  pros TEXT NOT NULL DEFAULT '',
+  cons TEXT NOT NULL DEFAULT '',
+  overall TEXT NOT NULL DEFAULT '',
+  likes INT NOT NULL DEFAULT 0,
+  dislikes INT NOT NULL DEFAULT 0,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_user_id
   FOREIGN KEY(customer_id)
   REFERENCES customer(id)

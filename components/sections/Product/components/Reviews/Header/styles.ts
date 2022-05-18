@@ -18,6 +18,7 @@ export const Span = styled.span`
 `;
 
 export const Wrapper = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 150px 80px;
   gap: 0.5em;
 `;

@@ -50,3 +50,14 @@ export const ProductImageWrapper = styled.div`
     top: 0;
   }
 `;
+
+export const RatingWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+`;
+
+export const Span = styled.span`
+  color: ${props => props.theme.color_primary_0};
+  font-size: 0.9rem;
+`;

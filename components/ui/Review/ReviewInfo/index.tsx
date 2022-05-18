@@ -20,7 +20,7 @@ export const ReviewInfo = ({ rating, created_at, title, pros, cons, overall }: P
   return (
     <div>
       <Header>
-        <Rating rating={rating}/>
+        <Rating rating={rating} size="18px" />
         <P>{ new Date(created_at).toLocaleDateString() }</P>
       </Header>
       <H2>{ title }</H2>

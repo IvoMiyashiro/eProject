@@ -3,9 +3,10 @@ import styled from 'styled-components';
 
 interface Props {
   rating: number;
+  size?: string;
 }
 
-export const Rating = ({ rating }: Props) => {
+export const Rating = ({ rating, size = '14px' }: Props) => {
   return (
     <Div>
       {
@@ -13,28 +14,28 @@ export const Rating = ({ rating }: Props) => {
         &&
         <>
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarEmptyIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarEmptyIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarEmptyIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarEmptyIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
         </>
@@ -44,28 +45,28 @@ export const Rating = ({ rating }: Props) => {
         &&
         <>
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarHalfIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarEmptyIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarEmptyIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarEmptyIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
         </>
@@ -75,28 +76,28 @@ export const Rating = ({ rating }: Props) => {
         &&
         <>
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarEmptyIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarEmptyIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarEmptyIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
         </>
@@ -106,28 +107,28 @@ export const Rating = ({ rating }: Props) => {
         &&
         <>
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarHalfIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarEmptyIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarEmptyIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
         </>
@@ -137,28 +138,28 @@ export const Rating = ({ rating }: Props) => {
         &&
         <>
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarEmptyIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarEmptyIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
         </>
@@ -168,28 +169,28 @@ export const Rating = ({ rating }: Props) => {
         &&
         <>
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarHalfIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarEmptyIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
         </>
@@ -199,28 +200,28 @@ export const Rating = ({ rating }: Props) => {
         &&
         <>
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
-          <StarHalfIcon 
-            width="14px"
-            height="14px"
+          <StarFillIcon 
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarEmptyIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
         </>
@@ -230,28 +231,28 @@ export const Rating = ({ rating }: Props) => {
         &&
         <>
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarHalfIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
         </>
@@ -261,28 +262,28 @@ export const Rating = ({ rating }: Props) => {
         &&
         <>
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
           <StarFillIcon 
-            width="14px"
-            height="14px"
+            width={size}
+            height={size}
             color="#F9D71C"
           />
         </>

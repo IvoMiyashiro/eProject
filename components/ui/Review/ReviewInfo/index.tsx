@@ -1,5 +1,6 @@
-import { Rating } from 'components/ui';
 import styled from 'styled-components';
+import dayjs from 'dayjs';
+import { Rating } from 'components/ui';
 
 interface Props {
   cons: string;
@@ -21,7 +22,7 @@ export const ReviewInfo = ({ rating, created_at, title, pros, cons, overall }: P
     <div>
       <Header>
         <Rating rating={rating} size="18px" />
-        <P>{ new Date(created_at).toLocaleDateString() }</P>
+        <P>{ dayjs(created_at).format('MMM D, h:mm A') }</P>
       </Header>
       <H2>{ title }</H2>
       <Section>
@@ -46,7 +47,6 @@ const Header = styled.header`
 `;
 
 const P = styled.p`
-  font-family: 'Inter';
   font-size: 0.9rem;
 `;
 

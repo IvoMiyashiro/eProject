@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction, useContext } from 'react';
+import { Dispatch, SetStateAction, useContext } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -20,10 +20,6 @@ export const Header = ({ product_id, totalLenReviews, handleItemsPerPage, handle
 
   const { isLoggedIn } = useContext(AuthContext);
   const router = useRouter();
-
-  const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    handleItemsPerPage(Number(e.target.value));
-  };
 
   const handleWriteReview = () => {
     if (isLoggedIn) return handleReviewModalOpen(true);
@@ -50,7 +46,7 @@ export const Header = ({ product_id, totalLenReviews, handleItemsPerPage, handle
           icon={EyeIcon}
           values={['5', '10', '15']}
           name=""
-          onChange={handleSelectChange}
+          onChange={handleItemsPerPage}
         />
       </Wrapper>
       <P>{ !!totalLenReviews ? totalLenReviews : '0' } reviews found</P>

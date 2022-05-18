@@ -15,7 +15,7 @@ export const Reviews = ({ product_id }: Props) => {
 
   const [offset, setOffset] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [limitPageSize, setLimitPageSize] = useState(10);
+  const [limitPageSize, setLimitPageSize] = useState(5);
   const [isModalOpen, setModalOpen] = useState(false);
   const { reviews, isLoading, totalReviews } = useReviews(product_id, limitPageSize, offset);
 
@@ -48,7 +48,15 @@ export const Reviews = ({ product_id }: Props) => {
                 : <ReviewsList reviews={reviews!} />
             )
         }
-        <Pagination currentPage={currentPage} pageSize={limitPageSize} totalCount={totalReviews} onPageChange={handlePageClick} />
+        <Pagination
+          name="Reviews"
+          limit={limitPageSize}
+          offset={offset}
+          currentPage={currentPage}
+          totalCount={totalReviews}
+          pageSize={limitPageSize}
+          onPageChange={handlePageClick}
+        />
       </div>
       {
         isModalOpen

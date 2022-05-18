@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { IReviews } from 'interfaces';
 
 interface Return {
-  reviews: IReviews[] | null;
+  reviews: IReviews[] | [];
   totalReviews: number;
   isLoading: boolean;
 }
@@ -24,7 +24,7 @@ export const useReviews = (product_id: string, limit: number = 5,offset: number 
   }, [product_id, offset, limit]);
   
   return {
-    reviews: reviews ? reviews : null,
+    reviews: reviews ? reviews : [],
     totalReviews,
     isLoading
   };

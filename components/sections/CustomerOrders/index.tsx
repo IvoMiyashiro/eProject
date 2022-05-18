@@ -5,7 +5,7 @@ import { MapLinks, SideInfoCard, CustomerOrdesTable, Pagination } from 'componen
 import { Header } from './Header';
 
 import { Wrapper } from '../Catalog/styles';
-import { Div, P, PaginationWrapper, Section, TextWrapper } from './styles';
+import { Div, Section, P, TextWrapper } from './styles';
 
 export const CustomerOrders = () => {
 
@@ -62,17 +62,15 @@ export const CustomerOrders = () => {
               </P>
             </TextWrapper>
           }
-          <PaginationWrapper>
-            <P>
-              Orders: { offset === 0 ? 1 : offset } - { currentPage * limitPageSize > totalOrders ? totalOrders :  currentPage * limitPageSize } of { totalOrders }
-            </P>
-            <Pagination
-              currentPage={currentPage}
-              totalCount={totalOrders}
-              pageSize={limitPageSize}
-              onPageChange={handlePageClick}
-            />
-          </PaginationWrapper>
+          <Pagination
+            name="Orders"
+            limit={limitPageSize}
+            offset={offset}
+            currentPage={currentPage}
+            totalCount={totalOrders}
+            pageSize={limitPageSize}
+            onPageChange={handlePageClick}
+          />
         </Section>
       </Div>
     </>

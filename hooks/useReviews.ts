@@ -14,7 +14,7 @@ export const useReviews = (product_id: string, limit: number = 5,offset: number 
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${process.env.BASE_URL}/api/products/${product_id}/reviews?offset=${offset}&limit=${limit}`)
+    fetch(`/api/products/${product_id}/reviews?offset=${offset}&limit=${limit}`)
       .then(resp => resp.json())
       .then(({ reviews, totalLength }) => {
         setReviews(reviews);

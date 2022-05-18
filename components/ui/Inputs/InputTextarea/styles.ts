@@ -6,4 +6,5 @@ export const TextArea = styled.textarea`
   font-size: 0.9rem;
   outline: none;
   resize: none;
+  overflow: hidden;
 `;

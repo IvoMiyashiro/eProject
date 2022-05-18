@@ -102,6 +102,12 @@ export const InputTextarea = ({
     });
   };
 
+  const textAreaAdjust = () => {
+    if (inputRef.current === null) return;
+    inputRef.current.style.height = '1px';
+    inputRef.current.style.height = (25 + inputRef.current.scrollHeight)+'px';
+  };
+
   return (
     <InputWrapper>
       <Div isFocus={isFocus} onClick={handleFocusInput} error={hasError}>
@@ -115,7 +121,7 @@ export const InputTextarea = ({
             onChange={handleInputChange}
             onFocus={() => setFocus(true)}
             onBlur={() => {setFocus(false); handleInputError();}}
-            onKeyUp={handleInputError}
+            onKeyUp={() => {handleInputError(); textAreaAdjust();}}
             autoComplete="none"
           />
         </Wrapper>

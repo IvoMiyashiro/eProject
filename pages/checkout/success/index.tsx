@@ -66,7 +66,7 @@ const CheckoutSuccess: NextPage<Props> = ({ order }) => {
 export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
     
   const session = await getSession({ req });
-  console.log(query);
+
   if (!session) {
     return {
       redirect: {

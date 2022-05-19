@@ -26,7 +26,7 @@ const getRating = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   try {
     const { rows } = await db.conn.query(query, value);
-    console.log(rows[0].count, rows[0].avg);
+
     return res.status(200).json({
       ok: true,
       rating: rows[0].avg,

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Div = styled.div`
   overflow-x: auto;
+  padding-bottom: 3em;
 `; 
 
 export const Table = styled.table`
@@ -9,7 +10,6 @@ export const Table = styled.table`
   border-spacing:0;
   border: 1px solid ${props => props.theme.color_neutral_1};
   margin-top: 2em;
-  overflow: auto;
   width: 100%;
 `;
 

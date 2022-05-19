@@ -4,7 +4,7 @@ import { IOrders } from 'interfaces';
 import { StatusLabels } from 'components/ui';
 import { TableSkeleton } from '../TableSkeleton';
 
-import { Div, Table, TBody, Td, Th, THead, Tr } from './styles';
+import { Div, Table, TBody, Td, Th, THead, Tr } from '../styles';
 
 interface Props {
   orders: IOrders[];

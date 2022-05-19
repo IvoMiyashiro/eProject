@@ -8,3 +8,4 @@ export * from './useCustomerOrders';
 export * from './usePagination';
 export * from './useProduct';
 export * from './useRating';
+export * from './useCustomerReviews';

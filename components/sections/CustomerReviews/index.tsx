@@ -1,18 +1,23 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
-import { useCustomerReviews } from 'hooks';
-
+import { CustomerReviewsContext } from 'context';
 import { MapLinks, Pagination, SideInfoCard, CustomerReviewsTable } from 'components/ui';
 import { Header } from './Header';
 
 import { Wrapper } from '../Catalog/styles';
 import { Div, Section, P, TextWrapper } from '../CustomerOrders/styles';
 
-export const CustomerReviews = () => {  
-  const [limitPageSize, setLimitPageSize] = useState(10);
+export const CustomerReviews = () => {
+
   const [currentPage, setCurrentPage] = useState(1);
-  const [offset, setOffset] = useState(0);
-  const { reviews, totalReviews, isLoading } = useCustomerReviews(undefined, limitPageSize, offset);
+  const { 
+    reviewsList,
+    totalReviewsLength,
+    isLoading,
+    offset,
+    limitPerPage,
+    changeOffset 
+  } = useContext(CustomerReviewsContext);
   
   const links = [{
     name: 'Home',
@@ -24,9 +29,9 @@ export const CustomerReviews = () => {
 
   const handlePageClick = (pageNumber: number) => {
     if (isLoading) return;
-    const newOffset = ((pageNumber - 1) * limitPageSize) % totalReviews;
+    const newOffset = ((pageNumber - 1) * limitPerPage) % totalReviewsLength;
     setCurrentPage(pageNumber);
-    setOffset(newOffset);
+    changeOffset(newOffset);
   };
 
   return (
@@ -40,15 +45,13 @@ export const CustomerReviews = () => {
           />
         </Wrapper>
         <Section>
-          <Header
-            handleLimitPage={setLimitPageSize}
-          /> 
+          <Header /> 
           <CustomerReviewsTable
-            reviews={reviews}
+            reviews={reviewsList}
             isLoading={isLoading}
           />
           {
-            (reviews.length === 0 && isLoading !== true)
+            (reviewsList.length === 0 && isLoading === false)
             &&
             <TextWrapper>
               <P>
@@ -58,11 +61,11 @@ export const CustomerReviews = () => {
           }
           <Pagination
             name="Reviews"
-            limit={limitPageSize}
+            limit={limitPerPage}
             offset={offset}
             currentPage={currentPage}
-            totalCount={totalReviews}
-            pageSize={limitPageSize}
+            totalCount={totalReviewsLength}
+            pageSize={limitPerPage}
             onPageChange={handlePageClick}
           />
         </Section>

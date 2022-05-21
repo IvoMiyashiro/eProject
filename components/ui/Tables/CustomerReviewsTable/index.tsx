@@ -25,15 +25,29 @@ export const CustomerReviewsTable = ({ reviews, isLoading }: Props) => {
             isLoading
               ? <TableSkeleton numOfTr={10} numOfTd={6} />
               : (
-                reviews.map(({ id, product_id, title, created_at, rating, image_urls }: any) => {
+                reviews.map(({ 
+                  id,
+                  product_id,
+                  title,
+                  pros,
+                  cons,
+                  overall,
+                  created_at,
+                  rating,
+                  image_urls
+                }: any) => {
                   return (
                     <TableRow
                       key={id}
+                      review_id={id}
                       product_id={product_id}
                       title={title}
                       created_at={created_at}
                       rating={rating}
                       image_url={image_urls}
+                      pros={pros}
+                      cons={cons}
+                      overall={overall}
                     />
                   );
                 })

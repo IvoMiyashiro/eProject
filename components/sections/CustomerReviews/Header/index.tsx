@@ -1,21 +1,21 @@
-import { Dispatch, SetStateAction } from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
 
+import { CustomerReviewsContext } from 'context';
 import { EyeIcon } from 'components/icons';
 import { InputSelectIcon } from 'components/ui';
 
-interface Props {
-  handleLimitPage: Dispatch<SetStateAction<number>>;
-}
+export const Header = () => {
 
-export const Header = ({ handleLimitPage }: Props) => {
+  const { changeLimitPerPage } = useContext(CustomerReviewsContext);
+  
   return (
     <Div>
       <InputSelectIcon 
         icon={EyeIcon}
         name="orders-limit"
         values={['10', '15', '20', '25']}
-        onChange={handleLimitPage}
+        onChange={changeLimitPerPage}
       />
     </Div>
   );

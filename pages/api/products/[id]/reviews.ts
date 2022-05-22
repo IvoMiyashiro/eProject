@@ -14,6 +14,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   case 'POST':
     return createReview(req, res);
 
+  case 'DELETE':
+    return deleteReview(req, res);
+
   default:
     return res.status(400).json({
       ok: false,
@@ -68,6 +71,30 @@ const createReview = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
     return res.status(200).json({
       ok: true,
       reviews: rows[0],
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      ok: false,
+      message: 'Internal server error.'
+    });
+  }
+};
+
+const deleteReview = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
+
+  const { review_id } = req.body;
+
+  const query = 'DELETE FROM review WHERE id = $1';
+  const value = [review_id];
+
+  try {
+    await db.conn.query(query, value);
+
+    return res.status(200).json({
+      ok: true,
+      message: 'Review successfully deleted.'
     });
   } catch (error) {
     console.log(error);

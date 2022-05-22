@@ -5,6 +5,7 @@ type CustomerReviewsActionType =
    | { type: '[REVIEWS] - Load reviews', payload: {reviews: IReviews[], totalLength: number} }
    | { type: '[REVIEWS] - Change limit per page', payload: number }
    | { type: '[REVIEWS] - Change offset', payload: number }
+   | { type: '[REVIEWS] - Delete review', payload: string }
 
 export const customerReviewsReducer = ( state: CustomerReviewsState, action: CustomerReviewsActionType ): CustomerReviewsState => {
 
@@ -26,6 +27,14 @@ export const customerReviewsReducer = ( state: CustomerReviewsState, action: Cus
     return {
       ...state,
       limitPerPage: action.payload
+    };
+
+  case '[REVIEWS] - Delete review':
+    return {
+      ...state,
+      reviewsList: state.reviewsList.filter(review => {
+        if (review.id !== action.payload) return review;
+      })
     };
   
   default:

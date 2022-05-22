@@ -64,6 +64,10 @@ export const CutomerReviewsProvider:FC = ({ children }) => {
       },
       body: JSON.stringify({review_id})
     });
+    dispatch({
+      type: '[REVIEWS] - Delete review',
+      payload: review_id
+    });
   };
 
   const changeLimitPerPage = (value: number) => {

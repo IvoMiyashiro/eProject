@@ -38,7 +38,6 @@ export const TableRow = ({ review_id, product_id, title, created_at, rating, ima
     await deleteReview(product_id, review_id);
     setDeleteModalOpen(false);
     setReviewModalOpen(false);
-    setLoading(false);
   };
 
   return (

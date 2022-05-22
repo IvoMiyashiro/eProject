@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { getToken } from 'next-auth/jwt';
 import { db } from 'database';
 
-type Data = { ok: boolean, message?: string, reviews?: any }
+type Data = { ok: boolean, message?: string, reviews?: any, totalLength?: number }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 };
 
-const getReviews = async (req: NextApiRequest, res: NextApiResponse) => {
+const getReviews = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   const { uid } = req.query;
   const limit = req.query.limit === 'undefined' ? 'NULL' : req.query.limit;
@@ -48,7 +48,7 @@ const getReviews = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(200).json({
       ok: true,
       reviews: rows,
-      totalOrders: rows.length
+      totalLength: rows.length
     });
 
   } catch (error) {

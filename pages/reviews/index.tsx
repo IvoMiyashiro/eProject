@@ -1,23 +1,26 @@
 import type { NextPage } from 'next';
 import styled from 'styled-components';
 
+import { CutomerReviewsProvider } from 'context';
 import { MainLayout } from 'components/layouts';
 import { CustomerReviews } from 'components/sections';
 
 const CustomerReviewsPage: NextPage = () => {
   return (
     <>
-      <MainLayout title="eProject | My Orders" description="">
-        <Div>
-          <Section>
-            <Wrapper>
-              <H1>My Reviews</H1>
-              <Underline />
-            </Wrapper>
-          </Section>
-          <CustomerReviews />
-        </Div>
-      </MainLayout>
+      <CutomerReviewsProvider>
+        <MainLayout title="eProject | My Orders" description="">
+          <Div>
+            <Section>
+              <Wrapper>
+                <H1>My Reviews</H1>
+                <Underline />
+              </Wrapper>
+            </Section>
+            <CustomerReviews />
+          </Div>
+        </MainLayout>
+      </CutomerReviewsProvider>
     </>
   );
 };

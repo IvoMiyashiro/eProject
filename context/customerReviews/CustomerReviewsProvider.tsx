@@ -1,7 +1,8 @@
 import { FC, useContext, useEffect, useReducer, useState } from 'react';
 import { IReviews } from 'interfaces';
-import { customerReviewsReducer, CustomerReviewsContext } from './';
+import { deleteReview as deleteDBReview } from 'services';
 import { AuthContext } from 'context';
+import { customerReviewsReducer, CustomerReviewsContext } from './';
 
 export interface CustomerReviewsState {
   reviewsList: IReviews[];
@@ -56,14 +57,7 @@ export const CutomerReviewsProvider:FC = ({ children }) => {
   };
 
   const deleteReview = async (product_id: string, review_id: string) => {
-    await fetch(`/api/products/${product_id}/reviews`, {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({review_id})
-    });
+    await deleteDBReview(product_id, review_id); 
     dispatch({
       type: '[REVIEWS] - Delete review',
       payload: review_id

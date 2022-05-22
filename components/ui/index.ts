@@ -23,3 +23,4 @@ export * from './Searchbar';
 export * from './Labels';
 export * from './Pagination';
 export * from './RatingStarsFiller';
+export * from './ConfirmTab';

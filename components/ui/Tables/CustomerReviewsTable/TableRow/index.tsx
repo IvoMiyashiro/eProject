@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import dayjs from 'dayjs';
 
-import { Modal } from 'components/ui';
+import { CustomerReviewsContext } from 'context';
+
+import { Modal, Spinner, ConfirmTab } from 'components/ui';
 import { DotsIcon } from 'components/icons';
 import { ReviewInfo } from '../ReviewInfo';
-import { DeleteReviewForm } from '../DeleteReviewForm';
 
 import { Td, Tr } from '../../styles';
 import { Button, FirstTd, ImageWrapper, LastTd, Li, Menu, P, Ul, Wrapper } from './styles';
+import { lightTheme } from 'styles';
 
 interface Props {
   review_id: string;
@@ -25,9 +27,19 @@ interface Props {
 
 export const TableRow = ({ review_id, product_id, title, created_at, rating, image_url, pros, cons, overall }: Props) => {
 
+  const { deleteReview } = useContext(CustomerReviewsContext);
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+
+  const handleDeleteReview = async () => {
+    setLoading(true);
+    await deleteReview(product_id, review_id);
+    setDeleteModalOpen(false);
+    setReviewModalOpen(false);
+    setLoading(false);
+  };
 
   return (
     <Tr>
@@ -84,11 +96,18 @@ export const TableRow = ({ review_id, product_id, title, created_at, rating, ima
           <Modal
             handleCloseChildren={() => setDeleteModalOpen(false)}
           >
-            <DeleteReviewForm
-              review_id={review_id}
-              product_id={product_id}
-              handleDeleteModalOpen={setDeleteModalOpen}
-              handleReviewModalOpen={setReviewModalOpen}
+            <ConfirmTab
+              title="Delete review?"
+              text="If you delete this review no one will be able to read it again. Are you sure you want to do it?"
+              mainButtonColor={lightTheme.color_ui_danger}
+              mainButtonTextColor={lightTheme.color_ui_text_contrast}
+              mainButtonChildren={
+                isLoading 
+                  ? <Spinner size="14px" color={lightTheme.color_ui_text_contrast} />
+                  : 'Confirm'
+              }
+              onConfirm={handleDeleteReview}
+              onCancel={() => setDeleteModalOpen(false)}
             />
           </Modal>
         }

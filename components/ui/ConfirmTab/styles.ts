@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Form = styled.form`
+export const Div = styled.form`
   background-color: ${props => props.theme.color_ui_background};
   max-width: 300px;
   border-radius: 8px;
@@ -12,7 +12,7 @@ export const H2 = styled.h2`
   font-weight: 600;
 `;
 
-export const Div = styled.div`
+export const Wrapper = styled.div`
   height: 35px;
 `;
 

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { IReviews } from 'interfaces';
 import { db } from 'database';
 
-type Data = { ok: boolean, message?: string, reviews?: IReviews[], totalLength?: number }
+type Data = { ok: boolean, message?: string, reviews?: IReviews[], review?: IReviews, totalLength?: number }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   
@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   
   case 'POST':
     return createReview(req, res);
-
+    // TODO: hacer que se verifique por token
   case 'DELETE':
     return deleteReview(req, res);
 
@@ -29,7 +29,7 @@ const getReviews = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   
   const { id, limit, offset } = req.query;
 
-  let query = 'SELECT review.*, customer.name, customer.profile_image FROM review INNER JOIN customer ON customer.id = review.customer_id WHERE product_id = ($1) LIMIT ($2) OFFSET ($3)';
+  let query = 'SELECT review.*, customer.name, customer.profile_image FROM review INNER JOIN customer ON customer.id = review.customer_id WHERE product_id = ($1) ORDER BY review.created_at DESC LIMIT ($2) OFFSET ($3)';
   let value = [id, limit, offset];
 
   try {
@@ -62,15 +62,20 @@ const createReview = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
   const { customer_id, rating, pros, cons, overall } = req.body;
   const id = uuidv4();
 
-  const query = 'INSERT INTO review (id, customer_id, product_id, rating, pros, cons, overall) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
-  const values = [id, customer_id, product_id, rating, pros,cons, overall];
+  let query = 'INSERT INTO review (id, customer_id, product_id, rating, pros, cons, overall) VALUES ($1, $2, $3, $4, $5, $6, $7)';
+  let values = [id, customer_id, product_id, rating, pros,cons, overall];
 
   try {
-    const { rows } = await db.conn.query(query, values);
+    await db.conn.query(query, values);
+
+    query = 'SELECT * FROM (SELECT review.*, customer.profile_image, customer.name FROM review INNER JOIN customer ON review.customer_id = customer.id) AS customer_reviews WHERE id = $1';
+    values = [id];
+
+    const { rows: review } = await db.conn.query(query, values);
 
     return res.status(200).json({
       ok: true,
-      reviews: rows[0],
+      review: review[0],
     });
   } catch (error) {
     console.log(error);

@@ -1,5 +1,12 @@
 import styled from 'styled-components';
 
+export const CustomerContainer = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
 export const Div = styled.div`
   display: flex;
   align-items: center;
@@ -44,4 +51,10 @@ export const Span = styled.span`
   
 export const P = styled.p`
   font-size: 0.8rem;
+`;
+
+export const ButtonWrapper = styled.div`
+  width: 100px;
+  height: 28px;
+  margin-left: auto;
 `;

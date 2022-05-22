@@ -1,4 +1,4 @@
-import { useRating, useReviews } from 'hooks';
+import { useRating } from 'hooks';
 
 import { IProduct } from 'interfaces';
 import { Tab, ProductImagesCarrousel, Rating } from 'components/ui';

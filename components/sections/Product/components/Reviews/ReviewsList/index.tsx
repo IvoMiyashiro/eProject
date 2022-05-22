@@ -1,15 +1,16 @@
+import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { IReviews } from 'interfaces';
 import { Review } from 'components/ui';
 
-interface Props { reviews: IReviews[]; }
+interface Props { reviews: IReviews[]; handleReviewsList: Dispatch<SetStateAction<IReviews[] | []>>}
 
-export const ReviewsList = ({ reviews }: Props) => {
+export const ReviewsList = ({ reviews, handleReviewsList }: Props) => {
   return (
     <Div>
       {
         reviews?.map(review => {
-          return <Review key={review.id} review={review} />;
+          return <Review key={review.id} review={review} handleReviewsList={handleReviewsList}/>;
         })
       }
     </Div>

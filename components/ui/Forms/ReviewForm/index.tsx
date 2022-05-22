@@ -1,7 +1,8 @@
-import { FormEvent, useContext, useEffect, useState } from 'react';
+import { Dispatch, FormEvent, SetStateAction, useContext, useEffect, useState } from 'react';
 
 import { useProduct } from 'hooks';
 
+import { IReviews } from 'interfaces';
 import { createReview } from 'services';
 import { INPUT_CONTOL_INIT_STATE } from 'helpers/input_control_init_state';
 
@@ -12,9 +13,13 @@ import { Header } from './Header';
 import { lightTheme } from 'styles';
 import { ButtonWrapper, Div, Form, H2, Section, Span, SpinnerWrapper } from './styles';
 
-interface Props { product_id: string; handleModalOpen: (value: boolean) => void }
+interface Props {
+  product_id: string;
+  handleModalOpen: (value: boolean) => void ;
+  handleReviewsList: Dispatch<SetStateAction<[] | IReviews[]>>
+}
 
-export const ReviewForm = ({ product_id, handleModalOpen }: Props) => {
+export const ReviewForm = ({ product_id, handleModalOpen, handleReviewsList }: Props) => {
 
   const { customer } = useContext(AuthContext);
   const { product, isLoading } = useProduct(product_id);
@@ -34,7 +39,7 @@ export const ReviewForm = ({ product_id, handleModalOpen }: Props) => {
     }
   }, [prosInputControl.hasError, consInputControl.hasError, overallInputControl.hasError, ratingError]);
 
-
+  
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let valid = true;
@@ -78,7 +83,7 @@ export const ReviewForm = ({ product_id, handleModalOpen }: Props) => {
     if (!valid) return;
 
     setSubmitLoading(true);
-    await createReview(
+    const { review } = await createReview(
       product_id,
       customer!.id,
       rating,
@@ -86,6 +91,8 @@ export const ReviewForm = ({ product_id, handleModalOpen }: Props) => {
       consInputControl.value,
       overallInputControl.value
     );
+
+    if (review) handleReviewsList(prev =>  [review, ...prev]);
     setSubmitLoading(false);
     handleModalOpen(false);
   };

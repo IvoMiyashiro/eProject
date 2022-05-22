@@ -1,17 +1,23 @@
 import { IReviews } from 'interfaces';
+import { Dispatch, SetStateAction } from 'react';
 import { Customer } from './Customer';
 import { ReviewInfo } from './ReviewInfo';
-import { LikeDislikeButtons } from './LikeDislikeButtons';
-
 import { Div, Wrapper } from './styles';
 
-interface Props { review: IReviews; }
+interface Props { review: IReviews; handleReviewsList: Dispatch<SetStateAction<IReviews[] | []>> }
 
-export const Review = ({ review }: Props) => {
+export const Review = ({ review, handleReviewsList }: Props) => {
   return (
     <Div>
       <Wrapper>
-        <Customer username={ review.name! } profileImg={ review.profile_image! } />
+        <Customer
+          review_id={review.id}
+          product_id={review.product_id}
+          customer_id={review.customer_id}
+          username={ review.name! }
+          profileImg={ review.profile_image! }
+          handleReviewsList={handleReviewsList}
+        />
       </Wrapper>
       <Wrapper>
         <ReviewInfo

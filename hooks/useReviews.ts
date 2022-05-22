@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { IReviews } from 'interfaces';
 
 interface Return {
@@ -8,10 +8,10 @@ interface Return {
 }
 
 export const useReviews = (product_id: string, limit: number = 5,offset: number = 0): Return => {
-  const [reviews, setReviews] = useState(null);
+  const [reviews, setReviews] = useState<IReviews[] | []>([]);
   const [totalReviews, setTotalReviews] = useState(0);
   const [isLoading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     setLoading(true);
     fetch(`/api/products/${product_id}/reviews?offset=${offset}&limit=${limit}`)
@@ -24,8 +24,8 @@ export const useReviews = (product_id: string, limit: number = 5,offset: number 
   }, [product_id, offset, limit]);
   
   return {
-    reviews: reviews ? reviews : [],
+    reviews,
     totalReviews,
-    isLoading
+    isLoading,
   };
 };

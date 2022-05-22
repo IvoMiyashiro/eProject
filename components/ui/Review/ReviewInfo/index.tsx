@@ -14,7 +14,7 @@ interface Props {
 export const ReviewInfo = ({ rating, created_at, title, pros, cons, overall }: Props) => {
 
   const formatedText = (text: string) => {
-    const newText = text.split('\n').map((str, i) => <p key={i}>{str}</p>);
+    const newText = text?.split('\n').map((str, i) => <p key={i}>{str}</p>);
     return newText;
   };
   

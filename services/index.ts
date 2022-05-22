@@ -11,3 +11,4 @@ export * from './mercadoPagoPayment';
 export * from './getCustomerOrders';
 export * from './createReview';
 export * from './getRating';
+export * from './deleteReview';

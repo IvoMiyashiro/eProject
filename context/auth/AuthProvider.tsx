@@ -1,12 +1,11 @@
 import { FC, useReducer, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { useSession, signOut } from 'next-auth/react';
 
-import { signUp } from 'services/signUp';
-
 import { ICustomer } from 'interfaces';
+import { signUp, signIn } from 'services';
+
 import { AuthContext, authReducer } from './';
-import { signIn } from 'services/signIn';
-import { useRouter } from 'next/router';
 
 export interface AuthState {
     isLoading: boolean;
@@ -24,15 +23,16 @@ export const AuthProvider:FC = ({ children }) => {
 
   const [state, dispatch] = useReducer( authReducer, AUTH_INITIAL_STATE );
   const { data, status } = useSession();
+
   const router = useRouter();
 
   useEffect(() => {
     if ( status === 'authenticated' ) {
-      dispatch({ type: '[Auth] - Signin', payload: data?.user as ICustomer });
+      dispatch({ type: '[AUTH] - Signin', payload: data?.user as ICustomer });
     } else if (status === 'loading') {
-      dispatch({ type: '[Auth] - Start Loading' });
+      dispatch({ type: '[AUTH] - Start Loading' });
     } else if (status === 'unauthenticated') {
-      dispatch({ type: '[Auth] - Finish Loading' });
+      dispatch({ type: '[AUTH] - Finish Loading' });
     }
   }, [ status, data ]);
 
@@ -44,7 +44,7 @@ export const AuthProvider:FC = ({ children }) => {
       if (!!message) return { error: true, message };
 
       dispatch({
-        type: '[Auth] - Signin',
+        type: '[AUTH] - Signin',
         payload: customer!
       });
       const destination = router.query.p?.toString() || '/';
@@ -64,7 +64,7 @@ export const AuthProvider:FC = ({ children }) => {
       if (!!message) return { error: true, message };
 
       dispatch({
-        type: '[Auth] - Signin',
+        type: '[AUTH] - Signin',
         payload: customer!
       });
       
@@ -75,6 +75,13 @@ export const AuthProvider:FC = ({ children }) => {
       console.log(error);
       return { error: true };
     }
+  };
+
+  const updateCustomerData = ({ name, email, phone_number }: { name: string; email: string; phone_number: string; }) => {
+    dispatch({
+      type: '[AUTH] - Update customer',
+      payload: { name, email, phone_number }
+    });
   };
 
 
@@ -91,6 +98,7 @@ export const AuthProvider:FC = ({ children }) => {
       signin,
       signup,
       signout,
+      updateCustomerData,
     }}>
       { children }
     </AuthContext.Provider>

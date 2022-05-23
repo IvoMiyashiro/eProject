@@ -2,15 +2,16 @@ import { AuthState } from './';
 import { ICustomer } from 'interfaces';
 
 type AuthActionType = 
-   | { type: '[Auth] - Signin', payload: ICustomer }
-   | { type: '[Auth] - Signout' }
-   | { type: '[Auth] - Start Loading' }
-   | { type: '[Auth] - Finish Loading' }
+   | { type: '[AUTH] - Signin', payload: ICustomer }
+   | { type: '[AUTH] - Signout' }
+   | { type: '[AUTH] - Start Loading' }
+   | { type: '[AUTH] - Finish Loading' }
+   | { type: '[AUTH] - Update customer', payload: { name: string; email: string; phone_number: string; }}
 
 export const authReducer = ( state: AuthState, action: AuthActionType ): AuthState => {
 
   switch (action.type) {
-  case '[Auth] - Signin':
+  case '[AUTH] - Signin':
     return {
       ...state,
       isLoading: false,
@@ -18,23 +19,37 @@ export const authReducer = ( state: AuthState, action: AuthActionType ): AuthSta
       customer: action.payload
     };
 
-  case '[Auth] - Signout':
+  case '[AUTH] - Signout':
     return {
       ...state,
       isLoggedIn: false,
       customer: undefined,
     };
   
-  case '[Auth] - Start Loading':
+  case '[AUTH] - Start Loading':
     return {
       ...state,
       isLoading: true
     };
 
-  case '[Auth] - Finish Loading':
+  case '[AUTH] - Finish Loading':
     return {
       ...state,
       isLoading: false
+    };
+  
+  case '[AUTH] - Update customer':
+    const { name, email, phone_number } = action.payload;
+    if (state.customer) {
+      return {
+        ...state,
+        customer: {
+          ...state.customer,
+          name: name,
+          email: email,
+          phone_number: phone_number
+        }
+      };
     };
 
   default:

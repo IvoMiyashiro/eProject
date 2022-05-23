@@ -1,9 +1,8 @@
-import { Dispatch, FormEvent, SetStateAction, useContext, useEffect, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 
+import { ICreateReviewData } from 'interfaces';
 import { useProduct } from 'hooks';
 
-import { IReviews } from 'interfaces';
-import { createReview } from 'services';
 import { INPUT_CONTOL_INIT_STATE } from 'helpers/input_control_init_state';
 
 import { AuthContext } from 'context';
@@ -16,10 +15,10 @@ import { ButtonWrapper, Div, Form, H2, Section, Span, SpinnerWrapper } from './s
 interface Props {
   product_id: string;
   handleModalOpen: (value: boolean) => void ;
-  handleReviewsList: Dispatch<SetStateAction<[] | IReviews[]>>
+  handleAddReview: (reviewData: ICreateReviewData) => Promise<void>;
 }
 
-export const ReviewForm = ({ product_id, handleModalOpen, handleReviewsList }: Props) => {
+export const ReviewForm = ({ product_id, handleModalOpen, handleAddReview }: Props) => {
 
   const { customer } = useContext(AuthContext);
   const { product, isLoading } = useProduct(product_id);
@@ -83,16 +82,14 @@ export const ReviewForm = ({ product_id, handleModalOpen, handleReviewsList }: P
     if (!valid) return;
 
     setSubmitLoading(true);
-    const { review } = await createReview(
+    handleAddReview({
       product_id,
-      customer!.id,
+      customer_id: customer?.id,
       rating,
-      prosInputControl.value,
-      consInputControl.value,
-      overallInputControl.value
-    );
-
-    if (review) handleReviewsList(prev =>  [review, ...prev]);
+      pros: prosInputControl.value,
+      cons: consInputControl.value,
+      overall: overallInputControl.value,
+    });
     setSubmitLoading(false);
     handleModalOpen(false);
   };

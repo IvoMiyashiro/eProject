@@ -4,9 +4,9 @@ import { Customer } from './Customer';
 import { ReviewInfo } from './ReviewInfo';
 import { Div, Wrapper } from './styles';
 
-interface Props { review: IReviews; handleReviewsList: Dispatch<SetStateAction<IReviews[] | []>> }
+interface Props { review: IReviews; handleDeleteReview: (deleteData: {product_id: string; review_id: string}) => Promise<void>;}
 
-export const Review = ({ review, handleReviewsList }: Props) => {
+export const Review = ({ review, handleDeleteReview }: Props) => {
   return (
     <Div>
       <Wrapper>
@@ -16,7 +16,7 @@ export const Review = ({ review, handleReviewsList }: Props) => {
           customer_id={review.customer_id}
           username={ review.name! }
           profileImg={ review.profile_image! }
-          handleReviewsList={handleReviewsList}
+          handleDeleteReview={handleDeleteReview}
         />
       </Wrapper>
       <Wrapper>

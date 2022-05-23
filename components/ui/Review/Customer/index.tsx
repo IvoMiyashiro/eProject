@@ -1,16 +1,13 @@
-import { Dispatch, SetStateAction, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import Image from 'next/image';
 
-import { IReviews } from 'interfaces';
-import { deleteReview } from 'services';
+import { AuthContext } from 'context';
 
 import { CheckIcon } from 'components/icons';
-import { Button } from 'components/ui';
+import { Button, Spinner } from 'components/ui';
 
 import { lightTheme } from 'styles';
 import { Div, ImageWrapper, Wrapper, H2, Section, Span, P, ButtonWrapper, CustomerContainer } from './styles';
-import { Spinner } from 'components/ui/Spinner';
-import { AuthContext } from 'context';
 
 interface Props { 
   review_id: string;
@@ -18,30 +15,21 @@ interface Props {
   customer_id: string;
   username: string; 
   profileImg: string;
-  handleReviewsList: Dispatch<SetStateAction<IReviews[] | []>>
+  handleDeleteReview: (deleteData: {product_id: string; review_id: string}) => Promise<void>;
 }
 
-export const Customer = ({ review_id,
+export const Customer = ({
+  review_id,
   product_id,
   customer_id,
   username,
   profileImg,
-  handleReviewsList 
+  handleDeleteReview 
 }: Props) => {
 
   const USER_PROFILE_IMAGE = !!profileImg ? profileImg : '/images/profile_image.png';
   const { customer } = useContext(AuthContext);
   const [isLoading, setLoading] = useState(false);
-
-  const handleDeleteReview = async () => {
-    setLoading(true);
-    await deleteReview(product_id, review_id);
-    handleReviewsList(prev => {
-      return prev.filter(review => {
-        if (review.id !== review_id) return review;
-      });
-    });
-  };
 
   return (
     <CustomerContainer>
@@ -73,7 +61,7 @@ export const Customer = ({ review_id,
             bgColor={lightTheme.color_ui_danger}
             textColor={lightTheme.color_ui_text_contrast}
             bRadius="4px"
-            onClick={handleDeleteReview}
+            onClick={async () => {setLoading(true); await handleDeleteReview({ product_id, review_id });}}
           >
             {
               isLoading

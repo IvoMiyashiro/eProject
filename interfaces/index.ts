@@ -6,3 +6,4 @@ export * from './customer';
 export * from './reviews';
 export * from './provinces';
 export * from './orders';
+export * from './createReviewData';

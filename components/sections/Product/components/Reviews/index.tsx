@@ -19,7 +19,7 @@ export const Reviews = ({ product_id }: Props) => {
   const [limitPageSize, setLimitPageSize] = useState(5);
   const [isModalOpen, setModalOpen] = useState(false);
   const [reviewsList, setReviewsList] = useState<IReviews[] | []>([]);
-  const { reviews, isLoading, totalReviews } = useReviews(product_id, limitPageSize, offset);
+  const { reviews, isLoading, totalReviews, addReview, deleteReview } = useReviews(product_id, limitPageSize, offset);
 
   useEffect(() => {
     if (!!reviews) setReviewsList(reviews);
@@ -51,7 +51,7 @@ export const Reviews = ({ product_id }: Props) => {
                     This product don&apos;t have any reviews yet.
                   </Div>
                 )
-                : <ReviewsList reviews={reviewsList!} handleReviewsList={setReviewsList}/>
+                : <ReviewsList reviews={reviews!} handleDeleteReview={deleteReview}/>
             )
         }
         <Pagination
@@ -75,7 +75,7 @@ export const Reviews = ({ product_id }: Props) => {
           <ReviewForm
             product_id={product_id}
             handleModalOpen={setModalOpen}
-            handleReviewsList={setReviewsList}
+            handleAddReview={addReview}
           />  
         </Modal>
       }

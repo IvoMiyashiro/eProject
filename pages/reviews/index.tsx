@@ -10,7 +10,12 @@ const CustomerReviewsPage: NextPage = () => {
   return (
     <>
       <CutomerReviewsProvider>
-        <MainLayout title="eProject | My Orders" description="">
+        <MainLayout
+          title="eProject | My Orders" 
+          description=""
+          needAuth
+          onUnauthenticatedPath="/reviews"
+        >
           <Div>
             <Section>
               <Wrapper>

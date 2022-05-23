@@ -12,3 +12,4 @@ export * from './getCustomerOrders';
 export * from './createReview';
 export * from './getRating';
 export * from './deleteReview';
+export * from './updateCustomerData';

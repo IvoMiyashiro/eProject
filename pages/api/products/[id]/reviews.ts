@@ -85,12 +85,12 @@ const createReview = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
 
 const deleteReview = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
 
-  const { review_id } = req.body;
+  const { review_id, customer_id } = req.body;
 
   const secret = process.env.NEXTAUTH_SECRET;
   const token = await getToken({ req, secret });
 
-  if (token?.sub !== req.query.uid) {
+  if (token?.sub !== customer_id) {
     return res.status(401).json({
       ok: false,
       message: 'Unauthorized.'

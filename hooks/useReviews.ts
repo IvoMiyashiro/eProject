@@ -52,12 +52,14 @@ export const useReviews = (product_id: string, limit: number = 5,offset: number 
   };
 
   const deleteReview = async ({ product_id, review_id }: IDeleteReview) => {
-    await deleteDBReview(product_id, review_id);
-    setReviews(prev => {
-      return prev.filter(review => {
-        if (review.id !== review_id) return review;
+    try {
+      await deleteDBReview(customer!.id, product_id, review_id);
+      setReviews(prev => {
+        return prev.filter(review => {
+          if (review.id !== review_id) return review;
+        });
       });
-    });
+    } catch (error) { console.log(error); }
   };
   
   return {

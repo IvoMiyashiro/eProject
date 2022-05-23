@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { IReviews, ICreateReviewData } from 'interfaces';
 import { createReview, deleteReview as deleteDBReview } from 'services';
+import { AuthContext } from 'context';
 
 interface Return {
   reviews: IReviews[] | [];
@@ -16,6 +17,8 @@ interface IDeleteReview {
 }
 
 export const useReviews = (product_id: string, limit: number = 5,offset: number = 0): Return => {
+  
+  const { customer } = useContext(AuthContext);
   const [reviews, setReviews] = useState<IReviews[] | []>([]);
   const [totalReviews, setTotalReviews] = useState(0);
   const [isLoading, setLoading] = useState(true);
@@ -40,7 +43,12 @@ export const useReviews = (product_id: string, limit: number = 5,offset: number 
       cons,
       overall
     );
-    setReviews(prev => [review!, ...prev]);
+    const newReview = {
+      ...review!,
+      name: customer?.name,
+      profile_image: customer?.profile_image
+    };
+    setReviews(prev => [newReview!, ...prev]);
   };
 
   const deleteReview = async ({ product_id, review_id }: IDeleteReview) => {

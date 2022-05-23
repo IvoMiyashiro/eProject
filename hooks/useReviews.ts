@@ -49,6 +49,7 @@ export const useReviews = (product_id: string, limit: number = 5,offset: number 
       profile_image: customer?.profile_image
     };
     setReviews(prev => [newReview!, ...prev]);
+    setTotalReviews(prev => prev + 1);
   };
 
   const deleteReview = async ({ product_id, review_id }: IDeleteReview) => {
@@ -59,6 +60,7 @@ export const useReviews = (product_id: string, limit: number = 5,offset: number 
           if (review.id !== review_id) return review;
         });
       });
+      setTotalReviews(prev => prev - 1);
     } catch (error) { console.log(error); }
   };
   

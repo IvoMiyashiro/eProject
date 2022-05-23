@@ -86,7 +86,7 @@ const checkCustomerEmailPassword = async (email: string, password: string) => {
       return null;
     }
 
-    const { role, name, id, password: dbPassword, profile_image } = rows[0];
+    const { role, name, id, password: dbPassword, profile_image, phone_number } = rows[0];
 
     if (!verifyPassword(dbPassword, password)) {
       return null;
@@ -97,6 +97,7 @@ const checkCustomerEmailPassword = async (email: string, password: string) => {
       name,
       email: email.toLocaleLowerCase(),
       profile_image,
+      phone_number,
       role,
     };
   } catch (error) {
@@ -113,8 +114,8 @@ const oAUthToDbUser = async (email: string, name: string, image: string) => {
     const { rows } = await db.conn.query(query, values);
 
     if (rows.length !== 0) {
-      const { id, name, email, profile_image, role } = rows[0];
-      return { id, name, email, profile_image, role };
+      const { id, name, email, profile_image, role, phone_number } = rows[0];
+      return { id, name, email, profile_image, role, phone_number };
     } else {
       const uid = uuidv4();
 
@@ -123,8 +124,8 @@ const oAUthToDbUser = async (email: string, name: string, image: string) => {
   
       const { rows } = await db.conn.query(query, values);
 
-      const { id, name: dbName, email: dbEmail, profile_image, role } = rows[0];
-      return { id, name: dbName, email: dbEmail, profile_image, role };
+      const { id, name: dbName, email: dbEmail, profile_image, role, phone_number } = rows[0];
+      return { id, name: dbName, email: dbEmail, profile_image, role, phone_number };
     }
   } catch (error) {
     console.log(error);

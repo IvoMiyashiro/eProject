@@ -5,6 +5,7 @@ import { MainLayout } from 'components/layouts';
 import { CustomerOrders } from 'components/sections';
 
 const CustomerOrdersPage: NextPage = () => {
+  // TODO: make this page auth
   return (
     <>
       <MainLayout title="eProject | My Orders" description="">

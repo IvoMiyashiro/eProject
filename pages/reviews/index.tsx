@@ -6,6 +6,7 @@ import { MainLayout } from 'components/layouts';
 import { CustomerReviews } from 'components/sections';
 
 const CustomerReviewsPage: NextPage = () => {
+  // TODO: make this page auth
   return (
     <>
       <CutomerReviewsProvider>

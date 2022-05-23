@@ -43,3 +43,5 @@ export * from './Purchase';
 export * from './Lamp';
 export * from './Eye';
 export * from './Dots';
+export * from './Email';
+export * from './PhoneIcon';

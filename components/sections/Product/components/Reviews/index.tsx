@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useReviews } from 'hooks';
 
 import { IReviews } from 'interfaces';
-import { Modal, Pagination, Spinner, ReviewForm } from 'components/ui';
+import { Modal, Pagination, Spinner, CreateReviewForm } from 'components/ui';
 import { ReviewsList } from './ReviewsList';
 import { Header } from './Header';
 
@@ -72,7 +72,7 @@ export const Reviews = ({ product_id }: Props) => {
           justify="center"
           handleCloseChildren={() => setModalOpen(false)}
         >
-          <ReviewForm
+          <CreateReviewForm
             product_id={product_id}
             handleModalOpen={setModalOpen}
             handleAddReview={addReview}

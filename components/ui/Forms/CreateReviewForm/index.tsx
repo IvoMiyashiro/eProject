@@ -18,7 +18,7 @@ interface Props {
   handleAddReview: (reviewData: ICreateReviewData) => Promise<void>;
 }
 
-export const ReviewForm = ({ product_id, handleModalOpen, handleAddReview }: Props) => {
+export const CreateReviewForm = ({ product_id, handleModalOpen, handleAddReview }: Props) => {
 
   const { customer } = useContext(AuthContext);
   const { product, isLoading } = useProduct(product_id);
@@ -82,7 +82,7 @@ export const ReviewForm = ({ product_id, handleModalOpen, handleAddReview }: Pro
     if (!valid) return;
 
     setSubmitLoading(true);
-    handleAddReview({
+    await handleAddReview({
       product_id,
       customer_id: customer?.id,
       rating,

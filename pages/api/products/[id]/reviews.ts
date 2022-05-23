@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { v4 as uuidv4 } from 'uuid';
 import { IReviews } from 'interfaces';
 import { db } from 'database';
+import { getToken } from 'next-auth/jwt';
 
 type Data = { ok: boolean, message?: string, reviews?: IReviews[], review?: IReviews, totalLength?: number }
 
@@ -13,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   
   case 'POST':
     return createReview(req, res);
-    // TODO: hacer que se verifique por token
+
   case 'DELETE':
     return deleteReview(req, res);
 
@@ -62,20 +63,15 @@ const createReview = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
   const { customer_id, rating, pros, cons, overall } = req.body;
   const id = uuidv4();
 
-  let query = 'INSERT INTO review (id, customer_id, product_id, rating, pros, cons, overall) VALUES ($1, $2, $3, $4, $5, $6, $7)';
+  let query = 'INSERT INTO review (id, customer_id, product_id, rating, pros, cons, overall) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
   let values = [id, customer_id, product_id, rating, pros,cons, overall];
 
   try {
-    await db.conn.query(query, values);
-
-    query = 'SELECT * FROM (SELECT review.*, customer.profile_image, customer.name FROM review INNER JOIN customer ON review.customer_id = customer.id) AS customer_reviews WHERE id = $1';
-    values = [id];
-
-    const { rows: review } = await db.conn.query(query, values);
+    const { rows } = await db.conn.query(query, values);
 
     return res.status(200).json({
       ok: true,
-      review: review[0],
+      review: rows[0],
     });
   } catch (error) {
     console.log(error);
@@ -90,6 +86,16 @@ const createReview = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
 const deleteReview = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   const { review_id } = req.body;
+
+  const secret = process.env.NEXTAUTH_SECRET;
+  const token = await getToken({ req, secret });
+
+  if (token?.sub !== req.query.uid) {
+    return res.status(401).json({
+      ok: false,
+      message: 'Unauthorized.'
+    });
+  }
 
   const query = 'DELETE FROM review WHERE id = $1';
   const value = [review_id];

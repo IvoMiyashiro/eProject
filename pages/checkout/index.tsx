@@ -1,6 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import { getSession } from 'next-auth/react';
-import Cookies from 'js-cookie';
 
 import { CheckoutLayout } from 'components/layouts';
 import { CheckoutShippingForm } from 'components/ui';

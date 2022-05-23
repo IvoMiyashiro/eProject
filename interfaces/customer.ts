@@ -3,6 +3,7 @@ export interface ICustomer {
   name: string;
   email: string;
   profile_image: string;
+  phone_number?: string;
   address?: Address;
   token: string;
   role: 'admin' | 'client';

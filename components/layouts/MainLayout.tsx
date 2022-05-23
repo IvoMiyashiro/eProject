@@ -21,7 +21,7 @@ export const MainLayout = ({ title, description, children, needAuth = false, onU
   const { status } = useSession({
     required: needAuth,
     onUnauthenticated() {
-      router.push(`/auth/signin?p=/${onUnauthenticatedPath}`);
+      router.push(`/auth/signin?p=${onUnauthenticatedPath}`);
     },
   });
 

@@ -45,3 +45,4 @@ export * from './Eye';
 export * from './Dots';
 export * from './Email';
 export * from './PhoneIcon';
+export * from './Photo';

@@ -32,12 +32,14 @@ export const Inputs = ({
         placeholder="Email"
         regEx={emailRegEx}
         state={emailState}
+        id="email"
         handleStateValue={handleEmailState}
       />
       <InputControl
         type="password"
         placeholder="Password"
         state={passwordState}
+        id="password"
         handleStateValue={handlePasswordState}
       />
     </InputsWrapper>

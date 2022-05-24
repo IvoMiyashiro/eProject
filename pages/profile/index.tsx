@@ -4,17 +4,18 @@ import styled from 'styled-components';
 
 import { AuthContext, CutomerReviewsProvider } from 'context';
 import { MainLayout } from 'components/layouts';
-import { CustomerProfile } from 'components';
+import { CustomerProfile } from 'components/sections';
 
 const CustomerReviewsPage: NextPage = () => {
 
   const { customer } = useContext(AuthContext);
+  const pageTitle = customer?.name === undefined ? 'Loading...' : customer.name;
 
   return (
     <>
       <CutomerReviewsProvider>
         <MainLayout
-          title={`eProject | ${customer?.name}`} 
+          title={`eProject | ${pageTitle}`} 
           description=""
           needAuth
           onUnauthenticatedPath="/profile"

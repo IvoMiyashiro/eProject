@@ -1,16 +1,16 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import styled from 'styled-components';
+import { IInputControl } from 'helpers';
 import { StarEmptyIcon, StarFillIcon } from 'components/icons';
 
 interface Props {
   rating: number;
   isRatingSelected: boolean;
-  handleRating: (value: number) => void;
   handleRatingSelected: (value: boolean) => void;
-  handleRatingError: (value: string) => void; 
+  handleRating: Dispatch<SetStateAction<IInputControl>>;
 }
 
-export const RatingStarsFiller = ({ rating, isRatingSelected, handleRating, handleRatingSelected, handleRatingError }: Props) => {
+export const RatingStarsFiller = ({ rating, isRatingSelected, handleRating, handleRatingSelected }: Props) => {
 
   const [starOneFill, setStarOneFill] = useState(false);
   const [starTwoFill, setStarTwoFill] = useState(false);
@@ -64,7 +64,7 @@ export const RatingStarsFiller = ({ rating, isRatingSelected, handleRating, hand
   };
 
   const handleClick = (starNumber: number) => {
-    handleRatingError('');
+
     if (starNumber === 1) {
       setStarOneFill(true);
       setStarTwoFill(false);
@@ -72,47 +72,82 @@ export const RatingStarsFiller = ({ rating, isRatingSelected, handleRating, hand
       setStarFourFill(false);
       setStarFiveFill(false);
       handleRatingSelected(true);
-      handleRating(1);
+      handleRating(prev => {
+        return {
+          ...prev,
+          value: starNumber.toString(),
+          hasError: false,
+          errorMsj: ''
+        };
+      });
     }
 
-    if (starNumber === 2) {
+    if (Number(starNumber) === 2) {
       setStarOneFill(true);
       setStarTwoFill(true);
       setStarThreeFill(false);
       setStarFourFill(false);
       setStarFiveFill(false);
       handleRatingSelected(true);
-      handleRating(2);
+      handleRating(prev => {
+        return {
+          ...prev,
+          value: starNumber.toString(),
+          hasError: false,
+          errorMsj: ''
+        };
+      });
     }
 
-    if (starNumber === 3) {
+    if (Number(starNumber) === 3) {
       setStarOneFill(true);
       setStarTwoFill(true);
       setStarThreeFill(true);
       setStarFourFill(false);
       setStarFiveFill(false);
       handleRatingSelected(true);
-      handleRating(3);
+      handleRating(prev => {
+        return {
+          ...prev,
+          value: starNumber.toString(),
+          hasError: false,
+          errorMsj: ''
+        };
+      });
     }
 
-    if (starNumber === 4) {
+    if (Number(starNumber) === 4) {
       setStarOneFill(true);
       setStarTwoFill(true);
       setStarThreeFill(true);
       setStarFourFill(true);
       setStarFiveFill(false);
       handleRatingSelected(true);
-      handleRating(4);
+      handleRating(prev => {
+        return {
+          ...prev,
+          value: starNumber.toString(),
+          hasError: false,
+          errorMsj: ''
+        };
+      });
     }
 
-    if (starNumber === 5) {
+    if (Number(starNumber) === 5) {
       setStarOneFill(true);
       setStarTwoFill(true);
       setStarThreeFill(true);
       setStarFourFill(true);
       setStarFiveFill(true);
       handleRatingSelected(true);
-      handleRating(5);
+      handleRating(prev => {
+        return {
+          ...prev,
+          value: starNumber.toString(),
+          hasError: false,
+          errorMsj: ''
+        };
+      });
     }
   };
 

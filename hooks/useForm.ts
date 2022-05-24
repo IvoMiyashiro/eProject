@@ -1,4 +1,4 @@
-import { SetStateAction, useState, Dispatch, FormEvent } from 'react';
+import { SetStateAction, useState, Dispatch, FormEvent, useEffect } from 'react';
 
 interface Props {
   states: {
@@ -12,17 +12,26 @@ interface Props {
       hasError: boolean;
       errorMsj: string;}>>
   }[],
-  callbacks: any
+  callbacks?: any
 }
 
 export const useForm = ({ states, callbacks }: Props) => {
   const [isLoading, setLoading] = useState(false);
   const [isValidForm, setValidForm] = useState(true);
 
+  useEffect(() => {
+    states.map(({ state }) => {
+      const { hasError } = state;
+      if (!hasError) {
+        setValidForm(true);
+      }
+    });
+  }, [states]);
+
   const callbacksFunctions = () => {
     Object.values(callbacks).map(value => {
       if (typeof value === 'function') {
-        value();
+        value({setValidForm, setLoading});
       }
     });
   };
@@ -45,8 +54,8 @@ export const useForm = ({ states, callbacks }: Props) => {
       }
     });
 
-    if (!valid) setLoading(false);
-    callbacksFunctions();
+    if (!valid) return setLoading(false);
+    if (!!callbacks) callbacksFunctions();
   };
 
   return {

@@ -1,11 +1,10 @@
-import { FormEvent, useContext, useEffect, useState } from 'react';
-
-import { ICreateReviewData } from 'interfaces';
-import { useProduct } from 'hooks';
-
-import { INPUT_CONTROL_INIT_STATE } from 'helpers/input_control_init_state';
+import { useContext, useState } from 'react';
 
 import { AuthContext } from 'context';
+import { ICreateReviewData } from 'interfaces';
+import { useForm, useProduct } from 'hooks';
+import { INPUT_CONTROL_INIT_STATE } from 'helpers/input_control_init_state';
+
 import { Spinner, InputTextarea, Button, RatingStarsFiller } from 'components/ui';
 import { Header } from './Header';
 
@@ -23,76 +22,39 @@ export const CreateReviewForm = ({ product_id, handleModalOpen, handleAddReview 
   const { customer } = useContext(AuthContext);
   const { product, isLoading } = useProduct(product_id);
 
-  const [isSubmitLoading, setSubmitLoading] = useState(false);
-  const [isValidForm, setValidForm] = useState(false);
   const [isRatingSelected, setRatingSelected] = useState(false);
-  const [rating, setRating] = useState(0);
-  const [ratingError, setRatingError] = useState('');
+  const [ratingInputControl, setRatingInputControl] = useState(INPUT_CONTROL_INIT_STATE);
   const [prosInputControl, setProsInputControl] = useState(INPUT_CONTROL_INIT_STATE);
   const [consInputControl, setConsInputControl] = useState(INPUT_CONTROL_INIT_STATE);
   const [overallInputControl, setOverallInputControl] = useState(INPUT_CONTROL_INIT_STATE);
-  
-  useEffect(() => {
-    if (!prosInputControl.hasError && !consInputControl.hasError && !overallInputControl.hasError && ratingError === '') {
-      setValidForm(true);
+  const { isLoading: isSubmitLoading, isValidForm, handleSubmit } = useForm({
+    states: [{
+      state: prosInputControl,
+      handleState: setProsInputControl
+    }, {
+      state: consInputControl,
+      handleState: setConsInputControl
+    }, {
+      state: overallInputControl,
+      handleState: setOverallInputControl
+    }, {
+      state: ratingInputControl,
+      handleState: setRatingInputControl
+    }],
+    callbacks: {
+      async startUploadingReview() {
+        await handleAddReview({
+          product_id,
+          customer_id: customer?.id,
+          rating: Number(ratingInputControl.value),
+          pros: prosInputControl.value,
+          cons: consInputControl.value,
+          overall: overallInputControl.value,
+        });
+        handleModalOpen(false);
+      }
     }
-  }, [prosInputControl.hasError, consInputControl.hasError, overallInputControl.hasError, ratingError]);
-
-  
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    let valid = true;
-    
-    if (prosInputControl.value.length === 0) {
-      setProsInputControl({
-        ...prosInputControl,
-        hasError: true,
-        errorMsj: '* Pros must be filled.'
-      });
-      valid = false;
-      setValidForm(false);
-    }
-
-    if (consInputControl.value.length === 0) {
-      setConsInputControl({
-        ...consInputControl,
-        hasError: true,
-        errorMsj: '* Cons must be filled.'
-      });
-      valid = false;
-      setValidForm(false);
-    }
-
-    if (overallInputControl.value.length === 0) {
-      setOverallInputControl({
-        ...overallInputControl,
-        hasError: true,
-        errorMsj: '* Overall must be filled.'
-      });
-      valid = false;
-      setValidForm(false);
-    }
-
-    if (rating === 0) {
-      setRatingError('* Rating must be selected.');
-      valid = false;
-      setValidForm(false);
-    }
-
-    if (!valid) return;
-
-    setSubmitLoading(true);
-    await handleAddReview({
-      product_id,
-      customer_id: customer?.id,
-      rating,
-      pros: prosInputControl.value,
-      cons: consInputControl.value,
-      overall: overallInputControl.value,
-    });
-    setSubmitLoading(false);
-    handleModalOpen(false);
-  };
+  });
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -118,13 +80,12 @@ export const CreateReviewForm = ({ product_id, handleModalOpen, handleAddReview 
                 <Section>
                   <H2>Select a rating</H2>
                   <RatingStarsFiller
-                    rating={rating}
+                    rating={Number(ratingInputControl.value)}
                     isRatingSelected={isRatingSelected}
-                    handleRating={setRating}
+                    handleRating={setRatingInputControl}
                     handleRatingSelected={setRatingSelected}
-                    handleRatingError={setRatingError}
                   />
-                  <Span>{ ratingError }</Span>
+                  <Span>{ ratingInputControl.errorMsj }</Span>
                 </Section>
                 <InputTextarea
                   placeholder="Pros"

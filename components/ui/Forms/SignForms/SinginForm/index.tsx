@@ -1,8 +1,9 @@
-import { FormEvent, useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 
+import { useForm } from 'hooks';
 import { AuthContext } from 'context';
 import { INPUT_CONTROL_INIT_STATE } from 'helpers/input_control_init_state';
 
@@ -12,7 +13,7 @@ import { Inputs } from './Inputs';
 import { Providers } from './Providers';
 
 import { lightTheme } from 'styles';
-import { Form, H1, Section, Wrapper, Label, Checkbox, A, ButtonWrapper, LogoWrapper, LinkWrapper, P } from './styles';
+import { Form, H1, ButtonWrapper, LogoWrapper, LinkWrapper, P } from './styles';
 
 interface IInputControl {
   value: string;
@@ -26,70 +27,45 @@ export const SigninForm = () => {
   const router = useRouter();
 
   const [errorMessage, setErrorMessage] = useState('');
-  const [isValidForm, setValidForm] = useState(false);
-  const [isLoading, setLoading] = useState(false);
   const [emailInputControl, setEmailInputControl] = useState<IInputControl>(INPUT_CONTROL_INIT_STATE);
   const [passwordInputControl, setPasswordInputControl] = useState<IInputControl>(INPUT_CONTROL_INIT_STATE);
-
-  useEffect(() => {
-    if (!emailInputControl.hasError && !passwordInputControl.hasError) {
-      setValidForm(true);
-    }
-  }, [emailInputControl.hasError, passwordInputControl.hasError]);
-
-  const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    let valid = true;
-
-    if (emailInputControl.value.length === 0) {
-      setEmailInputControl({
-        ...emailInputControl,
-        hasError: true,
-        errorMsj: '* Email must be filled.'
-      });
-      valid = false;
-      setValidForm(false);
-    }
-
-    if (passwordInputControl.value.length === 0) {
-      setPasswordInputControl({
-        ...passwordInputControl,
-        hasError: true,
-        errorMsj: '* Password must be filled.'
-      });
-      valid = false;
-      setValidForm(false);
-    }
-
-    if (!valid) return;
-
-    setLoading(true);
-    const { error, message } = await signin(emailInputControl.value, passwordInputControl.value);
-
-    if (error) {
-      setValidForm(false);
-      if (message === 'Incorrect email or password.') {
-        setEmailInputControl({
-          ...emailInputControl,
-          hasError: true,
-          errorMsj: '*' + message
+  const { isLoading, isValidForm, handleSubmit } = useForm({
+    states: [{
+      state: emailInputControl,
+      handleState: setEmailInputControl
+    }, {
+      state: passwordInputControl,
+      handleState: setPasswordInputControl
+    }],
+    callbacks: {
+      async startSignin({ setValidForm, setLoading }: any) {
+        const { error, message } = await signin(emailInputControl.value, passwordInputControl.value);
+        if (error) {
+          setValidForm(false);
+          if (message === 'Incorrect email or password.') {
+            setEmailInputControl({
+              ...emailInputControl,
+              hasError: true,
+              errorMsj: '*' + message
+            });
+            setPasswordInputControl({
+              ...passwordInputControl,
+              hasError: true,
+              errorMsj: '*' + message
+            });
+          } else {
+            setErrorMessage('Internal server error.');
+          }
+          return setLoading(false);
+        }
+    
+        await signIn('credentials', {
+          email: emailInputControl.value,
+          password: passwordInputControl.value
         });
-        setPasswordInputControl({
-          ...passwordInputControl,
-          hasError: true,
-          errorMsj: '*' + message
-        });
-      } else {
-        setErrorMessage('Internal server error.');
       }
-      return setLoading(false);
     }
-
-    await signIn('credentials', {
-      email: emailInputControl.value,
-      password: passwordInputControl.value
-    });
-  };
+  }); 
 
   return (
     <Form onSubmit={handleSubmit}>

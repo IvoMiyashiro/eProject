@@ -1,7 +1,8 @@
-import { FormEvent, useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 
+import { useForm } from 'hooks';
 import { INPUT_CONTROL_INIT_STATE } from 'helpers/input_control_init_state';
 import { AuthContext } from 'context';
 
@@ -18,86 +19,45 @@ export const SignupForm = () => {
   const { signup } = useContext(AuthContext);
 
   const [errorMessage, setErrorMessage] = useState('');
-  const [isValidForm, setValidForm] = useState(false);
-  const [isLoading, setLoading] = useState(false);
   const [fullNameInputControl, setFullNameInputControl] = useState(INPUT_CONTROL_INIT_STATE);
   const [emailInputControl, setEmailInputControl] = useState(INPUT_CONTROL_INIT_STATE);
   const [passwordInputControl, setPasswordInputControl] = useState(INPUT_CONTROL_INIT_STATE);
+  const { isLoading, isValidForm, handleSubmit } = useForm({
+    states: [{
+      state: fullNameInputControl,
+      handleState: setFullNameInputControl
+    }, {
+      state: emailInputControl,
+      handleState: setEmailInputControl
+    }, {
+      state: passwordInputControl,
+      handleState: setPasswordInputControl
+    }],
+    callbacks: {
+      async startSignup({ setValidForm, setLoading }: any) {
+        const { error, message } = await signup(fullNameInputControl.value, emailInputControl.value, passwordInputControl.value);
 
-  useEffect(() => {
-    if (!fullNameInputControl.hasError && !emailInputControl.hasError && !passwordInputControl.hasError) {
-      setValidForm(true);
-    }
-  }, [fullNameInputControl.hasError, emailInputControl.hasError, passwordInputControl.hasError]);
-
-  
-  const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    let valid = true;
-
-    if (fullNameInputControl.value.length === 0) {
-      setFullNameInputControl({
-        ...fullNameInputControl,
-        hasError: true,
-        errorMsj: '* Name must be filled.'
-      });
-      valid = false;
-      setValidForm(false);
-    }
-
-    if (emailInputControl.value.length === 0) {
-      setEmailInputControl({
-        ...emailInputControl,
-        hasError: true,
-        errorMsj: '* Email must be filled.'
-      });
-      valid = false;
-      setValidForm(false);
-    }
-
-    if (passwordInputControl.value.length === 0) {
-      setPasswordInputControl({
-        ...passwordInputControl,
-        hasError: true,
-        errorMsj: '* Password must be filled.'
-      });
-      valid = false;
-      setValidForm(false);
-    }
+        if (error) {
+          setValidForm(false);
+          if (message === 'Email is already in use.') {
+            setEmailInputControl({
+              ...emailInputControl,
+              hasError: true,
+              errorMsj: '* ' + message
+            });
+          } else {
+            setErrorMessage('Internal server error.');
+          }
+          return setLoading(false);
+        }
     
-    if (passwordInputControl.value.length > 0 && passwordInputControl.value.length < 6) {
-      setPasswordInputControl({
-        ...passwordInputControl,
-        hasError: true,
-        errorMsj: '* Password length must be greater than 6.'
-      });
-      setValidForm(false);
-    }
-
-    if (!valid) return;
-
-    setLoading(true);
-    const { error, message } = await signup(fullNameInputControl.value, emailInputControl.value, passwordInputControl.value);
-
-    if (error) {
-      setValidForm(false);
-      if (message === 'Email is already in use.') {
-        setEmailInputControl({
-          ...emailInputControl,
-          hasError: true,
-          errorMsj: '* ' + message
+        await signIn('credentials', {
+          email: emailInputControl.value,
+          password: passwordInputControl.value
         });
-      } else {
-        setErrorMessage('Internal server error.');
       }
-      return setLoading(false);
     }
-
-    await signIn('credentials', {
-      email: emailInputControl.value,
-      password: passwordInputControl.value
-    });
-  };
+  });
 
   return (
     <Form onSubmit={handleSubmit}>

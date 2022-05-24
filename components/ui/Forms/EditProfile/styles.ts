@@ -29,3 +29,39 @@ export const P = styled.p`
   color: ${props => props.theme.color_neutral_2};
   margin-bottom: 1.25em;
 `;
+
+export const ImageWrapper = styled.div`
+  border-radius: 50%;
+  overflow: hidden;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  position: relative;
+`;
+
+export const Wrapper = styled.div`
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: 0.2s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  :hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: 0.2s;
+  }
+`;
+
+export const Section = styled.section`
+  align-items: center;
+  border-radius: 50%;
+  display: flex;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+`;

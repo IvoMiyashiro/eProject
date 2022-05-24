@@ -4,7 +4,7 @@ export interface IInputControl {
   errorMsj: string;
 }
 
-export const INPUT_CONTOL_INIT_STATE: IInputControl = {
+export const INPUT_CONTROL_INIT_STATE: IInputControl = {
   value: '',
   hasError: false,
   errorMsj: ''

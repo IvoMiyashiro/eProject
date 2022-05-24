@@ -3,7 +3,7 @@ import { FormEvent, useContext, useEffect, useState } from 'react';
 import { ICreateReviewData } from 'interfaces';
 import { useProduct } from 'hooks';
 
-import { INPUT_CONTOL_INIT_STATE } from 'helpers/input_control_init_state';
+import { INPUT_CONTROL_INIT_STATE } from 'helpers/input_control_init_state';
 
 import { AuthContext } from 'context';
 import { Spinner, InputTextarea, Button, RatingStarsFiller } from 'components/ui';
@@ -28,9 +28,9 @@ export const CreateReviewForm = ({ product_id, handleModalOpen, handleAddReview 
   const [isRatingSelected, setRatingSelected] = useState(false);
   const [rating, setRating] = useState(0);
   const [ratingError, setRatingError] = useState('');
-  const [prosInputControl, setProsInputControl] = useState(INPUT_CONTOL_INIT_STATE);
-  const [consInputControl, setConsInputControl] = useState(INPUT_CONTOL_INIT_STATE);
-  const [overallInputControl, setOverallInputControl] = useState(INPUT_CONTOL_INIT_STATE);
+  const [prosInputControl, setProsInputControl] = useState(INPUT_CONTROL_INIT_STATE);
+  const [consInputControl, setConsInputControl] = useState(INPUT_CONTROL_INIT_STATE);
+  const [overallInputControl, setOverallInputControl] = useState(INPUT_CONTROL_INIT_STATE);
   
   useEffect(() => {
     if (!prosInputControl.hasError && !consInputControl.hasError && !overallInputControl.hasError && ratingError === '') {

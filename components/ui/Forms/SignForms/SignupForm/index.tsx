@@ -2,7 +2,7 @@ import { FormEvent, useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 
-import { INPUT_CONTOL_INIT_STATE } from 'helpers/input_control_init_state';
+import { INPUT_CONTROL_INIT_STATE } from 'helpers/input_control_init_state';
 import { AuthContext } from 'context';
 
 import { LogoIcon } from 'components/icons';
@@ -20,9 +20,9 @@ export const SignupForm = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isValidForm, setValidForm] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const [fullNameInputControl, setFullNameInputControl] = useState(INPUT_CONTOL_INIT_STATE);
-  const [emailInputControl, setEmailInputControl] = useState(INPUT_CONTOL_INIT_STATE);
-  const [passwordInputControl, setPasswordInputControl] = useState(INPUT_CONTOL_INIT_STATE);
+  const [fullNameInputControl, setFullNameInputControl] = useState(INPUT_CONTROL_INIT_STATE);
+  const [emailInputControl, setEmailInputControl] = useState(INPUT_CONTROL_INIT_STATE);
+  const [passwordInputControl, setPasswordInputControl] = useState(INPUT_CONTROL_INIT_STATE);
 
   useEffect(() => {
     if (!fullNameInputControl.hasError && !emailInputControl.hasError && !passwordInputControl.hasError) {

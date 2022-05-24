@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 
 import { AuthContext } from 'context';
+import { INPUT_CONTROL_INIT_STATE } from 'helpers/input_control_init_state';
 
 import { Button, Spinner } from 'components/ui';
 import { LogoIcon } from 'components/icons';
@@ -23,11 +24,6 @@ export const SigninForm = () => {
 
   const { signin } = useContext(AuthContext);
   const router = useRouter();
-  const INPUT_CONTROL_INIT_STATE = {
-    value: '',
-    hasError: false,
-    errorMsj: ''
-  };
 
   const [errorMessage, setErrorMessage] = useState('');
   const [isValidForm, setValidForm] = useState(false);
@@ -112,17 +108,6 @@ export const SigninForm = () => {
         handlePasswordState={setPasswordInputControl}
       />
       { !!errorMessage && errorMessage }
-      <Section>
-        <Wrapper>
-          <Label>
-            <Checkbox type="checkbox" /> 
-              Remember me
-          </Label>
-        </Wrapper>
-        <Wrapper>
-          <A>Forgot Password?</A>
-        </Wrapper>
-      </Section>
       <ButtonWrapper>
         <Button
           bgColor={lightTheme.color_primary_0}

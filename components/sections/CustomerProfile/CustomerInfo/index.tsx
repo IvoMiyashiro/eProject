@@ -25,7 +25,7 @@ export const CustomerInfo = ({ handleEditProfileModalOpen }: Props) => {
             src={USER_PROFILE_IMAGE}
             alt={customer?.name}
             layout="fill"
-            objectFit="contain"
+            objectFit="cover"
           />
         </ImageWrapper>
         {

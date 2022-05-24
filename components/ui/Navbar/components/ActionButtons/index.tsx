@@ -48,7 +48,7 @@ export const ActionButtons = () => {
                       src={customer!.profile_image || '/images/profile_image.png'}
                       alt={customer!.name}
                       layout="fill"
-                      objectFit="contain"
+                      objectFit="cover"
                     />
                   </ImageWrapper>
                   <UserDropdown image={customer!.profile_image} name={customer!.name} email={customer!.email} role={customer!.role}/>

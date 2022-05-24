@@ -41,6 +41,7 @@ export const Customer = ({
             layout="fill"
             placeholder="blur"
             src={ USER_PROFILE_IMAGE as string }
+            objectFit="cover"
           />
         </ImageWrapper>
         <Wrapper>

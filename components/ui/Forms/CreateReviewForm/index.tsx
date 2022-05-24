@@ -95,7 +95,7 @@ export const CreateReviewForm = ({ product_id, handleModalOpen, handleAddReview 
   };
 
   return (
-    <Form onSubmit={ handleSubmit }>
+    <Form onSubmit={handleSubmit}>
       {
         isLoading
           ? (

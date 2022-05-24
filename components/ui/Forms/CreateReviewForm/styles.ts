@@ -1,16 +1,14 @@
 import styled from 'styled-components';
 
 export const Form = styled.form`
-  align-items: center;
   background-color: ${props => props.theme.color_ui_background};
   border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  max-height: 650px;
   max-width: 600px;
   min-height: 500px;
   min-width: 300px;
   width: 600px;
+  overflow-y: scroll;
 `;
 
 export const SpinnerWrapper = styled.div`

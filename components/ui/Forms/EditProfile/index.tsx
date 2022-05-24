@@ -1,41 +1,58 @@
-import { FormEvent, SetStateAction, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
 
+import { useForm, useImage } from 'hooks';
 import { AuthContext } from 'context';
-import { updateCustomerData as updateCustomerDBData } from 'services';
-import { InputControl, Button, Spinner } from 'components/ui';
+import { fileUpload, updateCustomerData as updateCustomerDBData } from 'services';
+import { INPUT_CONTROL_INIT_STATE } from 'helpers/input_control_init_state';
+
+import { PhotoIcon } from 'components/icons';
+import { InputControl, Button, Spinner, Modal, ConfirmTab } from 'components/ui';
 
 import { lightTheme } from 'styles';
-import { ButtonWrapper, Div, Form, H2, P } from './styles';
+import { ButtonWrapper, Div, Form, H2, ImageWrapper, P, Section, Wrapper } from './styles';
 
-interface Props { handleCloseChildren: (value: SetStateAction<boolean>) => void; }
+export const EditProfile = () => {
 
-export const EditProfile = ({ handleCloseChildren }: Props) => {
+  const { customer, signout } = useContext(AuthContext);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
-  const { customer, updateCustomerData } = useContext(AuthContext);
+  const [nameInputControl, setNameInputControl] = useState(INPUT_CONTROL_INIT_STATE);
+  const [emailInputControl, setEmailInputControl] = useState(INPUT_CONTROL_INIT_STATE);
+  const [phoneInputControl, setPhoneInputControl] = useState(INPUT_CONTROL_INIT_STATE);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const { image, handleInputClick, handleImageChange } = useImage({ inputRef });
+  const { isLoading, isValidForm, handleSubmit } = useForm({
+    states: [{
+      state: nameInputControl,
+      handleState: setNameInputControl
+    },{
+      state: emailInputControl,
+      handleState: setEmailInputControl
+    }],
+    callbacks: {
+      async updateData() {
 
-  const NAME_INPUT_CONTROL_INIT_STATE = {
-    value: '',
-    hasError: false,
-    errorMsj: ''
-  };
+        let newProfileImageUrl = customer?.profile_image;
+        if (image.file !== undefined) {
+          newProfileImageUrl = await fileUpload(image.file);
+        }
 
-  const EMAIL_INPUT_CONTROL_INIT_STATE = {
-    value: '',
-    hasError: false,
-    errorMsj: ''
-  };
+        await updateCustomerDBData({
+          customer_id: customer!.id,
+          name: nameInputControl.value,
+          email: emailInputControl.value,
+          phone_number: phoneInputControl.value,
+          profile_image: !!newProfileImageUrl ? newProfileImageUrl : ''
+        });
 
-  const PHONE_INPUT_CONTROL_INIT_STATE = {
-    value: '',
-    hasError: false,
-    errorMsj: ''
-  };
-
-  const [nameInputControl, setNameInputControl] = useState(NAME_INPUT_CONTROL_INIT_STATE);
-  const [emailInputControl, setEmailInputControl] = useState(EMAIL_INPUT_CONTROL_INIT_STATE);
-  const [phoneInputControl, setPhoneInputControl] = useState(PHONE_INPUT_CONTROL_INIT_STATE);
-  const [isLoading, setLoading] = useState(false);
-  const [isValidForm, setValidForm] = useState(true);
+        signout();
+        router.push('/auth/signin');
+      },
+    }
+  });
 
   useEffect(() => {
     if (!!customer) {
@@ -51,48 +68,25 @@ export const EditProfile = ({ handleCloseChildren }: Props) => {
     }
   }, [customer]);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    let valid = true;
-    
-    if (nameInputControl.value.length === 0) {
-      setNameInputControl({
-        ...nameInputControl,
-        hasError: true,
-        errorMsj: '* Name must be filled.'
-      });
-      valid = false;
-      setValidForm(false);
-    }
-
-    if (emailInputControl.value.length === 0) {
-      setEmailInputControl({
-        ...emailInputControl,
-        hasError: true,
-        errorMsj: '* Email must be filled.'
-      });
-      valid = false;
-      setValidForm(false);
-    }
-
-    if (!valid) return;
-
-    setLoading(true);
-    const { name, email, phone_number } = await updateCustomerDBData({ 
-      customer_id: customer!.id,
-      name: nameInputControl.value,
-      email: emailInputControl.value,
-      phone_number: phoneInputControl.value
-    });
-    updateCustomerData({ name, email, phone_number });
-    handleCloseChildren(false);
-  };
-
   return (
     <Form onSubmit={handleSubmit}>
       <H2>Edit profile</H2>
       <P>* After submiting the edit profile form you have to restart your session.</P>
       <Div>
+        <ImageWrapper onClick={handleInputClick}>
+          <Image
+            src={!!image.fileUrl ? image.fileUrl : customer!.profile_image }
+            alt={customer?.name}
+            layout="fill"
+            objectFit="cover"
+          />
+          <Wrapper>
+            <Section>
+              <PhotoIcon width="20px" height="20px" color="white" />
+            </Section>
+          </Wrapper>
+          <input hidden type="file" ref={inputRef} onChange={handleImageChange} />
+        </ImageWrapper>
         <InputControl
           type="text"
           placeholder="Name"
@@ -107,7 +101,7 @@ export const EditProfile = ({ handleCloseChildren }: Props) => {
         />
         <InputControl
           type="tel"
-          placeholder="Phone"
+          placeholder="Phone (optional)"
           state={phoneInputControl}
           handleStateValue={setPhoneInputControl}
         />
@@ -117,7 +111,7 @@ export const EditProfile = ({ handleCloseChildren }: Props) => {
           textColor={lightTheme.color_ui_text_contrast}
           bgColor={lightTheme.color_primary_0}
           bRadius="4px"
-          type="submit"
+          onClick={() => setModalOpen(true)}
           disabled={isValidForm ? false : true}
         >
           {
@@ -127,6 +121,21 @@ export const EditProfile = ({ handleCloseChildren }: Props) => {
           }
         </Button>
       </ButtonWrapper>
+      {
+        isModalOpen
+        &&
+        <Modal handleCloseChildren={() => setModalOpen(false)}>
+          <ConfirmTab 
+            title="Edit profile"
+            text="Are you sure you want to edit your profile and logout?"
+            mainButtonChildren={ isLoading ? <Spinner size="14px" /> : 'Logout'}
+            mainButtonColor={lightTheme.color_primary_0}
+            mainButtonTextColor={lightTheme.color_ui_text_contrast}
+            onConfirm={handleSubmit}
+            onCancel={() => setModalOpen(false)}
+          />
+        </Modal>
+      }
     </Form>
   );
 };

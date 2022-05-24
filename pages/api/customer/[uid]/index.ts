@@ -32,9 +32,9 @@ const updateCustomerData = async (req: NextApiRequest, res: NextApiResponse<Data
     });
   }
 
-  const { name, email, phone_number } = req.body;
-  const query = 'UPDATE customer SET name = $1, email = $2, phone_number = $3 WHERE id = $4 RETURNING *';
-  const values = [name, email, phone_number, uid];
+  const { name, email, phone_number, profile_image } = req.body;
+  const query = 'UPDATE customer SET name = $1, email = $2, phone_number = $3, profile_image = $4 WHERE id = $5 RETURNING *';
+  const values = [name, email, phone_number, profile_image, uid];
 
   try {
     const { rows } = await db.conn.query(query, values);

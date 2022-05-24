@@ -11,7 +11,7 @@ interface Props {
   mainButtonChildren: any
   secondButtonColor?: string;
   secondButtonTextColor?: string;
-  onConfirm: () => void;
+  onConfirm: any;
   onCancel: () => void;
 }
 

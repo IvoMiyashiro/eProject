@@ -13,7 +13,7 @@ import { InputControl, Button, Spinner, Modal, ConfirmTab } from 'components/ui'
 import { lightTheme } from 'styles';
 import { ButtonWrapper, Div, Form, H2, ImageWrapper, P, Section, Wrapper } from './styles';
 
-export const EditProfile = () => {
+export const EditProfileForm = () => {
 
   const { customer, signout } = useContext(AuthContext);
   const inputRef = useRef<HTMLInputElement>(null);

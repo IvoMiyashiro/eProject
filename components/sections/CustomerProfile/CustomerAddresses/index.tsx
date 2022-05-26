@@ -1,10 +1,15 @@
-import { ArrowRightIcon } from 'components/icons';
-import { Button } from 'components/ui';
-import { lightTheme } from 'styles';
+import { useState } from 'react';
 
+import { ArrowRightIcon } from 'components/icons';
+import { Button, CreateNewAddressForm, Modal } from 'components/ui';
+
+import { lightTheme } from 'styles';
 import { H3, Wrapper,  Div, P } from './styles';
 
 export const CustomerAddresses = () => {
+
+  const [isAddNewAddressModalOpen, setAddNewAddressModalOpen] = useState(false);
+
   return (
     <div>
       <H3>Addresses</H3>
@@ -13,6 +18,7 @@ export const CustomerAddresses = () => {
           bgColor={lightTheme.color_neutral_1}
           bRadius="4px"
           textColor={lightTheme.color_ui_text_main}
+          onClick={() => setAddNewAddressModalOpen(true)}
         >
           <Wrapper>
             <P>Add new address</P>
@@ -20,6 +26,13 @@ export const CustomerAddresses = () => {
           </Wrapper>
         </Button>
       </Div>
+      {
+        isAddNewAddressModalOpen
+        &&
+        <Modal handleCloseChildren={() => setAddNewAddressModalOpen(false)}>
+          <CreateNewAddressForm handleAddNewAddressModalOpen={setAddNewAddressModalOpen}/>
+        </Modal>
+      }
     </div>
   );
 };

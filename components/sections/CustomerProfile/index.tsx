@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { MapLinks, Modal, SideInfoCard, EditProfile } from 'components/ui';
+import { MapLinks, Modal, SideInfoCard, EditProfileForm, CreateNewAddressForm } from 'components/ui';
 import { CustomerInfo } from './CustomerInfo';
 import { CustomerAddresses } from './CustomerAddresses';
 
@@ -18,7 +18,6 @@ export const CustomerProfile = () => {
   }];
   
   const [isEditProfileModalOpen, setEditProfileModalOpen] = useState(false);
-  const [isAddNewAddressModalOpen, setAddNewAddressModalOpen] = useState(false);
 
   return (
     <>
@@ -31,7 +30,7 @@ export const CustomerProfile = () => {
           />
         </Wrapper>
         <CustomerInfoWrapper>
-          <CustomerInfo handleEditProfileModalOpen={setEditProfileModalOpen}/>
+          <CustomerInfo handleEditProfileModalOpen={setEditProfileModalOpen} />
           <CustomerAddresses />
         </CustomerInfoWrapper>
       </Div>
@@ -39,14 +38,7 @@ export const CustomerProfile = () => {
         isEditProfileModalOpen
         &&
         <Modal handleCloseChildren={() => setEditProfileModalOpen(false)}>
-          <EditProfile handleCloseChildren={() => setEditProfileModalOpen(false)} />
-        </Modal>
-      }
-      {
-        isAddNewAddressModalOpen
-        &&
-        <Modal handleCloseChildren={() => setAddNewAddressModalOpen(false)}>
-          
+          <EditProfileForm />
         </Modal>
       }
     </>

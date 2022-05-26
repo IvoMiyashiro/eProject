@@ -9,7 +9,7 @@ import { Section, ImageWrapper, Ul, Li, P, H2, Button } from './styles';
 import { lightTheme } from 'styles';
 
 interface Props {
-  handleEditProfileModalOpen: Dispatch<SetStateAction<boolean>>
+  handleEditProfileModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export const CustomerInfo = ({ handleEditProfileModalOpen }: Props) => {

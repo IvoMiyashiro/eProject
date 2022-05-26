@@ -14,3 +14,4 @@ export * from './getRating';
 export * from './deleteReview';
 export * from './updateCustomerData';
 export * from './fileUpload';
+export * from './createAddress';

@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS review (
   cons TEXT NOT NULL DEFAULT '',
   overall TEXT NOT NULL DEFAULT '',
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT fk_user_id
+  CONSTRAINT fk_customer_id
   FOREIGN KEY(customer_id)
   REFERENCES customer(id)
   ON DELETE CASCADE
@@ -143,3 +143,27 @@ MINVALUE 1000
 OWNED BY order_info.id;
 
 /* Order */
+
+/* Customer address */
+
+CREATE TABLE IF NOT EXISTS customer_address (
+  id SERIAL PRIMARY KEY,
+  customer_id VARCHAR(100),
+  address VARCHAR(2048),
+  zip VARCHAR(100),
+  province VARCHAR(100),
+  locality VARCHAR(100),
+  additional_info VARCHAR(2048),
+  CONSTRAINT fk_customer_id
+  FOREIGN KEY(customer_id)
+  REFERENCES customer(id)
+  ON DELETE CASCADE
+);
+
+CREATE SEQUENCE customer_address_id
+START 1000
+INCREMENT 1
+MINVALUE 1000
+OWNED BY customer_address.id;
+
+/* Customer address */

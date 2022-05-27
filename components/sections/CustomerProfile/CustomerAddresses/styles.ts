@@ -5,7 +5,16 @@ export const H3 = styled.h3`
 `;
 
 export const Div = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
   margin-top: 1em;
+`;
+
+export const AddressList = styled.div`
+  display: grid;
+  grid-template-columns: 0.5fr 0.5fr;
+  gap: 1em;
 `;
 
 export const Wrapper = styled.div`

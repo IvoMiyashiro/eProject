@@ -10,3 +10,4 @@ export * from './useProduct';
 export * from './useRating';
 export * from './useForm';
 export * from './useImage';
+export * from './useAddress';

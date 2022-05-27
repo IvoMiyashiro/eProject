@@ -9,9 +9,9 @@ import { Modal, Spinner, ConfirmTab } from 'components/ui';
 import { DotsIcon } from 'components/icons';
 import { ReviewInfo } from '../ReviewInfo';
 
+import { lightTheme } from 'styles';
 import { Td, Tr } from '../../styles';
 import { Button, FirstTd, ImageWrapper, LastTd, Li, Menu, P, Ul, Wrapper } from './styles';
-import { lightTheme } from 'styles';
 
 interface Props {
   review_id: string;

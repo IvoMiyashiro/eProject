@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 };
 
-const createAddress = (req: NextApiRequest, res: NextApiResponse<Data>) => {
+const createAddress = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   const { customer_id, address, zip, province, locality, additional_info } = req.body;
 
@@ -33,7 +33,7 @@ const createAddress = (req: NextApiRequest, res: NextApiResponse<Data>) => {
   const values = [customer_id, address, zip, province, locality, additional_info];
 
   try {
-    const { rows } = db.conn.query(query, values);
+    const { rows } = await db.conn.query(query, values);
 
     return res.status(200).json({
       ok: true,
@@ -51,8 +51,28 @@ const createAddress = (req: NextApiRequest, res: NextApiResponse<Data>) => {
   }
 };
 
-const getAddress = (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  
+const getAddress = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+  const { uid } = req.query;
+
+  const query = 'SELECT * FROM customer_address WHERE customer_id = $1';
+  const value = [uid];
+
+  try {
+    const { rows } = await db.conn.query(query, value);
+
+    return res.status(200).json({
+      ok: true,
+      address: rows
+    });
+    
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      ok: false,
+      message: 'Internal server error.'
+    });
+  }
 };
 
 const deleteAddress = (req: NextApiRequest, res: NextApiResponse<Data>) => {

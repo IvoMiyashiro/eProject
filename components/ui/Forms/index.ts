@@ -2,4 +2,4 @@ export * from './CheckoutForms';
 export * from './SignForms';
 export * from './CreateReviewForm';
 export * from './EditProfileForm';
-export * from './CreateNewAddressForm';
+export * from './AddressForm';

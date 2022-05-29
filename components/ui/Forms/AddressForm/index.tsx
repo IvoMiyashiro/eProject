@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction, useContext, useState } from 'react';
 
-import { useForm, useLocalities } from 'hooks';
-import { createAddress } from 'services';
+import { IAddress } from 'interfaces';
 import { AuthContext } from 'context';
+import { useForm, useLocalities } from 'hooks';
 import { provinces } from 'utils';
 import { INPUT_CONTROL_INIT_STATE } from 'helpers/input_control_init_state';
 
@@ -12,19 +12,47 @@ import { lightTheme } from 'styles';
 import { Form, H2, Div, ButtonWrapper } from './styles';
 
 interface Props {
-  handleAddNewAddressModalOpen: Dispatch<SetStateAction<boolean>>;
+  type: 'create' | 'update';
+  address_id?: string;
+  address?: string;
+  zip?: string;
+  province?: string;
+  locality?: string;
+  additionalInfo?: string;
+  onSubmit: ({ address_id, customer_id, address, zip, province, locality, additional_info, }: any) => Promise<{
+    ok: false;
+    message: string;
+    address?: undefined;
+} | {
+    ok: true;
+    address: IAddress;
+    message?: undefined;
+}>
+  handleAddresses: Dispatch<SetStateAction<IAddress[] | []>>
+  handleAddressModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export const CreateNewAddressForm = ({ handleAddNewAddressModalOpen }: Props) => {
+export const AddressForm = ({
+  type,
+  address_id,
+  address,
+  zip,
+  province,
+  locality,
+  additionalInfo,
+  onSubmit,
+  handleAddresses,
+  handleAddressModalOpen
+}: Props) => {
 
   const { customer } = useContext(AuthContext);
 
-  const [addressInputControl, setAddressInputControl] = useState(INPUT_CONTROL_INIT_STATE);
-  const [zipInputControl, setZipInputControl] = useState(INPUT_CONTROL_INIT_STATE);
-  const [provinceInputControl, setProvinceInputControl] = useState(INPUT_CONTROL_INIT_STATE);
-  const [localityInputControl, setLocalityInputControl] = useState(INPUT_CONTROL_INIT_STATE);
-  const [additionalInfoInputControl, setAdditionalInfoInputControl] = useState(INPUT_CONTROL_INIT_STATE);
-  const { localities } = useLocalities(provinceInputControl.value);
+  const [addressInputControl, setAddressInputControl] = useState(!!address ? { ...INPUT_CONTROL_INIT_STATE, value: address } : INPUT_CONTROL_INIT_STATE);
+  const [zipInputControl, setZipInputControl] = useState(!!zip ? { ...INPUT_CONTROL_INIT_STATE, value: zip } : INPUT_CONTROL_INIT_STATE);
+  const [provinceInputControl, setProvinceInputControl] = useState(!!province ? { ...INPUT_CONTROL_INIT_STATE, value: province } : INPUT_CONTROL_INIT_STATE);
+  const [localityInputControl, setLocalityInputControl] = useState(!!locality ? { ...INPUT_CONTROL_INIT_STATE, value: locality } : INPUT_CONTROL_INIT_STATE);
+  const [additionalInfoInputControl, setAdditionalInfoInputControl] = useState(!!additionalInfo ? { ...INPUT_CONTROL_INIT_STATE, value: additionalInfo } : INPUT_CONTROL_INIT_STATE);
+  const { localities } = useLocalities(!!province ? province : provinceInputControl.value);
   const { isLoading, isValidForm, handleSubmit } = useForm({
     states: [{
       state: addressInputControl,
@@ -40,8 +68,9 @@ export const CreateNewAddressForm = ({ handleAddNewAddressModalOpen }: Props) =>
       handleState: setLocalityInputControl
     }],
     callbacks: {
-      async startCreatingAddress({ setValidForm, setLoading }: any) {
-        const { ok } = await createAddress({
+      async startSubmiting({ setValidForm, setLoading }: any) {
+        const { ok, address: newAddress } = await onSubmit({
+          address_id,
           customer_id: customer!.id,
           address: addressInputControl.value,
           zip: zipInputControl.value,
@@ -51,7 +80,18 @@ export const CreateNewAddressForm = ({ handleAddNewAddressModalOpen }: Props) =>
         });
 
         if (!ok) return setLoading(false);
-        handleAddNewAddressModalOpen(false);
+
+        if (type === 'create') {
+          handleAddresses(prev => ([newAddress, ...prev]));
+        } else {
+          handleAddresses(prev => (
+            prev.map(address => {
+              if (address.id === address_id) return newAddress;
+              return address;
+            })
+          ));
+        }
+        handleAddressModalOpen(false);
       }
     }
   });

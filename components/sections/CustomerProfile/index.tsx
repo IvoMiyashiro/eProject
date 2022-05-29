@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { MapLinks, Modal, SideInfoCard, EditProfileForm, CreateNewAddressForm } from 'components/ui';
+import { MapLinks, Modal, SideInfoCard, EditProfileForm } from 'components/ui';
 import { CustomerInfo } from './CustomerInfo';
 import { CustomerAddresses } from './CustomerAddresses';
 

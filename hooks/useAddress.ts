@@ -1,13 +1,13 @@
 import { IAddress } from 'interfaces';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 interface Props { uid: string | undefined; }
-interface Return { isLoading: boolean; addresses: IAddress[]; }
+interface Return { isLoading: boolean; addresses: IAddress[]; setAddresses:  Dispatch<SetStateAction<IAddress[] | []>>}
 
 export const useAddress = ({ uid }: Props): Return => {
   
   const [isLoading, setLoading] = useState(true);
-  const [addresses, setAddresses] = useState([]);
+  const [addresses, setAddresses] = useState<IAddress[] | []>([]);
 
   useEffect(() => {
     if (uid === undefined) return;
@@ -21,6 +21,7 @@ export const useAddress = ({ uid }: Props): Return => {
 
   return {
     isLoading,
-    addresses
+    addresses,
+    setAddresses
   };
 };

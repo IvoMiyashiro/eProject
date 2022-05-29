@@ -1,7 +1,6 @@
-import { IAddress } from 'interfaces';
-
 interface Props {
   customer_id: string;
+  address_id: string;
   address: string;
   zip: string;
   province: string;
@@ -9,25 +8,23 @@ interface Props {
   additional_info: string;
 }
 
-interface Response { ok: boolean; address: IAddress; message: string;}
-
-export const createAddress = async ({
+export const updateAddress = async ({
   customer_id,
+  address_id,
   address,
   zip,
   province,
   locality,
   additional_info,
 }: Props) => {
-
   const resp = await fetch(`/api/customer/${customer_id}/address`, {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ 
-      customer_id,
+      address_id,
       address,
       zip, 
       province, 
@@ -36,9 +33,7 @@ export const createAddress = async ({
     }),
   });
 
-  const { ok, address: DBAddress, message }: Response = await resp.json();
-
-  if (!ok) return { ok, message };
+  const { ok, address: DBAddress } = await resp.json();
 
   return { ok, address: DBAddress };
 };

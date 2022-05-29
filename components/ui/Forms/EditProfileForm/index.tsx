@@ -15,15 +15,16 @@ import { ButtonWrapper, Div, Form, H2, ImageWrapper, P, Section, Wrapper } from 
 
 export const EditProfileForm = () => {
 
-  const { customer, signout } = useContext(AuthContext);
-  const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { customer, signout } = useContext(AuthContext);
+  const { image, handleInputClick, handleImageChange } = useImage({ inputRef });
+  const profileImage = !!image.fileUrl ? image.fileUrl : (customer?.profile_image ? customer.profile_image : '/images/profile_image.png');
 
   const [nameInputControl, setNameInputControl] = useState(INPUT_CONTROL_INIT_STATE);
   const [emailInputControl, setEmailInputControl] = useState(INPUT_CONTROL_INIT_STATE);
   const [phoneInputControl, setPhoneInputControl] = useState(INPUT_CONTROL_INIT_STATE);
   const [isModalOpen, setModalOpen] = useState(false);
-  const { image, handleInputClick, handleImageChange } = useImage({ inputRef });
   const { isLoading, isValidForm, handleSubmit } = useForm({
     states: [{
       state: nameInputControl,
@@ -75,7 +76,7 @@ export const EditProfileForm = () => {
       <Div>
         <ImageWrapper onClick={handleInputClick}>
           <Image
-            src={!!image.fileUrl ? image.fileUrl : customer!.profile_image }
+            src={profileImage}
             alt={customer?.name}
             layout="fill"
             objectFit="cover"

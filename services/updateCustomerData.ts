@@ -7,7 +7,6 @@ interface Props {
 }
 
 export const updateCustomerData = async ({ customer_id, name, email, phone_number, profile_image }: Props) => {
-  console.log(profile_image);
   const resp = await fetch(`/api/customer/${customer_id}`, {
     method: 'PUT',
     headers: {

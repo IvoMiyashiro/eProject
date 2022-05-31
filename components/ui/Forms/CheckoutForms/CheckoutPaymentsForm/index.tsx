@@ -30,9 +30,9 @@ export const CheckoutPaymentsForm = () => {
             value="visa"
             text='This card allow you to test the payment process'
             icon={<CreditCard width="25px" heigh="25px" />}
-            hisValue={visaTestCard}
+            isSelected={visaTestCard}
             onChange={setInputRadioValue}
-            handleHisValue={setVisaTestCard}
+            handleSelected={setVisaTestCard}
             handleOtherValues={[setMasterTest]}
           />
           <InputRadioCard
@@ -41,9 +41,9 @@ export const CheckoutPaymentsForm = () => {
             value="master"
             text='This card allow you to test the payment process'
             icon={<CreditCard width="25px" heigh="25px" />}
-            hisValue={masterTestCard}
+            isSelected={masterTestCard}
             onChange={setInputRadioValue}
-            handleHisValue={setMasterTest}
+            handleSelected={setMasterTest}
             handleOtherValues={[setVisaTestCard]}
           />
           <LinkCard

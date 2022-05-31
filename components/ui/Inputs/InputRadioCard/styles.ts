@@ -39,7 +39,7 @@ export const Div = styled.div`
 export const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  gap: 0.75em;
 `;
 
 export const Span = styled.span`
@@ -59,6 +59,7 @@ export const Input = styled.input``;
 export const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 0.25em;
 `;
 
 export const P = styled.p``;

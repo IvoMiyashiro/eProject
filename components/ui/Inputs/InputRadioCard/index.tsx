@@ -3,14 +3,14 @@ import { Label, Div, Input, P, Wrapper, Span, IconWrapper, TextWrapper, Text } f
 
 interface Props {
   name: string;
-  value: string;
+  value: any;
   title?: string;
   text?: string;
   icon: any;
-  hisValue: boolean;
+  isSelected: boolean;
   price?: string;
-  onChange: (value: string) => void ;
-  handleHisValue: Dispatch<SetStateAction<boolean>>;
+  onChange: Dispatch<SetStateAction<any>>;
+  handleSelected: Dispatch<SetStateAction<boolean>>;
   handleOtherValues: Dispatch<SetStateAction<boolean>>[];
 }
 
@@ -20,10 +20,10 @@ export const InputRadioCard = ({
   text,
   value,
   icon,
-  hisValue,
+  isSelected,
   price,
   onChange,
-  handleHisValue,
+  handleSelected,
   handleOtherValues,
 }: Props) => {
 
@@ -33,21 +33,21 @@ export const InputRadioCard = ({
   const handleClick = () => {
     onChange(value);
     if (inputRef.current?.checked) {
-      handleOtherValues.map(func => {
+      handleOtherValues?.map(func => {
         func(false);
       });
-      return handleHisValue(true);
+      return handleSelected(true);
     }
 
-    handleOtherValues.map(func => {
+    handleOtherValues?.map(func => {
       func(true);
     });
-    handleHisValue(false);
+    handleSelected(false);
   };
 
   return (
     <Label
-      isSelected={hisValue}
+      isSelected={isSelected}
       isHover={isHover}
       onMouseOver={() => setHover(true)}
       onMouseLeave={() => setHover(false)}

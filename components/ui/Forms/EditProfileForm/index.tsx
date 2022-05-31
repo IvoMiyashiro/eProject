@@ -132,6 +132,8 @@ export const EditProfileForm = () => {
             mainButtonChildren={ isLoading ? <Spinner size="14px" /> : 'Logout'}
             mainButtonColor={lightTheme.color_primary_0}
             mainButtonTextColor={lightTheme.color_ui_text_contrast}
+            isOpen={isModalOpen}
+            handleOpen={setModalOpen}
             onConfirm={handleSubmit}
             onCancel={() => setModalOpen(false)}
           />

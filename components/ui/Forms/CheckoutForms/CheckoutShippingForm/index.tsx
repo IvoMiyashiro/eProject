@@ -38,10 +38,10 @@ export const CheckoutShippingForm = () => {
           title="Ship to my home"
           value="delivery"
           icon={<TruckIcon width="25px" heigh="25px" />}
-          hisValue={shippingIRSelected}
+          isSelected={shippingIRSelected}
           price="Free"
           onChange={setInputRadioValue}
-          handleHisValue={setShippingIRSelected}
+          handleSelected={setShippingIRSelected}
           handleOtherValues={[setTakeAwayIRSelected]}
         />
         <InputRadioCard
@@ -49,10 +49,10 @@ export const CheckoutShippingForm = () => {
           title="Pick up from shop"
           value="pick up"
           icon={<ShopIcon width="25px" heigh="25px" />}
-          hisValue={takeAwayIRSelected}
+          isSelected={takeAwayIRSelected}
           price="Free"
           onChange={setInputRadioValue}
-          handleHisValue={setTakeAwayIRSelected}
+          handleSelected={setTakeAwayIRSelected}
           handleOtherValues={[setShippingIRSelected]}
         />
       </Div>

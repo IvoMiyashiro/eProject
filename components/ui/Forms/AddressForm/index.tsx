@@ -28,7 +28,7 @@ interface Props {
     address: IAddress;
     message?: undefined;
 }>
-  handleAddresses: Dispatch<SetStateAction<IAddress[] | []>>
+  handleAddresses: Dispatch<SetStateAction<IAddress[] | []>>;
   handleAddressModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -82,6 +82,7 @@ export const AddressForm = ({
         if (!ok) return setLoading(false);
 
         if (type === 'create') {
+          console.log(newAddress);
           handleAddresses(prev => ([newAddress, ...prev]));
         } else {
           handleAddresses(prev => (

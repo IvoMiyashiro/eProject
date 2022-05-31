@@ -1,13 +1,13 @@
 import { createContext } from 'react';
-import { Address } from 'interfaces';
+import { IAddress } from 'interfaces';
 
 interface ContextProps {
   shippingMethod: 'delivery' | 'pick up' | '' | undefined;
-  address: Address | undefined;
+  address: IAddress | undefined;
 
   //Methods
   setShippingMethod: (method: string) => void;
-  setAddressInfo: (data: Address) => void;
+  setAddressInfo: (data: IAddress) => void;
   resetCheckout: () => void;
 }
 

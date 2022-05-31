@@ -1,12 +1,12 @@
 import { FC, useEffect, useReducer } from 'react';
 
-import { Address } from 'interfaces';
+import { IAddress } from 'interfaces';
 import { CheckoutContext, checkoutReducer } from './';
 import { useRouter } from 'next/router';
 
 export interface CheckoutState { 
   shippingMethod: 'delivery' | 'pick up' | '' | undefined;
-  address: Address | undefined
+  address: IAddress | undefined
 }
 
 const CHECKOUT_INIT_STATE: CheckoutState = { 
@@ -35,7 +35,7 @@ export const CheckoutProvider: FC = ({ children }) => {
     }
   };
 
-  const setAddressInfo = (data: Address) => {
+  const setAddressInfo = (data: IAddress) => {
     dispatch({ type: '[CHECKOUT] - Load Address', payload: data });
   };
 

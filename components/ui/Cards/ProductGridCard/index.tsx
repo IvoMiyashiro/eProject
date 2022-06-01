@@ -12,7 +12,7 @@ import { AddToCartButton, Header, Div, ImageWrapper, InfoWrapper, Title, H2, Pri
 interface Props { product: IProduct; }
 
 const ProductGridCard = ({ product }: Props) => {
-
+  console.log(product);
   const { cart, addToCart, removeFromCart } = useContext(CartContext);
   const [isInCart, setInCart] = useState(false);
   const [isButtonHover, setButtonHover] = useState(false);
@@ -88,7 +88,11 @@ const ProductGridCard = ({ product }: Props) => {
           <Brand>
             {product.brand}
           </Brand>
-          <Rating rating={5} />
+          {
+            !!product.rating
+            &&
+            <Rating rating={product.rating} />
+          }
         </Header>
         <Link href={`/products/${product.id}`} passHref>
           <Title>

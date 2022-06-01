@@ -1,12 +1,13 @@
-import { Dispatch, SetStateAction, useContext } from 'react';
+import { Dispatch, SetStateAction, useContext, useState } from 'react';
 import Image from 'next/image';
 
 import { AuthContext } from 'context';
+import { Toast } from 'components/ui';
 import { EditIcon, EmailIcon, PhoneIcon } from 'components/icons';
 import { Skeleton } from './Skeleton';
 
-import { Section, ImageWrapper, Ul, Li, P, H2, Button } from './styles';
 import { lightTheme } from 'styles';
+import { Section, ImageWrapper, Ul, Li, P, H2, Button } from './styles';
 
 interface Props {
   handleEditProfileModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -15,7 +16,16 @@ interface Props {
 export const CustomerInfo = ({ handleEditProfileModalOpen }: Props) => {
 
   const { customer } = useContext(AuthContext);
+  const [isToastVisible, setToastVisible] = useState(false);
   const USER_PROFILE_IMAGE = !!customer?.profile_image ? customer?.profile_image : '/images/profile_image.png';
+
+  const handleEditButtonClick = () => {
+    if (customer?.id === process.env.TESTING_USER_ID) {
+      return setToastVisible(true);
+    }
+
+    handleEditProfileModalOpen(false);
+  };
 
   return (
     <>
@@ -52,9 +62,19 @@ export const CustomerInfo = ({ handleEditProfileModalOpen }: Props) => {
             )
         }
       </Section>
-      <Button onClick={() => handleEditProfileModalOpen(true)}>
+      <Button onClick={handleEditButtonClick}>
         <EditIcon width="25px" height="25px" color={lightTheme.color_primary_0 } />
       </Button>
+      {
+        isToastVisible
+        &&
+        <Toast 
+          type="warn"
+          content="Testing users can't be edited."
+          handleVisivility={setToastVisible}
+        />
+      }
+
     </>
   );
 };

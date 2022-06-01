@@ -31,7 +31,7 @@ const getProducts = async(req: NextApiRequest, res: NextApiResponse<Data>, isFil
   
   const offset = req.query.offset || 0;
   
-  const query = 'SELECT * FROM product LIMIT 12 OFFSET ($1)';
+  const query = 'SELECT product.*, AVG(review.rating) AS rating FROM product FULL JOIN review ON product.id = review.product_id GROUP BY product.id ORDER BY product.price DESC LIMIT 12 OFFSET ($1)';
   const value = [offset];
   
   try {

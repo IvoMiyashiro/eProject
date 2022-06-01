@@ -33,7 +33,7 @@ export const CustomerReviews = () => {
     setCurrentPage(pageNumber);
     changeOffset(newOffset);
   };
-
+  console.log(reviewsList);
   return (
     <>
       <MapLinks links={links}/>

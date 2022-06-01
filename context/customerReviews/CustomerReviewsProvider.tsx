@@ -28,9 +28,7 @@ export const CutomerReviewsProvider:FC = ({ children }) => {
   const { limitPerPage, offset, orderBy } = CUSTOMER_REVIEWS_INITIAL_STATE;
 
   useEffect(() => {
-    if (!!customer) {
-      loadReviews(customer!.id, orderBy, offset, limitPerPage);
-    }
+    if (!!customer) loadReviews(customer.id, orderBy, offset, limitPerPage);
   }, [customer, orderBy, offset, limitPerPage]);
 
   const loadReviews = async (customer_id: string, orderBy: any, offset: number, limit: number) => {
@@ -53,11 +51,12 @@ export const CutomerReviewsProvider:FC = ({ children }) => {
           }
         });
         setLoading(false);
-      });
+      })
+      .catch(error => console.log(error));
   };
 
-  const deleteReview = async (product_id: string, review_id: string) => {
-    await deleteDBReview(product_id, review_id); 
+  const deleteReview = async (customer_id: string, product_id: string, review_id: string) => {
+    await deleteDBReview(customer_id, product_id, review_id); 
     dispatch({
       type: '[REVIEWS] - Delete review',
       payload: review_id

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 
 import { AuthContext, CartContext, UiContext } from 'context';
 
-import { CartIcon, DarkModeIcon, UserIcon, BarsIcon } from 'components/icons';
+import { CartIcon, UserIcon, BarsIcon } from 'components/icons';
 import { UserDropdown } from '../UserDropdown';
 
 import { Button, CartItemsCounter, LastButton, Div, ImageWrapper, Skeleton, Section } from './styles';
@@ -18,10 +18,7 @@ export const ActionButtons = () => {
   const router = useRouter();
 
   return (
-    <>          
-      <Button>
-        <DarkModeIcon width="25px" height="25px" />
-      </Button>
+    <>
       <Button onClick={toggleCartMenu}>
         <CartIcon width="25px" height="25px" />
         {  

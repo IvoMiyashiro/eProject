@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { UiContext } from 'context';
 
 import { Searchbar } from '../Searchbar';
-import { CartIcon, CategoryIcon, CraftIcon, DarkModeIcon, HomeIcon, InfoIcon, TagIcon } from 'components/icons';
+import { CartIcon, CategoryIcon, CraftIcon, HomeIcon, InfoIcon, TagIcon } from 'components/icons';
 
 import { Section, Ul, Li, P, Wrapper } from './styles';
 
@@ -65,12 +65,6 @@ export const LinksList = () => {
             <Wrapper>
               <CartIcon width="30px" height="25px" />
               <P>Cart</P>
-            </Wrapper>
-          </Li>
-          <Li>
-            <Wrapper>
-              <DarkModeIcon width="30px" height="25px" />
-              <P>Theme</P>
             </Wrapper>
           </Li>
         </Ul>

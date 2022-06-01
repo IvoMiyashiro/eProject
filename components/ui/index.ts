@@ -25,3 +25,4 @@ export * from './Pagination';
 export * from './RatingStarsFiller';
 export * from './ConfirmTab';
 export * from './TabMenu';
+export * from './Toast';

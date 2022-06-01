@@ -51,7 +51,7 @@ export const CustomerReviews = () => {
             isLoading={isLoading}
           />
           {
-            (reviewsList.length === 0 && isLoading === false)
+            (reviewsList?.length === 0 && isLoading === false)
             &&
             <TextWrapper>
               <P>

@@ -25,7 +25,7 @@ export const CustomerReviewsTable = ({ reviews, isLoading }: Props) => {
             isLoading
               ? <TableSkeleton numOfTr={10} numOfTd={6} />
               : (
-                reviews.map(({ 
+                reviews?.map(({ 
                   id,
                   product_id,
                   title,

@@ -9,9 +9,7 @@ import { TrashIcon } from 'components/icons';
 
 import { Button, Div, H3, ImageContainer, ImageWrapper, P, PriceWrapper, Section, Span, Wrapper } from './styles';
 
-interface Props {
-  product: IProductCart;
-}
+interface Props { product: IProductCart; }
 
 const ProductCartCard = ({ product }: Props) => {
 

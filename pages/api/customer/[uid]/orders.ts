@@ -11,9 +11,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   case 'POST':
     const { uid } = req.query;
     const secret = process.env.NEXTAUTH_SECRET;
-    const token = await getToken({ req, secret });
+    const token: any = await getToken({ req, secret });
 
-    if (token?.sub !== uid) {
+    if (token.user.id !== uid) {
       return res.status(401).json({
         ok: false,
         message: 'Unauthorized.'

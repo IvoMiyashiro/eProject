@@ -10,7 +10,7 @@ interface ContextProps {
   orderBy: any;
 
   //Methods
-  deleteReview: (product_id: string, review_id: string) => Promise<void>;
+  deleteReview: (customer_id: string, product_id: string, review_id: string) => Promise<void>
   changeLimitPerPage: (value: number) => void;
   changeOffset: (value: number) => void;
 }

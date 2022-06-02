@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS product (
   category VARCHAR(100),
   brand VARCHAR(100),
   image_urls VARCHAR(2048)[],
+  total_sold INT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_brand_name
@@ -86,6 +87,7 @@ CREATE TABLE IF NOT EXISTS customer (
   email VARCHAR(100) NOT NULL UNIQUE,
   password VARCHAR(100) NOT NULL,
   profile_image VARCHAR(2048),
+  
   role user_roles
 );
 

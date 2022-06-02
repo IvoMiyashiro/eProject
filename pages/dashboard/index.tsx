@@ -3,8 +3,8 @@ import { DashboardLayout } from 'components/layouts';
 
 const DashboardPage: NextPage = () => {
   return (
-    <DashboardLayout>
-      <p> hola </p>
+    <DashboardLayout sectionTitle="Dashboard">
+      
     </DashboardLayout>
   );
 };

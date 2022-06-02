@@ -26,3 +26,4 @@ export * from './RatingStarsFiller';
 export * from './ConfirmTab';
 export * from './TabMenu';
 export * from './Toast';
+export * from './DashboardMenu';

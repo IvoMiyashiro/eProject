@@ -1,8 +1,8 @@
-import { Address } from 'interfaces';
+import { IAddress } from 'interfaces';
 
 export interface IOrders {
   id: string;
-  address: Address;
+  address: IAddress;
   shipping_method: 'delivery' | 'pick up';
   shipping_status: 'pending' | 'delivered' | 'canceled';
   payment_status: 'pending' | 'paid' | 'canceled';

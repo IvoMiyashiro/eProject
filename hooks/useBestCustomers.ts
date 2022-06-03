@@ -21,7 +21,6 @@ export const useBestCustomers = ({ limit }: Props) => {
       })
       .then(resp => resp.json())
       .then(({ customers }) => {
-        console.log(customers);
         setCustomers(customers);
         setLoading(false);
       })

@@ -2,6 +2,7 @@ import { ReactNode, useContext } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import Image from 'next/image';
 
 import { AuthContext } from 'context';
 
@@ -9,7 +10,6 @@ import { DashboardMenu, Spinner } from 'components/ui';
 
 import { lightTheme } from 'styles';
 import { Main, SpinnerWrapper, Div, Header, H1, Section, P, Wrapper, Underline, ImageWrapper } from './styles';
-import Image from 'next/image';
 
 interface Props {
   children: ReactNode;

@@ -1,12 +1,23 @@
 import { db } from 'database';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { getToken } from 'next-auth/jwt';
 
 type Data = { ok: boolean, message?: string, order?: any }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
   switch( req.method ) {
-  case 'GET':
+  case 'POST':
+    const secret = process.env.NEXTAUTH_SECRET;
+    const token: any = await getToken({ req, secret });
+
+    if (token.user.role !== 'admin') {
+      return res.status(401).json({
+        ok: false,
+        message: 'Unauthorized.'
+      });
+    }
+
     return getOrders(req, res);
   
   case 'PUT':
@@ -21,19 +32,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 };
 
 const getOrders = async (req: NextApiRequest, res: NextApiResponse) => {
+  const limit = req.query.limit === 'undefined' ? 'NULL' : req.query.limit;
+  const offset = req.query.offset === 'undefined' ? 'NULL' : req.query.offset;
 
-  const { customer_id } = req.query;
-
-  const query = 'SELECT * FROM order_info WHERE customer_id = ($1)';
-  const value = [customer_id];
+  const query = `SELECT order_info.*, customer.name FROM order_info INNER JOIN customer ON order_info.customer_id = customer.id ORDER BY created_at DESC LIMIT ${ limit } OFFSET ${ offset }`;
 
   try {
     
-    const { rows } = db.conn.query(query, value);
-
+    const { rows } = await db.conn.query(query);
+    console.log(rows);
     return res.status(200).json({
       ok: true,
-      order: rows[0]
+      orders: rows
     });
 
   } catch (error) {

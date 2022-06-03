@@ -8,5 +8,8 @@ export interface ICustomer {
   phone_number?: string;
   address?: IAddress;
   token: string;
+  total_purchases?: number;
+  created_at: Date;
+  updated_at: Date;
   role: 'admin' | 'client';
 }

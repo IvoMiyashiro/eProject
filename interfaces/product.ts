@@ -11,6 +11,7 @@ export interface IProduct {
   brand:          BrandList;
   labels:         string[];
   image_urls:     string[];
+  total_sold:     number;
   rating?:        number;
   created_at:     Date;
   updated_at:     Date;

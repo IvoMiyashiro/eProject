@@ -8,6 +8,7 @@ export interface IOrders {
   payment_status: 'pending' | 'paid' | 'canceled';
   products_id: string[];
   total_paid: number;
+  name?: string;
   created_at: Date;
   updated_at: Date;
 }

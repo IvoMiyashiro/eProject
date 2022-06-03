@@ -1,6 +1,8 @@
+import styled from 'styled-components';
+
 import { useBestSellers } from 'hooks';
 import { ProductBestSellerCard } from 'components/ui';
-import { H2, Wrapper } from '../styles';
+import { Wrapper } from '../styles';
 
 export const TopProducts = () => {
 
@@ -32,3 +34,7 @@ export const TopProducts = () => {
     </>
   );
 };
+
+const H2 = styled.h2`
+  font-size: 1.15rem;
+`;

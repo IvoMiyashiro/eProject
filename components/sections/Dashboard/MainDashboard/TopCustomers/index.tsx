@@ -1,6 +1,7 @@
+import styled from 'styled-components';
 import { BestCustomerCard } from 'components/ui';
-import { useBestCustomers } from 'hooks/useBestCustomers';
-import { H2, Wrapper } from '../styles';
+import { useBestCustomers } from 'hooks';
+import { Wrapper } from '../styles';
 
 
 export const TopCustomers = () => {
@@ -34,3 +35,7 @@ export const TopCustomers = () => {
     </>
   );
 };
+
+const H2 = styled.h2`
+  font-size: 1.15rem;
+`;

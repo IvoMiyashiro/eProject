@@ -82,7 +82,6 @@ export const AddressForm = ({
         if (!ok) return setLoading(false);
 
         if (type === 'create') {
-          console.log(newAddress);
           handleAddresses(prev => ([newAddress, ...prev]));
         } else {
           handleAddresses(prev => (

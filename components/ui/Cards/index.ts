@@ -7,3 +7,6 @@ export * from './LinkCard';
 export * from './ProductCheckoutCard';
 export * from './SideInfoCard';
 export * from './AddressCard';
+export * from './AnalyticsCard';
+export * from './ProductBestSellerCard';
+export * from './BestCustomerCard';

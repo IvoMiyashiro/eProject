@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useCustomerOrders } from 'hooks';
 
-import { MapLinks, SideInfoCard, CustomerOrdesTable, Pagination } from 'components/ui';
+import { MapLinks, SideInfoCard, CustomerOrdersTable, Pagination } from 'components/ui';
 import { Header } from './Header';
 
 import { Wrapper } from '../Catalog/styles';
@@ -49,7 +49,7 @@ export const CustomerOrders = () => {
             handleSearchOrders={setSearchOrder}
             handleLimitPage={setLimitPageSize}
           /> 
-          <CustomerOrdesTable
+          <CustomerOrdersTable
             orders={orders}
             isLoading={isLoading}
           />

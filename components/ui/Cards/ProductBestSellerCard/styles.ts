@@ -13,6 +13,7 @@ export const ImageContainer = styled.div`
   justify-content: center;
   background-color: ${props => props.theme.color_ui_background};
   border-radius: 8px;
+  cursor: pointer;
 `;
 
 export const ImageWrapper = styled.div`

@@ -11,6 +11,7 @@ height: 100vh;
 export const Div = styled.main`
   display: grid;
   grid-template-columns: 240px 1fr;
+  gap: 2em;
   min-height: 100vh;
 `;
 
@@ -53,9 +54,9 @@ export const Underline = styled.span`
 `;
 
 export const ImageWrapper = styled.div`
-  border-radius: 50%;
-  height: 40px;
-  overflow: hidden;
   position: relative;
   width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
 `;

@@ -11,3 +11,5 @@ export * from './useRating';
 export * from './useForm';
 export * from './useImage';
 export * from './useAddress';
+export * from './useBestSellers';
+export * from './useBestCustomers';

@@ -9,6 +9,8 @@ export const Div = styled.div`
 
 export const H2 = styled.h2`
   font-size: 1.15rem;
+  margin-top: 2em;
+  margin-bottom: 1em;
 `;
 
 export const Wrapper = styled.div`

@@ -1,2 +1,2 @@
-// export * from './DashboardProducts';
+export * from './ProductsDashboard';
 export * from './MainDashboard';

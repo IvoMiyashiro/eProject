@@ -8,20 +8,25 @@ interface Props {
 }
 
 export const useProducts = ({ limit, offset, search }: Props) => {
+
   const [productsList, setProductsList] = useState<IProduct[] | []>([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     fetch(`/api/products?limit=${ limit }&offset=${ offset }&search=${ search }`)
       .then(resp => resp.json())
-      .then(body => {
-        setProductsList(body.products);
+      .then(({ products, totalCount }) => {
+        setProductsList(products);
+        setTotalCount(totalCount);
         setLoading(false);
       });
   }, [limit, offset, search]);
 
   return { 
     isLoading,
-    productsList
+    productsList,
+    totalCount
   };
 };

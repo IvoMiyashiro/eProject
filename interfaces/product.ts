@@ -13,6 +13,7 @@ export interface IProduct {
   image_urls:     string[];
   total_sold:     number;
   rating?:        number;
+  status:         'active' | 'inactive';
   created_at:     Date;
   updated_at:     Date;
 }

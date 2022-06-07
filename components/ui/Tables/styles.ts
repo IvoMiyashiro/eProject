@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { IconButton } from './ProductsTable/TableRow/styles';
 
 interface Styles {
   rowLink?: boolean;
@@ -6,7 +7,7 @@ interface Styles {
 
 export const Div = styled.div`
   overflow-x: auto;
-  padding-bottom: 3em;
+  padding-bottom: 1em;
 `; 
 
 export const Table = styled.table`
@@ -53,5 +54,12 @@ export const Td = styled.td`
   font-size: 0.9rem;
   height: 50px;
   padding: 0 1.2em;
+  position: relative;
+  text-transform: capitalize;
+  vertical-align: middle;
   white-space: nowrap;
+
+  :hover ${IconButton} {
+    display: inline-block;
+  }
 `;

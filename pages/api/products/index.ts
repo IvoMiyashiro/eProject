@@ -4,11 +4,10 @@ import { db } from 'database';
 type Data = { ok: boolean, message?: string, products?: any }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-
   const BRANDS_QUERY     = req.query.brands !== 'undefined' ? req.query.brands : '[]';
   const CATEGORIES_QUERY = req.query.categories !== 'undefined' ? req.query.categories : '[]';
   const PRICE_QUERY      = req.query.price !== 'undefined' ? req.query.price : '[]';
-  const STOCK_QUERY      = req.query.stock !== 'undefined' ? 'true' : 'false';
+  const STOCK_QUERY      = req.query.stock !== 'undefined' ? 'false' : 'true';
   const SEARCH_QUERY     = req.query.search !== 'undefined' ? req.query.search : '[]';
   
   const isFiltered = CATEGORIES_QUERY?.length > 2 || BRANDS_QUERY?.length > 2 || STOCK_QUERY === 'true' || PRICE_QUERY?.length > 2 || SEARCH_QUERY?.length > 2;
@@ -28,14 +27,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 const getProducts = async(req: NextApiRequest, res: NextApiResponse<Data>, isFiltered: boolean) => {
 
   if (isFiltered) return getFilteredProducts(req, res);
+  const offset = req.query.offset || 'NULL';
+  const limit = req.query.limit || 'NULL';
   
-  const offset = req.query.offset || 0;
-  
-  const query = 'SELECT product.*, AVG(review.rating) AS rating FROM product FULL JOIN review ON product.id = review.product_id GROUP BY product.id ORDER BY product.price DESC LIMIT 12 OFFSET ($1)';
-  const value = [offset];
-  
+  const query = `SELECT product.*, AVG(review.rating) AS rating FROM product FULL JOIN review ON product.id = review.product_id GROUP BY product.id ORDER BY product.price DESC LIMIT ${ limit } OFFSET ${ offset }`;
+
   try {
-    const { rows } = await db.conn.query(query, value);
+    const { rows } = await db.conn.query(query);
 
     return res.status(200).json({
       ok: true,

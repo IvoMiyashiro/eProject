@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { db } from 'database';
 
-type Data = { ok: boolean, message?: string, products?: any }
+type Data = { ok: boolean, message?: string, products?: any, totalCount?: number }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const BRANDS_QUERY     = req.query.brands !== 'undefined' ? req.query.brands : '[]';
@@ -30,14 +30,18 @@ const getProducts = async(req: NextApiRequest, res: NextApiResponse<Data>, isFil
   const offset = req.query.offset || 'NULL';
   const limit = req.query.limit || 'NULL';
   
-  const query = `SELECT product.*, AVG(review.rating) AS rating FROM product FULL JOIN review ON product.id = review.product_id GROUP BY product.id ORDER BY product.price DESC LIMIT ${ limit } OFFSET ${ offset }`;
+  let query = `SELECT product.*, AVG(review.rating) AS rating FROM product FULL JOIN review ON product.id = review.product_id GROUP BY product.id ORDER BY product.price DESC LIMIT ${ limit } OFFSET ${ offset }`;
 
   try {
-    const { rows } = await db.conn.query(query);
+    const { rows: products } = await db.conn.query(query);
+
+    query = 'SELECT COUNT(*) FROM product';
+    const { rows: totalCount } = await db.conn.query(query);
 
     return res.status(200).json({
       ok: true,
-      products: rows
+      products,
+      totalCount: totalCount[0].count
     });
 
   } catch (error) {

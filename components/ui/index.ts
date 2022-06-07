@@ -27,3 +27,4 @@ export * from './ConfirmTab';
 export * from './TabMenu';
 export * from './Toast';
 export * from './DashboardMenu';
+export * from './Tooltip';

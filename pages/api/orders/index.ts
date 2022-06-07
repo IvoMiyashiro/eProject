@@ -40,7 +40,6 @@ const getOrders = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     
     const { rows } = await db.conn.query(query);
-    console.log(rows);
     return res.status(200).json({
       ok: true,
       orders: rows

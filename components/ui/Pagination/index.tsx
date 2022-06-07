@@ -5,7 +5,6 @@ import { Div, P, Ul, Li, Span } from './styles';
 
 interface Props {
   offset: number;
-  limit: number;
   name: string;
   totalCount: number;
   siblingCount?: number;
@@ -16,7 +15,6 @@ interface Props {
 
 export const Pagination = ({
   offset,
-  limit,
   name,
   totalCount,
   siblingCount = 1,
@@ -31,7 +29,7 @@ export const Pagination = ({
     siblingCount,
     pageSize
   }) || [];
-
+  console.log(paginationRange);
   if (currentPage === 0 || paginationRange.length < 2) return null;
 
   const onNext = () => onPageChange(currentPage + 1);
@@ -42,7 +40,7 @@ export const Pagination = ({
   return (
     <Div>
       <P>
-        { name }: { (offset === 0) ? 1 : offset } - { (currentPage * limit > totalCount) ? totalCount :  currentPage * limit } of { totalCount }
+        { name }: { (offset === 0) ? 1 : offset } - { (currentPage * pageSize > totalCount) ? totalCount :  currentPage * pageSize } of { totalCount }
       </P>
       <Ul>
         {

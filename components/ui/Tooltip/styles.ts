@@ -31,9 +31,12 @@ export const Div = styled.div<Styles>`
   background-color: ${props => props.bgColor};
   border-radius: 6px;
   color: #fff;
-  margin: 40px;
-  padding: 20px;
+  padding: 1em;
   position: relative;
+  box-shadow:
+  0px 0px 1.1px rgba(0, 0, 0, 0.044),
+  0px 0px 3.8px rgba(0, 0, 0, 0.066),
+  0px 0px 17px rgba(0, 0, 0, 0.11);
 
   :after {
     content: " ";

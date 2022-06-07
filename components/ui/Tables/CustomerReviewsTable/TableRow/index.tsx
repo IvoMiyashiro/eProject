@@ -35,7 +35,7 @@ export const TableRow = ({ review_id, product_id, title, created_at, rating, ima
 
   const handleDeleteReview = async () => {
     setLoading(true);
-    await deleteReview(product_id, review_id);
+    await deleteReview(review_id, product_id, review_id);
     setDeleteModalOpen(false);
     setReviewModalOpen(false);
   };
@@ -96,6 +96,8 @@ export const TableRow = ({ review_id, product_id, title, created_at, rating, ima
             handleCloseChildren={() => setDeleteModalOpen(false)}
           >
             <ConfirmTab
+              isOpen={isDeleteModalOpen}
+              handleOpen={setDeleteModalOpen}
               title="Delete review?"
               text="If you delete this review no one will be able to read it again. Are you sure you want to do it?"
               mainButtonColor={lightTheme.color_ui_danger}

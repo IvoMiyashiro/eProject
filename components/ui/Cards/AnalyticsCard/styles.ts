@@ -9,12 +9,19 @@ export const Div = styled.div<Styles>`
   background-color: ${props => props.background_color};
   border-radius: 24px;
   color: ${props => props.text_color};
-  height: 175px;
-  padding: 1em;
-  width: 175px;
+  cursor: pointer;
   display: inline-flex;
   flex-direction: column;
+  height: 175px;
   justify-content: space-between;
+  padding: 1em;
+  transition: 0.2s;
+  width: 175px;
+
+  :hover {
+    transform: scale(1.05);
+    transition: 0.2s;
+  }
 `;
 
 export const P = styled.p`

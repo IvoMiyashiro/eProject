@@ -48,3 +48,5 @@ export * from './PhoneIcon';
 export * from './Photo';
 export * from './Settings';
 export * from './Bookmarks';
+export * from './Plus';
+export * from './Sort';

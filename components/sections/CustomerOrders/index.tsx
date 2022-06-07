@@ -64,7 +64,6 @@ export const CustomerOrders = () => {
           }
           <Pagination
             name="Orders"
-            limit={limitPageSize}
             offset={offset}
             currentPage={currentPage}
             totalCount={totalOrders}

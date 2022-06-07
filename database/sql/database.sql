@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS product (
   image_urls VARCHAR(2048)[],
   total_sold INT,
   status product_status NOT NULL DEFAULT 'active',
+  labels INT[],
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_brand_name
@@ -174,3 +175,12 @@ MINVALUE 1000
 OWNED BY customer_address.id;
 
 /* Customer address */
+
+/* Labels */
+
+CREATE TABLE IF NOT EXISTS product_label (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100)
+);
+
+/* Labels */

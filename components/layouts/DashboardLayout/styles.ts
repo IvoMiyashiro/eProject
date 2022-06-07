@@ -1,17 +1,16 @@
 import styled from 'styled-components';
 
 export const SpinnerWrapper = styled.div`
-display: flex;
-align-items: center;
-justify-content: center;
-width: 100%;
-height: 100vh;
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  width: 100%;
 `;
 
 export const Div = styled.main`
   display: grid;
   grid-template-columns: 240px 1fr;
-  gap: 2em;
   min-height: 100vh;
 `;
 
@@ -40,7 +39,6 @@ export const P = styled.p``;
 
 export const Wrapper = styled.div`
   position: relative;
-  width: 185px;
 `;
 
 export const Underline = styled.span`

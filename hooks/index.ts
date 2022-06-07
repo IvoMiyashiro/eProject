@@ -14,3 +14,4 @@ export * from './useAddress';
 export * from './useBestSellers';
 export * from './useBestCustomers';
 export * from './useCustomersOrders';
+export * from './useProducts';

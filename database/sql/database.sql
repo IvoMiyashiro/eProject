@@ -18,6 +18,8 @@ CREATE TABLE IF NOT EXISTS category (
 
 /* Product Table */
 
+CREATE TYPE product_status AS ENUM('active', 'inactive');
+
 CREATE TABLE IF NOT EXISTS product (
   id VARCHAR(100) NOT NULL UNIQUE PRIMARY KEY,
   title VARCHAR(500) NOT NULL,
@@ -29,6 +31,7 @@ CREATE TABLE IF NOT EXISTS product (
   brand VARCHAR(100),
   image_urls VARCHAR(2048)[],
   total_sold INT,
+  status product_status NOT NULL DEFAULT 'active',
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_brand_name

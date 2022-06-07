@@ -30,6 +30,7 @@ export const LastTd = styled.td`
   border-top: 1px solid ${props => props.theme.color_neutral_1};
   gap: 0.75em;
   height: 100%;
+  width: 50px;
   position: relative;
   text-align: center;
 `;
@@ -43,6 +44,7 @@ export const Button = styled.button`
   justify-content: center;
   margin: auto;
   padding: 0.5em;
+  position: relative;
 
   :hover {
     background-color: ${props => props.theme.color_neutral_1};

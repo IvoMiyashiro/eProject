@@ -46,14 +46,14 @@ const getProducts = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
 const queryConstructor = (req: NextApiRequest) => {
 
   const { limit, offset, categories, brands, stock, price, search, orderBy, sortBy } = req.query;
- 
+
   const OFFSET   = offset !== 'undefined' ? offset : 'NULL';
   const LIMIT    = limit !== 'undefined' ? limit : 'NULL';
   const ORDER_BY = !!orderBy || orderBy !== 'undefined' ? 'DESC' : orderBy;
   const SORT_BY  = !!sortBy  || sortBy !== 'undefined' ? 'price' : price;
   const STOCK    = (stock !== 'undefined' && stock === 'false') ? true : false;
-  const SEARCH   = (isUndefined(search as string) || JSON.parse(search as string).length !== 0) ? true : undefined;
-  
+  const SEARCH   = (isUndefined(search as string) ? false : JSON.parse(search as string).length !== 0);
+
   /* Transformo "Motherboard" ---> 'Motherboard' || ["Motherboard", "CPU"] ---> ['Motherboard', 'CPU' ] para que POSTGRES entienda el query */
   const CATEGORIES = categories !== 'undefined' ? (categories as string).replace(/"/g, '\'') : undefined;
   const BRANDS     = brands     !== 'undefined' ? (brands as string).replace(/"/g, '\'') : undefined;
@@ -62,9 +62,9 @@ const queryConstructor = (req: NextApiRequest) => {
   /* En el caso de que venga solo un string le concateno '[' ']' para que entienda el query. */
   const CATEGORIES_QUERY = CATEGORIES?.includes('[') ? CATEGORIES : '[' + CATEGORIES + ']';
   const BRAND_QUERY = BRANDS?.includes('[') ? BRANDS : '[' + BRANDS + ']';
-  
+
   /* Concateno '% string %' */
-  const SEARCH_QUERY = SEARCH ? '\'%' + JSON.parse(search as string) + '%\'' : '';
+  const SEARCH_QUERY = !!SEARCH ? '\'%' + JSON.parse(search as string) + '%\'' : '';
 
   let subQuery = '';
   let flag = true;

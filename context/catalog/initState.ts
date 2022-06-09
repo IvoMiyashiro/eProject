@@ -15,13 +15,11 @@ export interface ProductListState {
 }
 
 export type Filters = {
-  brands:     BrandList[];
-  categories: CategoryList[];
+  brands:     BrandList[] | undefined;
+  categories: CategoryList[] | undefined;
   stock:      boolean;
-  price:      number[];
+  price:      number[] | undefined;
   search:     string;
-  limit:      number;
-  offset:     number;
 }
 
 export const PRODUCT_LIST_INIT_STATE: ProductListState = {
@@ -29,13 +27,11 @@ export const PRODUCT_LIST_INIT_STATE: ProductListState = {
   categories:   [],
   display:      'grid',
   filters: {
-    brands:     [],
-    categories: [],
+    brands:     undefined,
+    categories: undefined,
     stock:      false,
-    price:      [],
+    price:      undefined,
     search:     '',
-    limit:      0,
-    offset:     0,
   },
   haveMoreProducts:  false,
   isFilterApplied:   false,

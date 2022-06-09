@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { db } from 'database';
 
-type Data = { ok: boolean, message?: string, products?: any }
+type Data = { ok: boolean, message?: string, products?: any, totalCount?: number }
+const DEFAULT_LIMIT = 12;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   
@@ -20,15 +21,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 const searchProduct = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   
   const { q } = req.query;
+  const offset = req.query.offset || 'NULL';
+  const limit = req.query.limit || 'NULL';
+  const orderBy = req.query.orderBy || 'DESC';
+  const sortBy = req.query.sortBy || 'price';
+
+  let query = `SELECT product.*, AVG(review.rating) AS rating FROM product FULL JOIN review ON product.id = review.product_id WHERE LOWER(product.title) LIKE LOWER($1) OR LOWER(product.brand) LIKE LOWER($1) OR LOWER(product.category) LIKE LOWER($1) GROUP BY product.id ORDER BY product.${ sortBy } ${ orderBy } LIMIT ${ limit } OFFSET ${ offset }`;
+  const value = [`%${q}%`];
 
   try {
-    const query = 'SELECT * FROM product WHERE LOWER(title) LIKE LOWER($1) OR LOWER(brand) LIKE LOWER($1) OR LOWER(category) LIKE LOWER($1)';
-    const value = [`%${q}%`];
-
     const { rows } = await db.conn.query(query, value);
+
+    query = 'SELECT COUNT(*) FROM product';
+    const { rows: totalCount } = await db.conn.query(query);
+
     return res.status(200).json({
       ok: true,
-      products: rows
+      products: rows,
+      totalCount: totalCount[0].count
     });
   } catch (error) {
     console.log(error);

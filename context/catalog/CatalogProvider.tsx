@@ -1,13 +1,12 @@
 import { FC, useCallback, useEffect, useReducer } from 'react';
 import { useRouter } from 'next/router';
-import { ParsedUrlQuery } from 'querystring';
 import Cookies from 'js-cookie';
 
 import { obj } from 'utils';
 import { getBrands, getCategories, getProducts } from 'services';
 
 import { BrandList, CategoryList, IProduct } from 'interfaces';
-import { CatalogContext, catalogReducer, Filters, PRODUCT_LIST_INIT_STATE } from './';
+import { CatalogContext, catalogReducer, PRODUCT_LIST_INIT_STATE } from './';
 
 export const CatalogProvider: FC = ({ children }) => {
 
@@ -32,8 +31,8 @@ export const CatalogProvider: FC = ({ children }) => {
   }, []);
 
 
-  const loadProducts = useCallback(async (offset: number = 0, filters: Filters | ParsedUrlQuery, isFiltered: boolean) => {
-    const products = await getProducts(offset, filters);
+  const loadProducts = useCallback(async (offset: number = 0, isFiltered: boolean) => {
+    const products = await getProducts(offset, state.filters);
 
     if (products.length === 0) {
       return dispatch({ type: '[PRODUCT LIST] - NO MORE PRODUCTS' });
@@ -50,15 +49,16 @@ export const CatalogProvider: FC = ({ children }) => {
       type: '[PRODUCT LIST] - LOAD PRODUCTS',
       payload: products
     });
-  }, []);
+  }, [state.filters]);
 
 
   useEffect(() => {
     startLoading();
     const query = router.query;
     const isFiltered = obj.isEmpty(query) ? false : true;
+    const OFFSET = 0;
 
-    loadProducts(0, query, isFiltered);
+    loadProducts(OFFSET, isFiltered);
   }, [router, loadProducts]);
 
 
@@ -87,27 +87,27 @@ export const CatalogProvider: FC = ({ children }) => {
 
 
   const updateCategoriesFilter = (value: CategoryList) => {
-    const isInFiltersArr = state.filters.categories.includes(value);
+    const isInFiltersArr = state.filters.categories!.includes(value);
 
     if (isInFiltersArr) {
-      const newFilter = state.filters.categories.filter(category => (category !== value));
+      const newFilter = state.filters.categories!.filter(category => (category !== value));
       return dispatch({ type: '[PRODUCT LIST] - UPDATE CATEGORIES FILTER', payload: newFilter });
     }
 
-    const newFilter = [...state.filters.categories, value];
+    const newFilter = [...state.filters.categories!, value];
     dispatch({ type: '[PRODUCT LIST] - UPDATE CATEGORIES FILTER', payload: newFilter });
   };
 
 
   const updateBrandsFilter = (value: BrandList) => {
-    const isInFiltersArr = state.filters.brands.includes(value);
+    const isInFiltersArr = state.filters.brands!.includes(value);
 
     if (isInFiltersArr) {
-      const newFilter = state.filters.brands.filter(brands => (brands !== value));
+      const newFilter = state.filters.brands!.filter(brands => (brands !== value));
       return dispatch({ type: '[PRODUCT LIST] - UPDATE BRANDS FILTER', payload: newFilter });
     }
 
-    const newFilter = [...state.filters.brands, value];
+    const newFilter = [...state.filters.brands!, value];
     dispatch({ type: '[PRODUCT LIST] - UPDATE BRANDS FILTER', payload: newFilter });
   };
 

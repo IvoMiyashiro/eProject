@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import { useProducts } from 'hooks';
 
 import { EyeIcon, SortIcon } from 'components/icons';
-import { Searchbar } from 'components/sections/CustomerOrders/Searchbar';
 import { InputSelectIcon, Button, ProductsTable, Pagination } from 'components/ui';
 
 import { lightTheme } from 'styles';
-import { Div, Wrapper } from './styles';
+import { Div, Input, Wrapper } from './styles';
+import { searchProduct } from 'services';
 
 export const ProductsDashboard = () => {
 
@@ -15,8 +15,8 @@ export const ProductsDashboard = () => {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [offset, setOffset] = useState(0);
-  const [sortBy, setSortBy] = useState('Highest Price');
-  const { productsList, isLoading, totalCount } = useProducts({ limit, offset, search });
+  const [sortBy, setSortBy] = useState('Highest price');
+  const { productsList, isLoading, totalCount } = useProducts({ limit, offset, sortBy, search });
 
   const handlePageClick = (pageNumber: number) => {
     if (isLoading) return;
@@ -25,12 +25,18 @@ export const ProductsDashboard = () => {
     setOffset(newOffset);
   };
 
+  const handleInputChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    const hola = await searchProduct(e.target.value);
+  };
+
   return (
     <Div>
       <Wrapper>
-        <Searchbar
+        <Input 
           placeholder="Type a product name..."
-          handleSearchOrders={setSearch}
+          value={search}
+          onChange={handleInputChange}
         />
         <InputSelectIcon 
           icon={EyeIcon}

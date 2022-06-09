@@ -20,6 +20,8 @@ export type Filters = {
   stock:      boolean;
   price:      number[];
   search:     string;
+  limit:      number;
+  offset:     number;
 }
 
 export const PRODUCT_LIST_INIT_STATE: ProductListState = {
@@ -31,7 +33,9 @@ export const PRODUCT_LIST_INIT_STATE: ProductListState = {
     categories: [],
     stock:      false,
     price:      [],
-    search:     ''
+    search:     '',
+    limit:      0,
+    offset:     0,
   },
   haveMoreProducts:  false,
   isFilterApplied:   false,

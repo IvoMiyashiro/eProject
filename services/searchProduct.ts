@@ -7,7 +7,7 @@ interface Response {
 
 export const searchProduct = async (query: string): Promise<IProduct[] | []> => {
 
-  const resp = await fetch(`${process.env.BASE_URL}/api/products/search?q=${query}`);
+  const resp = await fetch(`/api/products/search?q=${query}`);
 
   const { ok, products }: Response = await resp.json();
 

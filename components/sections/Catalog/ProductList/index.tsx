@@ -11,14 +11,13 @@ export const ProductList = () => {
 
   const { 
     display,
-    filters,
     haveMoreProducts,
     isProductLoading,
     productList,
     loadProducts,
   } = useContext(CatalogContext);
   const offset = productList.reduce(() => (productList.length), 0);
-
+  
   return (
     <>
       {
@@ -31,7 +30,7 @@ export const ProductList = () => {
           : (
             <InfiniteScroll
               dataLength={productList.length}
-              next={() => loadProducts(offset, filters, false)}
+              next={() => loadProducts(offset, false)}
               hasMore={productList.length < 12 ? false : haveMoreProducts}
               loader={<ScrollSpinnerWrapper><Spinner color={lightTheme.color_primary_2} /></ScrollSpinnerWrapper>}
             >

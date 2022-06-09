@@ -3,10 +3,10 @@ import styled from 'styled-components';
 interface Styles {
   isOpen: boolean;
 }
-
+  
 export const Closer = styled.div`
-  width: 97vw;
-  position: absolute;
+  width: 100%;
+  position: fixed;
   height: 100vh;
   top: 0;
   left: 0;

@@ -19,7 +19,7 @@ interface ContextProps {
   //Methods
   changeDisplayToGrid:    () => void;
   changeDisplayToList:    () => void;
-  loadProducts:           (offset: number, filters: Filters | ParsedUrlQuery, isFiltered: boolean) => void;
+  loadProducts:           (offset: number, isFiltered: boolean) => void;
   sortCatalog:            (products: IProduct[]) => void;
   toggleFilterMenu:       () => void;
   updateBrandsFilter:     (value: BrandList) => void;

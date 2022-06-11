@@ -7,7 +7,7 @@ interface Response {
 
 export const getProductById = async (id: string): Promise<IProduct | undefined> => {
 
-  const resp = await fetch(`${process.env.BASE_URL}/api/products/${id}`);
+  const resp = await fetch(`/api/products/${id}`);
   const { ok, product }: Response = await resp.json();
 
   if (!ok) return undefined;

@@ -2,11 +2,13 @@ import { FC, useCallback, useEffect, useReducer } from 'react';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 
+import { ParsedUrlQuery } from 'querystring';
+
 import { obj } from 'utils';
 import { getBrands, getCategories, getProducts } from 'services';
 
 import { BrandList, CategoryList, IProduct } from 'interfaces';
-import { CatalogContext, catalogReducer, PRODUCT_LIST_INIT_STATE } from './';
+import { CatalogContext, catalogReducer, PRODUCT_LIST_INIT_STATE, Filters } from './';
 
 export const CatalogProvider: FC = ({ children }) => {
 
@@ -30,9 +32,8 @@ export const CatalogProvider: FC = ({ children }) => {
     loadCategories();
   }, []);
 
-
-  const loadProducts = useCallback(async (offset: number = 0, isFiltered: boolean) => {
-    const products = await getProducts(offset, state.filters);
+  const loadProducts = useCallback(async (offset: number = 0, filters: Filters | ParsedUrlQuery, isFiltered: boolean = false, forInfineScroll: boolean) => {
+    const products = await getProducts(offset, filters);
 
     if (products.length === 0) {
       return dispatch({ type: '[PRODUCT LIST] - NO MORE PRODUCTS' });
@@ -45,21 +46,45 @@ export const CatalogProvider: FC = ({ children }) => {
       });
     }
 
+    if (forInfineScroll) {
+      return dispatch({
+        type: '[PRODUCT LIST] - LOAD PRODUCTS',
+        payload: products
+      });
+    }
+
     return dispatch({
-      type: '[PRODUCT LIST] - LOAD PRODUCTS',
+      type: '[PRODUCT LIST] - LOAD PRODUCTS FROM START',
       payload: products
     });
-  }, [state.filters]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
 
   useEffect(() => {
     startLoading();
-    const query = router.query;
-    const isFiltered = obj.isEmpty(query) ? false : true;
+    const filters: any = router.query;
+    const isFiltered = obj.isEmpty(filters) ? false : true;
     const OFFSET = 0;
 
-    loadProducts(OFFSET, isFiltered);
+    if (isFiltered) loadFilters(filters);
+
+    loadProducts(OFFSET, filters, isFiltered, false);
   }, [router, loadProducts]);
+
+  const loadFilters = (filters: Filters) => {
+
+    if (typeof(filters.categories) === 'string') {
+      filters.categories = [filters.categories];
+    } else if (typeof(filters.brands) === 'string') {
+      filters.brands = [filters.brands];
+    }
+
+    dispatch({
+      type: '[PRODUCT LIST] - LOAD FILTERS',
+      payload: filters
+    });
+  };
 
 
   const loadBrands = async () => {
@@ -87,27 +112,33 @@ export const CatalogProvider: FC = ({ children }) => {
 
 
   const updateCategoriesFilter = (value: CategoryList) => {
-    const isInFiltersArr = state.filters.categories!.includes(value);
+    let newFilter;
+    const isInFiltersArr = state.filters.categories.includes(value);
 
     if (isInFiltersArr) {
-      const newFilter = state.filters.categories!.filter(category => (category !== value));
+      const newFilter = state.filters.categories.filter(category => (category !== value));
       return dispatch({ type: '[PRODUCT LIST] - UPDATE CATEGORIES FILTER', payload: newFilter });
     }
 
-    const newFilter = [...state.filters.categories!, value];
+    if (typeof(state.filters.categories) === 'string') {
+      newFilter = [state.filters.categories, value];
+    } else {
+      newFilter = [...state.filters.categories, value];
+    }
+
     dispatch({ type: '[PRODUCT LIST] - UPDATE CATEGORIES FILTER', payload: newFilter });
   };
 
 
   const updateBrandsFilter = (value: BrandList) => {
-    const isInFiltersArr = state.filters.brands!.includes(value);
+    const isInFiltersArr = state.filters.brands.includes(value);
 
     if (isInFiltersArr) {
-      const newFilter = state.filters.brands!.filter(brands => (brands !== value));
+      const newFilter = state.filters.brands.filter(brands => (brands !== value));
       return dispatch({ type: '[PRODUCT LIST] - UPDATE BRANDS FILTER', payload: newFilter });
     }
 
-    const newFilter = [...state.filters.brands!, value];
+    const newFilter = [...state.filters.brands, value];
     dispatch({ type: '[PRODUCT LIST] - UPDATE BRANDS FILTER', payload: newFilter });
   };
 

@@ -1,4 +1,5 @@
 import { BrandList, CategoryList, IProduct } from 'interfaces';
+import { Filters } from './initState';
 import { ProductListState } from './';
 
 type ProductListActionType = 
@@ -19,6 +20,7 @@ type ProductListActionType =
   | { type: '[PRODUCT LIST] - UPDATE PRICE FILTER', payload: [number, number]}
   | { type: '[PRODUCT LIST] - FILTERS NOT APPLIED' }
   | { type: '[PRODUCT LIST] - LOAD PRODUCTS FROM START', payload: IProduct[]}
+  | { type: '[PRODUCT LIST] - LOAD FILTERS', payload: Filters }
 ;
 
 export const catalogReducer = (state: ProductListState, action: ProductListActionType): ProductListState => {
@@ -151,6 +153,15 @@ export const catalogReducer = (state: ProductListState, action: ProductListActio
     return {
       ...state,
       isFilterApplied: false
+    };
+
+  case '[PRODUCT LIST] - LOAD FILTERS':
+    return {
+      ...state,
+      filters: {
+        ...state.filters,
+        ...action.payload
+      }
     };
 
   default:

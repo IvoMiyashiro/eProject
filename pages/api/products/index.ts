@@ -46,18 +46,18 @@ const getProducts = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
 const queryConstructor = (req: NextApiRequest) => {
 
   const { limit, offset, categories, brands, stock, price, search, orderBy, sortBy } = req.query;
-
-  const OFFSET   = offset !== 'undefined' ? offset : 'NULL';
-  const LIMIT    = limit !== 'undefined' ? limit : 'NULL';
-  const ORDER_BY = !!orderBy || orderBy !== 'undefined' ? 'DESC' : orderBy;
-  const SORT_BY  = !!sortBy  || sortBy !== 'undefined' ? 'price' : price;
-  const STOCK    = (stock !== 'undefined' && stock === 'false') ? true : false;
-  const SEARCH   = (isUndefined(search as string) ? false : JSON.parse(search as string).length !== 0);
+  
+  const OFFSET   = !isUndefined(offset as string)  ? offset  : 'NULL';
+  const LIMIT    = !isUndefined(limit as string)   ? limit   : 'NULL';
+  const ORDER_BY = !isUndefined(orderBy as string) ? orderBy : 'DESC';
+  const SORT_BY  = !isUndefined(sortBy as string)  ? price   : 'price';
+  const SEARCH   = !isUndefined(search as string)  ? JSON.parse(search as string).length !== 0 : false;
+  const STOCK    = !isUndefined(stock as string)   && stock !== 'false' ? true : false;
 
   /* Transformo "Motherboard" ---> 'Motherboard' || ["Motherboard", "CPU"] ---> ['Motherboard', 'CPU' ] para que POSTGRES entienda el query */
-  const CATEGORIES = categories !== 'undefined' ? (categories as string).replace(/"/g, '\'') : undefined;
-  const BRANDS     = brands     !== 'undefined' ? (brands as string).replace(/"/g, '\'') : undefined;
-  const PRICE      = price      !== 'undefined' ? JSON.parse(price as string) : undefined;
+  const CATEGORIES = !isUndefined(categories as string) && (categories as string) !== '[]' ? (categories as string).replace(/"/g, '\'') : undefined;
+  const BRANDS     = !isUndefined(brands as string)     && (brands as string) !== '[]' ? (brands as string).replace(/"/g, '\'') : undefined;
+  const PRICE      = !isUndefined(price as string)     && (price as string) !== '[]' ? JSON.parse(price as string) : undefined;
 
   /* En el caso de que venga solo un string le concateno '[' ']' para que entienda el query. */
   const CATEGORIES_QUERY = CATEGORIES?.includes('[') ? CATEGORIES : '[' + CATEGORIES + ']';

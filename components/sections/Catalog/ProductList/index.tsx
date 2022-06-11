@@ -4,19 +4,22 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { CatalogContext } from 'context';
 import { ProductGridCard, ProductListCard, Spinner } from 'components/ui';
 
-import { ProductListAsGrid, ProductListAsList, ScrollSpinnerWrapper, SpinnerWrapper } from './styles';
 import { lightTheme } from 'styles';
+import { ProductListAsGrid, ProductListAsList, ScrollSpinnerWrapper, SpinnerWrapper } from './styles';
 
 export const ProductList = () => {
 
   const { 
     display,
+    filters,
     haveMoreProducts,
     isProductLoading,
     productList,
     loadProducts,
   } = useContext(CatalogContext);
   const offset = productList.reduce(() => (productList.length), 0);
+  const isFiltered = false;
+  const forInfinieScroll = true;
   
   return (
     <>
@@ -30,7 +33,7 @@ export const ProductList = () => {
           : (
             <InfiniteScroll
               dataLength={productList.length}
-              next={() => loadProducts(offset, false)}
+              next={() => loadProducts(offset, filters, isFiltered, forInfinieScroll)}
               hasMore={productList.length < 12 ? false : haveMoreProducts}
               loader={<ScrollSpinnerWrapper><Spinner color={lightTheme.color_primary_2} /></ScrollSpinnerWrapper>}
             >

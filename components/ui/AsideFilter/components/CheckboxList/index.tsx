@@ -15,7 +15,7 @@ interface Props {
   title: string;
   rows: number;
   isLoading: boolean;
-  handleUpdateFilters: any;
+  handleUpdateFilters: any; 
 }
 
 export const CheckboxList = ({ list, title, rows, isLoading, handleUpdateFilters }: Props) => {
@@ -31,15 +31,43 @@ export const CheckboxList = ({ list, title, rows, isLoading, handleUpdateFilters
   },[list.length]);
 
   const handleApplyFilter = () => {
-    router.push({
-      query: {
-        brands: filters.brands,
-        categories: filters.categories,
-        stock: filters.stock,
-        price: filters.price,
-        search: router.query.search
-      },
-    }, undefined, { shallow: true });
+    if (!filters.stock && !!!filters.search) {
+      router.push({
+        query: {
+          brands: filters.brands,
+          categories: filters.categories,
+          price: filters.price,
+        },
+      }, undefined, { shallow: true });
+    } else if (filters.stock && !!!filters.search) {
+      router.push({
+        query: {
+          brands: filters.brands,
+          categories: filters.categories,
+          stock: filters.stock,
+          price: filters.price,
+        },
+      }, undefined, { shallow: true });
+    } else if (!filters.stock && filters.search) {
+      router.push({
+        query: {
+          brands: filters.brands,
+          categories: filters.categories,
+          price: filters.price,
+          search: router.query.search
+        },
+      }, undefined, { shallow: true });
+    } else {
+      router.push({
+        query: {
+          brands: filters.brands,
+          categories: filters.categories,
+          stock: filters.stock,
+          price: filters.price,
+          search: router.query.search
+        },
+      }, undefined, { shallow: true });
+    }
 
     setPrevCheckedState(checkedState);
     setButtonVisible(false);

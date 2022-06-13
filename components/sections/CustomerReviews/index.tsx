@@ -61,7 +61,6 @@ export const CustomerReviews = () => {
           }
           <Pagination
             name="Reviews"
-            limit={limitPerPage}
             offset={offset}
             currentPage={currentPage}
             totalCount={totalReviewsLength}

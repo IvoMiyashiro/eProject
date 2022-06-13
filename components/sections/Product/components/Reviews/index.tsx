@@ -56,7 +56,6 @@ export const Reviews = ({ product_id }: Props) => {
         }
         <Pagination
           name="Reviews"
-          limit={limitPageSize}
           offset={offset}
           currentPage={currentPage}
           totalCount={totalReviews}

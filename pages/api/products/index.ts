@@ -24,7 +24,7 @@ const getProducts = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
   try {
     const { rows: products } = await db.conn.query(query);
 
-    query = 'SELECT COUNT(*) FROM product';
+    query = countQueryConstructor(req);
     const { rows: totalCount } = await db.conn.query(query);
 
     return res.status(200).json({
@@ -46,25 +46,26 @@ const getProducts = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
 const queryConstructor = (req: NextApiRequest) => {
 
   const { limit, offset, categories, brands, stock, price, search, orderBy, sortBy } = req.query;
-  
+
   const OFFSET   = !isUndefined(offset as string)  ? offset  : 'NULL';
   const LIMIT    = !isUndefined(limit as string)   ? limit   : 'NULL';
   const ORDER_BY = !isUndefined(orderBy as string) ? orderBy : 'DESC';
-  const SORT_BY  = !isUndefined(sortBy as string)  ? price   : 'price';
-  const SEARCH   = !isUndefined(search as string)  ? JSON.parse(search as string).length !== 0 : false;
-  const STOCK    = !isUndefined(stock as string)   && stock !== 'false' ? true : false;
-
+  const SORT_BY  = !isUndefined(sortBy as string)  ? sortBy  : 'price';
+  const SEARCH   = !isUndefined(search as string) && search !== ''  ? JSON.parse(JSON.stringify(search)).length !== 0 : false;
+  const STOCK    = !isUndefined(stock as string)  && stock !== 'false' ? true : false;
+  
   /* Transformo "Motherboard" ---> 'Motherboard' || ["Motherboard", "CPU"] ---> ['Motherboard', 'CPU' ] para que POSTGRES entienda el query */
   const CATEGORIES = !isUndefined(categories as string) && (categories as string) !== '[]' ? (categories as string).replace(/"/g, '\'') : undefined;
   const BRANDS     = !isUndefined(brands as string)     && (brands as string) !== '[]' ? (brands as string).replace(/"/g, '\'') : undefined;
   const PRICE      = !isUndefined(price as string)     && (price as string) !== '[]' ? JSON.parse(price as string) : undefined;
-
+  
   /* En el caso de que venga solo un string le concateno '[' ']' para que entienda el query. */
   const CATEGORIES_QUERY = CATEGORIES?.includes('[') ? CATEGORIES : '[' + CATEGORIES + ']';
   const BRAND_QUERY = BRANDS?.includes('[') ? BRANDS : '[' + BRANDS + ']';
 
+
   /* Concateno '% string %' */
-  const SEARCH_QUERY = !!SEARCH ? '\'%' + JSON.parse(search as string) + '%\'' : '';
+  const SEARCH_QUERY = !!SEARCH ? '\'%' + JSON.parse(JSON.stringify(search)) + '%\'' : '';
 
   let subQuery = '';
   let flag = true;
@@ -115,4 +116,16 @@ const isUndefined = (value: string) => {
   if (value === 'undefined' || value === undefined) return true;
 
   return false;
+};
+
+const countQueryConstructor = (req: NextApiRequest) => {
+  const { search } = req.query;
+
+  if (search?.length !== 0) {
+    const SEARCH   = !isUndefined(search as string) && search !== ''  ? true : false;
+    const SEARCH_QUERY = !!SEARCH ? '\'%' + JSON.parse(JSON.stringify(search)) + '%\'' : '';
+    return `SELECT COUNT(*) FROM product WHERE LOWER(product.title) LIKE LOWER(${ SEARCH_QUERY }) OR LOWER(product.brand) LIKE LOWER(${ SEARCH_QUERY }) OR LOWER(product.category) LIKE LOWER(${ SEARCH_QUERY })`;
+  }
+
+  return 'SELECT COUNT(*) FROM product'; 
 };

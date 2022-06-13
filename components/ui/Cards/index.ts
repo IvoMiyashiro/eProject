@@ -10,3 +10,4 @@ export * from './AddressCard';
 export * from './AnalyticsCard';
 export * from './ProductBestSellerCard';
 export * from './BestCustomerCard';
+export * from './ImageCard';

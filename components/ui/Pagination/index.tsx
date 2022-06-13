@@ -45,10 +45,10 @@ export const Pagination = ({
       <Ul>
         {
           currentPage !== 1
-        &&
-        <Li onClick={onPrevious}>
-          <ArrowLeftIcon width="20px" height="20px" />
-        </Li>
+          &&
+          <Li onClick={onPrevious}>
+            <ArrowLeftIcon width="20px" height="20px" />
+          </Li>
         }
         {
           paginationRange.map((pageNumber, i) => {
@@ -65,10 +65,10 @@ export const Pagination = ({
         }
         {
           currentPage !== lastPage
-        &&
-        <Li onClick={onNext}>
-          <ArrowRightIcon width="20px" height="20px" />
-        </Li>
+          &&
+          <Li onClick={onNext}>
+            <ArrowRightIcon width="20px" height="20px" />
+          </Li>
         }
       </Ul>
     </Div>

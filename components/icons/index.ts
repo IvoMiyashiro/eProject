@@ -50,3 +50,5 @@ export * from './Settings';
 export * from './Bookmarks';
 export * from './Plus';
 export * from './Sort';
+export * from './ImageIcon';
+export * from './VerticalGrid';

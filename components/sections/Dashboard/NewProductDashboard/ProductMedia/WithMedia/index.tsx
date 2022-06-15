@@ -1,24 +1,30 @@
-import { DragEvent } from 'react';
-import Image from 'next/image';
+import { Dispatch, DragEvent, SetStateAction } from 'react';
+import { SortableContainer } from 'react-sortable-hoc';
 
-import { Div, Section } from './styles';
-import { lightTheme } from 'styles';
-import { ImageCard } from 'components/ui/Cards/ImageCard';
+import { ImageCard } from 'components/ui';
+import { ImageIcon } from 'components/icons';
+
+import { Button, Div, HoverBox, Section, Wrapper } from './styles';
 
 interface Props {
   dragState: boolean;
-  mediaList: {file: File, fileUrl: string}[];
+  mediaList: {id: string; file: File, fileUrl: string; isChecked: boolean}[]
+  handleClick: () => void;
   handleDrop: (e: DragEvent<HTMLDivElement>) => void;
+  handleDragOver: (e: DragEvent<HTMLDivElement>) => void;
   handleDragEnter: (e: DragEvent<HTMLDivElement>) => void;
   handleDragLeave: (e: DragEvent<HTMLDivElement>) => void;
+  handleMediaMediaImage: Dispatch<SetStateAction<{id?: string; file?: File, fileUrl?: string; isChecked?: boolean}[]>>;
 }
 
-export const WithMedia = ({ 
+const WithMedia = ({ 
   mediaList,
   dragState,
+  handleClick,
   handleDrop,
   handleDragEnter,
-  handleDragLeave
+  handleDragLeave,
+  handleMediaMediaImage,
 }: Props) => {
   return (
     <Div
@@ -26,31 +32,40 @@ export const WithMedia = ({
       onDragOver={handleDragEnter}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
-      style={
-        dragState 
-          ? { border: `2px dashed ${lightTheme.color_primary_0}`}
-          : { border: '2px dashed transparent'}
-      }
     >
-      <ImageCard 
-        imageUrl={mediaList[0].fileUrl}
-        alt={mediaList[0].file.name}
-      />
+      {
+        dragState
+        &&
+        <HoverBox>
+          <ImageIcon width="35px" height="35px" />
+        </HoverBox>
+      }
       <Section>
         {
           mediaList.map((image, i) => {
-            if (i !== 0) {
-              return (
-                <ImageCard 
-                  imageUrl={image.fileUrl}
-                  alt={image.file.name}
-                  isSmall
-                />
-              );
-            }
+            return (
+              <ImageCard
+                key={i} 
+                index={i}
+                image={image}
+                handleMediaMediaImage={handleMediaMediaImage}
+                isSmall
+              />
+            );
           })
+        }
+        {
+          mediaList?.length >= 1 && mediaList?.length < 5
+          &&
+          <Wrapper>
+            <Button type="button" onClick={handleClick}>
+              Add
+            </Button>
+          </Wrapper>
         }
       </Section>
     </Div>
   );
 };
+
+export default SortableContainer(WithMedia);

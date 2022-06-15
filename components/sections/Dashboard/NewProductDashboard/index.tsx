@@ -11,7 +11,7 @@ export const NewProductDashboard = () => {
 
   const [productTitle, setProductTitle] = useState(INPUT_CONTROL_INIT_STATE);
   const [productDescription, setProductDescription] = useState(INPUT_CONTROL_INIT_STATE);
-  const [productMedia, setProductMedia] = useState<{file: File, fileUrl: string}[]>([]);
+  const [productMedia, setProductMedia] = useState<{id: number; file: File, fileUrl: string, isChecked: boolean}[]>([]);
   const [productPrice, setProductPrice] = useState(INPUT_CONTROL_INIT_STATE);
   const [comparePrice, setComparePrice] = useState(INPUT_CONTROL_INIT_STATE);
   const [productStock, setProductStock] = useState(INPUT_CONTROL_INIT_STATE);

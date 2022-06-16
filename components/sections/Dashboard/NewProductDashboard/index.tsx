@@ -5,10 +5,11 @@ import { INPUT_CONTROL_INIT_STATE } from 'helpers/input_control_init_state';
 import { ProductTitle } from './ProductTitle';
 import { ProductMedia } from './ProductMedia';
 import { ProductPrice } from './ProductPrice';
+import { ProductCEO } from './ProductSEO';
+import { ProductStatus } from './ProductStatus';
+import { ProductOrganization } from './ProductOrganization';
 
 import { Form, Section } from './styles';
-import { ProductCEO } from './ProductCEO';
-import { ProductStatus } from './ProductStatus';
 
 export const NewProductDashboard = () => {
 
@@ -23,6 +24,10 @@ export const NewProductDashboard = () => {
   const [productSEODesc, setProductSEODesc] = useState(INPUT_CONTROL_INIT_STATE);
   const [productSEOSlug, setProductSEOSlug] = useState(INPUT_CONTROL_INIT_STATE);
   const [productStatus, setProductStatus] = useState(INPUT_CONTROL_INIT_STATE);
+  const [productCategory, setProductCategory] = useState(INPUT_CONTROL_INIT_STATE);
+  const [productVendor, setProductVendor] = useState(INPUT_CONTROL_INIT_STATE);
+  const [productCollection, setProductCollection] = useState(INPUT_CONTROL_INIT_STATE);
+  const [productLabelsList, setProductLabelsList] = useState<string[]>([]);
 
   return (
     <Form>
@@ -60,6 +65,16 @@ export const NewProductDashboard = () => {
         <ProductStatus 
           productStatus={productStatus}
           handleProductStatus={setProductStatus}
+        />
+        <ProductOrganization 
+          productCategory={productCategory}
+          productVendor={productVendor}
+          productCollection={productCollection}
+          productLabelsList={productLabelsList}
+          handleProductCategory={setProductCategory}
+          handleProductVendor={setProductVendor}
+          handleProductCollection={setProductCollection}
+          handleProductLabelsList={setProductLabelsList}
         />
       </Section>
     </Form>

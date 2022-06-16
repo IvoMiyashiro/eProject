@@ -8,7 +8,7 @@ import { Button, Div, HoverBox, Section, Wrapper } from './styles';
 
 interface Props {
   dragState: boolean;
-  mediaList: {id: string; file: File, fileUrl: string; isChecked: boolean}[]
+  mediaList: {id?: string; file?: File, fileUrl?: string; isChecked?: boolean}[]
   handleClick: () => void;
   handleDrop: (e: DragEvent<HTMLDivElement>) => void;
   handleDragOver: (e: DragEvent<HTMLDivElement>) => void;

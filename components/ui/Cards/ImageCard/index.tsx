@@ -7,7 +7,7 @@ import { VerticalGridIcon } from 'components/icons';
 import { Div, ImageWrapper, Input, Wrapper } from './styles';
 
 interface Props {
-  image: {id: string; file: File, fileUrl: string; isChecked: boolean};
+  image: {id?: string; file?: File, fileUrl?: string; isChecked?: boolean};
   isSmall?: boolean;
   handleMediaMediaImage: Dispatch<SetStateAction<{id?: string; file?: File, fileUrl?: string; isChecked?: boolean}[]>>;
 }
@@ -38,8 +38,8 @@ const ImageCard = ({ image, isSmall = false, handleMediaMediaImage }: Props) => 
     >
       <ImageWrapper>
         <Image
-          src={fileUrl}
-          alt={file.name}
+          src={fileUrl!}
+          alt={file!.name}
           layout="fill"
           objectFit='cover'
         />

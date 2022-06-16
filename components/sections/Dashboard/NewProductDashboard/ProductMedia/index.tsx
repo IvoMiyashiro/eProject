@@ -10,7 +10,7 @@ import { lightTheme } from 'styles';
 import { Wrapper, H3, Input, Container, Section, ErrorContainer, Span, P } from './styles';
 
 interface Props {
-  productMedia: {id: string; file: File, fileUrl: string; isChecked: boolean}[]
+  productMedia: {id?: string; file?: File, fileUrl?: string; isChecked?: boolean}[]
   handleProductMedia: Dispatch<SetStateAction<{id?: string; file?: File, fileUrl?: string; isChecked?: boolean}[]>>
 }
 

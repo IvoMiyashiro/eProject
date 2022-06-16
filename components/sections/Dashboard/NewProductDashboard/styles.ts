@@ -4,9 +4,10 @@ import { bp } from 'styles';
 export const Form = styled.form`
   display: grid;
   grid-template-columns: minmax(500px, 1fr) 350px;
-  height: 100vh;
-  gap: 1em;
+  min-height: 100vh;
+  gap: 2em;
   margin-top: 2em;
+  padding-bottom: 4em;
 
   @media (max-width: ${bp.desktop}) {
     grid-template-columns: 1fr;

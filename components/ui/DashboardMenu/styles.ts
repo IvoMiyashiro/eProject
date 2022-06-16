@@ -8,7 +8,6 @@ export const Aside = styled.aside`
   background-color: ${props => props.theme.color_ui_background};
   border-right: 1px solid ${props => props.theme.color_neutral_2};
   height: 100vh;
-  left: 0;
   position: sticky;
   top: 0;
   width: 240px;

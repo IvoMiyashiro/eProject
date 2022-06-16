@@ -5,7 +5,7 @@ import { Section, P } from './styles';
 
 interface Props {
   id?: string;
-  type: 'tel' | 'dni' | 'credit-card' | 'num' | 'date';
+  type: 'tel' | 'dni' | 'credit-card' | 'num' | 'date' | 'price';
   placeholder: string;
   state: {
     value: string;
@@ -47,7 +47,7 @@ export const InputNumber = ({
     const value = e.target.value;
 
     const newMaxLength = 
-      type === 'num'
+      (type === 'num' || type === 'price')
         ? maxLength
         : (type === 'credit-card') 
           ? 20
@@ -209,6 +209,9 @@ export const InputNumber = ({
               autoComplete="none"
               pattern="[0-9 ./-]+"
             />
+            {
+              type === 'price' && <P>$</P>
+            }
           </Section>
         </Wrapper>
       </Div>

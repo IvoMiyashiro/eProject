@@ -50,6 +50,7 @@ export const Input = styled.input`
   font-family: 'Inter';
   font-size: 0.9rem;
   outline: none;
+  width: 100%;
 `;
   
 export const Span = styled.span`

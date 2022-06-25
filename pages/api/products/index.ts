@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { v4 as uuidv4 } from 'uuid';
 import { db } from 'database';
 
 type Data = { ok: boolean, message?: string, products?: any, totalCount?: number }
@@ -8,6 +9,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   switch( req.method ) {
   case 'GET':
     return getProducts(req, res);
+  
+  case 'POST':
+    return createProduct(req, res);
 
   default:
     return res.status(400).json({
@@ -33,6 +37,60 @@ const getProducts = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
       totalCount: totalCount[0].count
     });
 
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      ok: false,
+      message: 'Internal server error.'
+    });
+  }
+};
+
+const createProduct = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
+
+  const id = uuidv4();
+  const {
+    title,
+    price,
+    description,
+    stock,
+    category,
+    brand,
+    image_urls,
+    status,
+    labels,
+    slug,
+    max_quantity,
+  } = req.body;
+  const query = `
+  INSERT INTO 
+  product (
+    id,
+    title,
+    price,
+    description,
+    stock,
+    category,
+    brand,
+    image_urls,
+    total_sold,
+    status,
+    labels,
+    slug,
+    max_quantity
+  ) 
+  VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13 )`;
+
+  const values = [id, title, price, description, stock, category, brand, image_urls, 0, status, labels, slug, max_quantity];
+
+  try {
+    await db.conn.query(query, values);
+    return res.status(200).json({
+      ok: true,
+      message: 'Product successfully created.'
+    });
+    
   } catch (error) {
     console.log(error);
 

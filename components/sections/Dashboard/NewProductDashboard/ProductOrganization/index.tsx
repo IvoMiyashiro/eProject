@@ -11,14 +11,12 @@ import { Div, H3 } from '../ProductPrice/styles';
 import { Section } from '../styles';
 
 interface Props {
-  productCategory: IInputControl
-  productVendor: IInputControl
-  productCollection: IInputControl
-  productLabelsList: string[]
-  handleProductCategory: Dispatch<SetStateAction<IInputControl>>
-  handleProductVendor: Dispatch<SetStateAction<IInputControl>>
-  handleProductCollection: Dispatch<SetStateAction<IInputControl>>
-  handleProductLabelsList: Dispatch<SetStateAction<string[]>>
+  productCategory: IInputControl;
+  productVendor: IInputControl;
+  productLabelsList: string[];
+  handleProductCategory: Dispatch<SetStateAction<IInputControl>>;
+  handleProductVendor: Dispatch<SetStateAction<IInputControl>>;
+  handleProductLabelsList: Dispatch<SetStateAction<string[]>>;
 }
 
 export const ProductOrganization = ({

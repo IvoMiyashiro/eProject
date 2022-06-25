@@ -8,32 +8,24 @@ import { Div, H3, Section, Wrapper } from './styles';
 
 interface Props {
   productPrice: IInputControl;
-  comparePrice: IInputControl;
   productStock: IInputControl;
   maxAmount: IInputControl;
   handleProductPrice: Dispatch<SetStateAction<IInputControl>>;
-  handleComparePrice: Dispatch<SetStateAction<IInputControl>>;
   handleProductStock: Dispatch<SetStateAction<IInputControl>>;
   handleMaxAmount: Dispatch<SetStateAction<IInputControl>>
 }
 
 export const ProductPrice = ({ 
   productPrice, 
-  comparePrice,
   productStock,
   maxAmount,
   handleProductPrice, 
-  handleComparePrice,
   handleProductStock,
   handleMaxAmount
 }: Props) => {
 
   useEffect(() => {
     handleProductPrice(prev => ({
-      ...prev,
-      value: '0'
-    }));
-    handleComparePrice(prev => ({
       ...prev,
       value: '0'
     }));
@@ -45,7 +37,7 @@ export const ProductPrice = ({
       ...prev,
       value: '0'
     }));
-  }, [handleProductPrice, handleComparePrice, handleProductStock, handleMaxAmount]);
+  }, [handleProductPrice, handleProductStock, handleMaxAmount]);
 
   return (
     <Div>
@@ -56,12 +48,6 @@ export const ProductPrice = ({
           placeholder="Price"
           state={productPrice}
           handleStateValue={handleProductPrice}
-        />
-        <InputNumber
-          type="price"
-          placeholder="Compare price"
-          state={comparePrice}
-          handleStateValue={handleComparePrice}
         />
       </Wrapper>
       <Section>

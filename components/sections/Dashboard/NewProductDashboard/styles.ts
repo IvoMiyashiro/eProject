@@ -2,10 +2,7 @@ import styled from 'styled-components';
 import { bp } from 'styles';
 
 export const Form = styled.form`
-  display: grid;
-  grid-template-columns: minmax(500px, 1fr) 350px;
   min-height: 100vh;
-  gap: 2em;
   margin-top: 2em;
   padding-bottom: 4em;
 
@@ -35,3 +32,16 @@ export const Wrapper = styled.div`
   gap: 2em;
 `;
 
+export const Div = styled.div`
+  display: grid;
+  grid-template-columns: minmax(500px, 1fr) 350px;
+  gap: 2em;
+`;
+
+export const ButtonWrapper = styled.div`
+  margin-top: 2em;
+  width: 350px;
+  height: 40px;
+  display: flex;
+  gap: 2em;
+`;

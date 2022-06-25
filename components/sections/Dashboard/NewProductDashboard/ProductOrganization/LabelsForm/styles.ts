@@ -4,6 +4,7 @@ export const Form = styled.form``;
 
 export const Div = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 1em;
 `;
 

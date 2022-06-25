@@ -2,6 +2,8 @@ import { Dispatch, DragEvent, SetStateAction, useEffect, useRef, useState } from
 import {v4 as uuidv4} from 'uuid';
 import { arrayMoveImmutable } from 'array-move';
 
+import { fileUpload } from 'services';
+
 import { Button } from 'components/ui';
 import WithMedia from './WithMedia';
 import { WithoutMedia } from './WithoutMedia';
@@ -33,7 +35,7 @@ export const ProductMedia = ({ productMedia, handleProductMedia }: Props) => {
     });
   }, [productMedia]);
 
-  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+  const handleDrop = async (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     let productMediaLen = productMedia.length;
@@ -45,18 +47,22 @@ export const ProductMedia = ({ productMedia, handleProductMedia }: Props) => {
       if (productMediaLen >= MAX_AMOUNT_IMG) {
         setDrag(false);
         return setFileError('* You can only upload 6 images.');
+
       } else if (fileTypeError) {
         setFileError('* Invalid image extension. (.jpg, .jpeg, .png)');
+
       } else if (e.dataTransfer.files && e.dataTransfer.files[i]) {
-        handleProductMedia(prev => [
-          ...prev,
-          {
-            id: uuidv4(),
-            file: e.dataTransfer.files[i],
-            fileUrl: URL.createObjectURL(e.dataTransfer.files[i]),
-            isChecked: false,
-          }
-        ]);
+        fileUpload(file).then(resp => {
+          handleProductMedia(prev => [
+            ...prev,
+            {
+              id: uuidv4(),
+              file,
+              fileUrl: resp,
+              isChecked: false,
+            }
+          ]);
+        });
         productMediaLen++;
       }
     }

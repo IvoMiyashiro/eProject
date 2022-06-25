@@ -42,6 +42,8 @@ const ImageCard = ({ image, isSmall = false, handleMediaMediaImage }: Props) => 
           alt={file!.name}
           layout="fill"
           objectFit='cover'
+          placeholder="blur"
+          blurDataURL={fileUrl!}
         />
       </ImageWrapper>
       {

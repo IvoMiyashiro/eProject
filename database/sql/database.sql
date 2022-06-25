@@ -33,6 +33,8 @@ CREATE TABLE IF NOT EXISTS product (
   total_sold INT,
   status product_status NOT NULL DEFAULT 'active',
   labels INT[],
+  slug VARCHAR(2048),
+  max_quantity INT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_brand_name

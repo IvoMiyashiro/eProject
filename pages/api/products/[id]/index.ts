@@ -13,6 +13,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   case 'PUT':
     return updateProduct(req, res);
 
+  case 'DELETE':
+    return deleteProduct(req, res);
+
   default:
     return res.status(400).json({
       ok: false,
@@ -72,6 +75,41 @@ const updateProduct = async (req: NextApiRequest, res: NextApiResponse<Data>) =>
       message: 'Product updated.'
     });
 
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      ok: false,
+      message: 'Internal server error.'
+    });
+  }
+};
+
+
+export const deleteProduct =  async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+  
+  const secret = process.env.NEXTAUTH_SECRET;
+  const token: any = await getToken({ req, secret });
+
+  if (token?.user.role !== 'admin') {
+    return res.status(401).json({
+      ok: false,
+      message: 'Unauthorized.'
+    });
+  }
+
+  const { id } = req.query;
+
+  const query = 'DELETE FROM product WHERE id = $1';
+  const value = [id];
+
+  try {
+    await db.conn.query(query, value);
+
+    return res.status(200).json({
+      ok: true,
+      message: 'Product deleted.'
+    });
   } catch (error) {
     console.log(error);
 

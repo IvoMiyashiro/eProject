@@ -19,3 +19,4 @@ export * from './deleteAddress';
 export * from './updateAddress';
 export * from './updateProduct';
 export * from './createProduct';
+export * from './deleteProduct';

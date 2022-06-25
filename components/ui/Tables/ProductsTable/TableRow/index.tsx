@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
 
 import { IProduct } from 'interfaces';
-import { updateProduct } from 'services';
+import { updateProduct, deleteProduct } from 'services';
 
 import { Modal, Spinner, ConfirmTab, Switch } from 'components/ui';
 import { DotsIcon, EditIcon } from 'components/icons';
@@ -18,9 +18,10 @@ import { FirstTd, Menu, Text, IconButton } from './styles';
 
 interface Props {
   product: IProduct;
+  handleProductList: Dispatch<SetStateAction<IProduct[]>>;
 }
 
-export const TableRow = ({ product }: Props) => {
+export const TableRow = ({ product, handleProductList }: Props) => {
 
   const [stock, setStock] = useState(product.stock.toString());
   const [price, setPrice] = useState(product.price);
@@ -34,6 +35,10 @@ export const TableRow = ({ product }: Props) => {
 
   const handleDeleteProduct = async () => {
     setLoading(true);
+    await deleteProduct({ product_id: product.id });
+    handleProductList(prev => {
+      return prev.filter(prod => prod.id !== product.id);
+    });
     setDeleteModalOpen(false);
   };
 

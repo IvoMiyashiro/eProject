@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { IProduct } from 'interfaces';
 
 import { TableSkeleton } from '../TableSkeleton';
@@ -8,9 +9,10 @@ import { Div, Table, TBody, Th, THead, Tr } from '../styles';
 interface Props {
   products: IProduct[];
   isLoading: boolean;
+  handleProductList: Dispatch<SetStateAction<IProduct[] | []>>
 }
 
-export const ProductsTable = ({ products, isLoading }: Props) => {
+export const ProductsTable = ({ products, isLoading, handleProductList }: Props) => {
   return (
     <Div>
       <Table>
@@ -33,6 +35,7 @@ export const ProductsTable = ({ products, isLoading }: Props) => {
                     <TableRow
                       key={product.id}
                       product={product}
+                      handleProductList={handleProductList}
                     />
                   );
                 })

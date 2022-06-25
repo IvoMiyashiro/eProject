@@ -16,7 +16,7 @@ export const ProductsDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [offset, setOffset] = useState(0);
   const [sortBy, setSortBy] = useState('Highest price');
-  const { productsList, isLoading, totalCount } = useProducts({ limit, offset, sortBy, search });
+  const { productsList, isLoading, totalCount, setProductsList } = useProducts({ limit, offset, sortBy, search });
 
   const handlePageClick = (pageNumber: number) => {
     if (isLoading) return;
@@ -62,6 +62,7 @@ export const ProductsDashboard = () => {
       </Wrapper>
       <ProductsTable 
         products={productsList}
+        handleProductList={setProductsList}
         isLoading={isLoading}
       />
       <Pagination

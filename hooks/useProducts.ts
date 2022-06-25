@@ -30,7 +30,8 @@ export const useProducts = ({ limit, offset, sortBy, search }: Props) => {
   return { 
     isLoading,
     productsList,
-    totalCount
+    totalCount,
+    setProductsList
   };
 };
 

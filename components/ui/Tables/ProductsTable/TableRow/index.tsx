@@ -53,10 +53,10 @@ export const TableRow = ({ product, handleProductList }: Props) => {
 
   return (
     <Tr>
-      <Link href={`/products/${product.id}`} passHref>
+      <Link href={`/dashboard/products/${product.id}`} passHref>
         <FirstTd>
           <ImageWrapper>
-            <Image 
+            <Image
               alt={product.title}
               src={product.image_urls[0]}
               layout="fill"
